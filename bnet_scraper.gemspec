@@ -1,6 +1,5 @@
 # -*- encoding: utf-8 -*-
 $:.push File.expand_path("../lib", __FILE__)
-require "bnet_scraper/version"
 
 Gem::Specification.new do |s|
   s.name        = "bnet_scraper"
@@ -17,4 +16,5 @@ Gem::Specification.new do |s|
 
   s.add_runtime_dependency 'mechanize'
   s.add_development_dependency 'rspec'
+  s.add_development_dependency 'fakeweb'
 end

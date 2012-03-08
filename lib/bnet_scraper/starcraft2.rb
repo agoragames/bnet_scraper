@@ -54,24 +54,42 @@ module BnetScraper
         "http://#{region_info[:domain]}/sc2/#{region_info[:dir]}/profile/#{bnet_id}/#{bnet_index}/#{account}/"
       end
 
-      def get_bnet_index
-        unless @bnet_index
-          [1,2].each do |idx|
-                        
-          end
-        end
-      end
-
       def region_info
         REGIONS[region] 
       end
     end
 
     class LeagueScraper
-      attr_reader :url
+      attr_reader :url, :bnet_id, :bnet_index, :account, :league_id, :lang,
+        :season, :size, :random, :name, :division
 
       def initialize(url)
-        @url = url 
+        @url, @lang, @bnet_id, @bnet_index, @account, @league_id = url.match(/http:\/\/.+\/sc2\/(.+)\/profile\/(.+)\/(\d{1})\/(.+)\/ladder\/(.+)(#current-rank)?/).to_a
+        @agent = Mechanize.new
+      end
+
+      def scrape
+        @response = @agent.get(@url) 
+        value = @response.search(".data-title .data-label h3").inner_text().strip 
+        header_regex = /Season (\d{1}) - \s+(\dv\d)( Random)? (\w+)\s+Division (.+)/
+        header_values = value.match(header_regex).to_a
+        header_values.shift()
+        @season, @size, @random, @division, @name = header_values
+        
+        @random = !@random.nil?
+        parse_response
+      end
+
+      def parse_response
+        {
+          season: @season,
+          size: @size,
+          name: @name,
+          division: @division,
+          random: @random,
+          bnet_id: @bnet_id,
+          account: @account
+        }
       end
     end
   end
