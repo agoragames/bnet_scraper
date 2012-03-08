@@ -1,0 +1,3 @@
+module BnetScraper
+  # Your code goes here...
+end
