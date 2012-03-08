@@ -6,12 +6,11 @@ module BnetScraper
 
       def initialize(url)
         @url, @lang, @bnet_id, @bnet_index, @account, @league_id = url.match(/http:\/\/.+\/sc2\/(.+)\/profile\/(.+)\/(\d{1})\/(.+)\/ladder\/(.+)(#current-rank)?/).to_a
-        @agent = Mechanize.new
       end
 
       def scrape
-        @response = @agent.get(@url) 
-        value = @response.search(".data-title .data-label h3").inner_text().strip 
+        @response = Nokogiri::HTML(open(@url))
+        value = @response.css(".data-title .data-label h3").inner_text().strip 
         header_regex = /Season (\d{1}) - \s+(\dv\d)( Random)? (\w+)\s+Division (.+)/
         header_values = value.match(header_regex).to_a
         header_values.shift()

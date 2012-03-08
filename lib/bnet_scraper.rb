@@ -1,6 +1,7 @@
 require 'bnet_scraper/starcraft2'
-require 'mechanize'
 require 'net/http'
+require 'open-uri'
+require 'nokogiri'
 
 module BnetScraper
   # Your code goes here...

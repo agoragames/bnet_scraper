@@ -7,7 +7,6 @@ module BnetScraper
         @bnet_id  = bnet_id
         @account  = account
         @region   = region
-        @agent    = Mechanize.new
         set_bnet_index
       end
 
@@ -28,17 +27,17 @@ module BnetScraper
       end
 
       def get_profile_data
-        response = @agent.get(profile_url)
+        response = Nokogiri::HTML(open(profile_url))
 
-        @race = response.search("#season-snapshot .module-footer a").first().inner_html()
-        @wins = response.search("#career-stats h2").inner_html()
-        @achievements = response.search("#profile-header h3").inner_html()
+        @race = response.css("#season-snapshot .module-footer a").first().inner_html()
+        @wins = response.css("#career-stats h2").inner_html()
+        @achievements = response.css("#profile-header h3").inner_html()
       end
 
       def get_league_list
-        response = @agent.get(profile_url + "ladder/leagues")
+        response = Nokogiri::HTML(open(profile_url + "ladder/leagues"))
 
-        @leagues = response.search("a[href*='#current-rank']").map do |league|
+        @leagues = response.css("a[href*='#current-rank']").map do |league|
           {
             name: league.inner_html().strip,
             id: league.attr('href').sub('#current-rank',''),
