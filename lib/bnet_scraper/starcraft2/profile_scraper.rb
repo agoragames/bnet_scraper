@@ -36,14 +36,13 @@ module BnetScraper
       end
 
       def get_league_list
-        url = "#{profile_url}ladder/leagues"
         response = @agent.get(profile_url + "ladder/leagues")
 
         @leagues = response.search("a[href*='#current-rank']").map do |league|
           {
             name: league.inner_html().strip,
             id: league.attr('href').sub('#current-rank',''),
-            href: url + league.attr('href')
+            href: "#{profile_url}ladder/#{league.attr('href')}"
           }
         end
       end

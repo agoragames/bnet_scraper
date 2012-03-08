@@ -96,62 +96,62 @@ describe BnetScraper::Starcraft2::ProfileScraper do
           {
             name: "1v1 Platinum Rank 95",
             id:   "96905",
-            href: "http://us.battle.net/sc2/en/profile/2377239/1/Demon/ladder/leagues96905#current-rank"
+            href: "http://us.battle.net/sc2/en/profile/2377239/1/Demon/ladder/96905#current-rank"
           },
           {
             name: "2v2 Random Platinum ...",
             id:   "96716",
-            href: "http://us.battle.net/sc2/en/profile/2377239/1/Demon/ladder/leagues96716#current-rank"
+            href: "http://us.battle.net/sc2/en/profile/2377239/1/Demon/ladder/96716#current-rank"
           },
           {
             name: "2v2 Diamond Rank 45",
             id:   "98162",
-            href: "http://us.battle.net/sc2/en/profile/2377239/1/Demon/ladder/leagues98162#current-rank"
+            href: "http://us.battle.net/sc2/en/profile/2377239/1/Demon/ladder/98162#current-rank"
           },
           {
             name: "2v2 Silver Rank 8",
             id:   "97369",
-            href: "http://us.battle.net/sc2/en/profile/2377239/1/Demon/ladder/leagues97369#current-rank"
+            href: "http://us.battle.net/sc2/en/profile/2377239/1/Demon/ladder/97369#current-rank"
           },
           {
             name: "3v3 Random Gold Rank...",
             id:   "96828",
-            href: "http://us.battle.net/sc2/en/profile/2377239/1/Demon/ladder/leagues96828#current-rank"
+            href: "http://us.battle.net/sc2/en/profile/2377239/1/Demon/ladder/96828#current-rank"
           },
           {
             name: "3v3 Diamond Rank 56",
             id:   "97985",
-            href: "http://us.battle.net/sc2/en/profile/2377239/1/Demon/ladder/leagues97985#current-rank"
+            href: "http://us.battle.net/sc2/en/profile/2377239/1/Demon/ladder/97985#current-rank"
           },
           {
             name: "3v3 Silver Rank 5",
             id:   "98523",
-            href: "http://us.battle.net/sc2/en/profile/2377239/1/Demon/ladder/leagues98523#current-rank"
+            href: "http://us.battle.net/sc2/en/profile/2377239/1/Demon/ladder/98523#current-rank"
           },
           {
             name: "3v3 Platinum Rank 88",
             id:   "96863",
-            href: "http://us.battle.net/sc2/en/profile/2377239/1/Demon/ladder/leagues96863#current-rank"
+            href: "http://us.battle.net/sc2/en/profile/2377239/1/Demon/ladder/96863#current-rank"
           },
           {
             name: "3v3 Gold Rank 75",
             id:   "97250",
-            href: "http://us.battle.net/sc2/en/profile/2377239/1/Demon/ladder/leagues97250#current-rank"
+            href: "http://us.battle.net/sc2/en/profile/2377239/1/Demon/ladder/97250#current-rank"
           },
           {
             name: "4v4 Random Platinum ...",
             id:   "96830",
-            href: "http://us.battle.net/sc2/en/profile/2377239/1/Demon/ladder/leagues96830#current-rank"
+            href: "http://us.battle.net/sc2/en/profile/2377239/1/Demon/ladder/96830#current-rank"
           },
           {
             name: "4v4 Gold Rank 38",
             id:   "98336",
-            href: "http://us.battle.net/sc2/en/profile/2377239/1/Demon/ladder/leagues98336#current-rank"
+            href: "http://us.battle.net/sc2/en/profile/2377239/1/Demon/ladder/98336#current-rank"
           },
           {
             name: "4v4 Diamond Rank 54",
             id:   "98936",
-            href: "http://us.battle.net/sc2/en/profile/2377239/1/Demon/ladder/leagues98936#current-rank"
+            href: "http://us.battle.net/sc2/en/profile/2377239/1/Demon/ladder/98936#current-rank"
           }
         ]
       }
