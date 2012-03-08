@@ -43,26 +43,47 @@ describe BnetScraper::Starcraft2::ProfileScraper do
     end
   end
 
-  describe '#scrape' do
+
+  describe '#get_profile_data' do
     it 'should set the race, wins, and achievements attributes' do
       subject.instance_variable_get(:@race).should be_nil
       subject.instance_variable_get(:@achievements).should be_nil
       subject.instance_variable_get(:@wins).should be_nil
 
-      subject.scrape
+      subject.get_profile_data
       
       subject.instance_variable_get(:@race).should == 'Protoss'
       subject.instance_variable_get(:@achievements).should == '3630'
       subject.instance_variable_get(:@wins).should == '684'
     end
+  end
 
-    it 'should call parse_response' do
-      subject.should_receive(:parse_response)
+  describe 'get_league_list' do
+    it 'should set an array of leagues' do
+      subject.instance_variable_get(:@leagues).should be_nil
+      subject.get_league_list
+
+      subject.instance_variable_get(:@leagues).should have(12).leagues
+    end
+  end
+
+  describe '#scrape' do
+    it 'should call get_profile_data' do
+      subject.should_receive(:get_profile_data)
+      subject.scrape
+    end
+    it 'should call get_league_list' do
+      subject.should_receive(:get_league_list)
+      subject.scrape
+    end
+
+    it 'should call output' do
+      subject.should_receive(:output)
       subject.scrape
     end
   end
 
-  describe '#parse_response' do
+  describe '#output' do
     it 'should extract profile data from the response' do
       expected = {
         bnet_id: '2377239',
@@ -70,12 +91,74 @@ describe BnetScraper::Starcraft2::ProfileScraper do
         bnet_index: 1,
         race: 'Protoss',
         wins: '684',
-        achievements: '3630'
+        achievements: '3630',
+        leagues: [
+          {
+            name: "1v1 Platinum Rank 95",
+            id:   "96905",
+            href: "http://us.battle.net/sc2/en/profile/2377239/1/Demon/ladder/leagues96905#current-rank"
+          },
+          {
+            name: "2v2 Random Platinum ...",
+            id:   "96716",
+            href: "http://us.battle.net/sc2/en/profile/2377239/1/Demon/ladder/leagues96716#current-rank"
+          },
+          {
+            name: "2v2 Diamond Rank 45",
+            id:   "98162",
+            href: "http://us.battle.net/sc2/en/profile/2377239/1/Demon/ladder/leagues98162#current-rank"
+          },
+          {
+            name: "2v2 Silver Rank 8",
+            id:   "97369",
+            href: "http://us.battle.net/sc2/en/profile/2377239/1/Demon/ladder/leagues97369#current-rank"
+          },
+          {
+            name: "3v3 Random Gold Rank...",
+            id:   "96828",
+            href: "http://us.battle.net/sc2/en/profile/2377239/1/Demon/ladder/leagues96828#current-rank"
+          },
+          {
+            name: "3v3 Diamond Rank 56",
+            id:   "97985",
+            href: "http://us.battle.net/sc2/en/profile/2377239/1/Demon/ladder/leagues97985#current-rank"
+          },
+          {
+            name: "3v3 Silver Rank 5",
+            id:   "98523",
+            href: "http://us.battle.net/sc2/en/profile/2377239/1/Demon/ladder/leagues98523#current-rank"
+          },
+          {
+            name: "3v3 Platinum Rank 88",
+            id:   "96863",
+            href: "http://us.battle.net/sc2/en/profile/2377239/1/Demon/ladder/leagues96863#current-rank"
+          },
+          {
+            name: "3v3 Gold Rank 75",
+            id:   "97250",
+            href: "http://us.battle.net/sc2/en/profile/2377239/1/Demon/ladder/leagues97250#current-rank"
+          },
+          {
+            name: "4v4 Random Platinum ...",
+            id:   "96830",
+            href: "http://us.battle.net/sc2/en/profile/2377239/1/Demon/ladder/leagues96830#current-rank"
+          },
+          {
+            name: "4v4 Gold Rank 38",
+            id:   "98336",
+            href: "http://us.battle.net/sc2/en/profile/2377239/1/Demon/ladder/leagues98336#current-rank"
+          },
+          {
+            name: "4v4 Diamond Rank 54",
+            id:   "98936",
+            href: "http://us.battle.net/sc2/en/profile/2377239/1/Demon/ladder/leagues98936#current-rank"
+          }
+        ]
       }
 
-      subject.parse_response.should == { bnet_id: '2377239', account: 'Demon', bnet_index: 1, race: nil, wins: nil, achievements: nil }
+      subject.output.should == { bnet_id: '2377239', account: 'Demon', bnet_index: 1, race: nil, wins: nil, achievements: nil, leagues: nil }
       subject.scrape
-      subject.parse_response.should == expected
+      subject.output.should == expected
     end
   end
 end

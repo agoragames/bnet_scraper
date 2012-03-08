@@ -1,3 +1,6 @@
+require 'bnet_scraper/starcraft2/profile_scraper'
+require 'bnet_scraper/starcraft2/league_scraper'
+
 module BnetScraper
   module Starcraft2
     REGIONS = {
@@ -7,90 +10,5 @@ module BnetScraper
       'sea' => { domain: 'sea.battle.net', dir: 'en' },
       'fea' => { domain: 'tw.battle.net', dir: 'zh' } 
     }
-
-    class ProfileScraper
-      attr_reader :bnet_id, :account, :region, :agent, :bnet_index
-
-      def initialize bnet_id, account, region = 'na'
-        @bnet_id  = bnet_id
-        @account  = account
-        @region   = region
-        @agent    = Mechanize.new
-        set_bnet_index
-      end
-
-      def set_bnet_index
-        [1,2].each do |idx|
-          res = Net::HTTP.get_response URI profile_url idx 
-          if res.is_a? Net::HTTPSuccess
-            @bnet_index = idx
-            return
-          end
-        end
-      end
-
-      def scrape
-        @response = @agent.get(profile_url)
-
-        @race = @response.search("#season-snapshot .module-footer a").first().inner_html()
-        @wins = @response.search("#career-stats h2").inner_html()
-        @achievements = @response.search("#profile-header h3").inner_html()
-
-        parse_response
-      end
-
-      def parse_response
-         {
-          bnet_id: @bnet_id,
-          account: @account,
-          bnet_index: @bnet_index,
-          race: @race,
-          wins: @wins,
-          achievements: @achievements 
-        }  
-      end
-
-      def profile_url bnet_index = @bnet_index
-        "http://#{region_info[:domain]}/sc2/#{region_info[:dir]}/profile/#{bnet_id}/#{bnet_index}/#{account}/"
-      end
-
-      def region_info
-        REGIONS[region] 
-      end
-    end
-
-    class LeagueScraper
-      attr_reader :url, :bnet_id, :bnet_index, :account, :league_id, :lang,
-        :season, :size, :random, :name, :division
-
-      def initialize(url)
-        @url, @lang, @bnet_id, @bnet_index, @account, @league_id = url.match(/http:\/\/.+\/sc2\/(.+)\/profile\/(.+)\/(\d{1})\/(.+)\/ladder\/(.+)(#current-rank)?/).to_a
-        @agent = Mechanize.new
-      end
-
-      def scrape
-        @response = @agent.get(@url) 
-        value = @response.search(".data-title .data-label h3").inner_text().strip 
-        header_regex = /Season (\d{1}) - \s+(\dv\d)( Random)? (\w+)\s+Division (.+)/
-        header_values = value.match(header_regex).to_a
-        header_values.shift()
-        @season, @size, @random, @division, @name = header_values
-        
-        @random = !@random.nil?
-        parse_response
-      end
-
-      def parse_response
-        {
-          season: @season,
-          size: @size,
-          name: @name,
-          division: @division,
-          random: @random,
-          bnet_id: @bnet_id,
-          account: @account
-        }
-      end
-    end
   end
 end
