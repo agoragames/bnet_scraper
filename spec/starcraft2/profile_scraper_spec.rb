@@ -1,22 +1,53 @@
 require 'spec_helper'
 
 describe BnetScraper::Starcraft2::ProfileScraper do
-  subject { BnetScraper::Starcraft2::ProfileScraper.new('2377239', 'Demon') }
+  subject { BnetScraper::Starcraft2::ProfileScraper.new(bnet_id: '2377239', account: 'Demon') }
 
   describe '#initialize' do
-    it 'should take bnet_id and account parameters' do
-      subject.bnet_id.should == '2377239'
-      subject.account.should == 'Demon'
+    context 'when bnet_id and account parameters are passed' do
+      it 'should set the bnet_id and account parameters' do
+        subject.bnet_id.should == '2377239'
+        subject.account.should == 'Demon'
+      end
+
+      it 'should default the region to na' do
+        subject.region.should == 'na'
+      end
+
+      it 'should assign region if passed' do
+        BnetScraper::Starcraft2::ProfileScraper.any_instance.should_receive(:set_bnet_index)
+        scraper = BnetScraper::Starcraft2::ProfileScraper.new(bnet_id: '2377239', account: 'Demon', region: 'fea')
+        scraper.region.should == 'fea'
+      end
+
+      it 'should not call set_bnet_index if bnet_index is passed' do
+        BnetScraper::Starcraft2::ProfileScraper.any_instance.should_not_receive(:set_bnet_index)
+        scraper = BnetScraper::Starcraft2::ProfileScraper.new(bnet_id: '2377239', account: 'Demon', region: 'fea', bnet_index: '1')
+      end
+
+      it 'should call set_bnet_index_if bnet_index is not passed' do
+        BnetScraper::Starcraft2::ProfileScraper.any_instance.should_receive(:set_bnet_index)
+        scraper = BnetScraper::Starcraft2::ProfileScraper.new(bnet_id: '2377239', account: 'Demon', region: 'fea')
+      end
     end
 
-    it 'should default the region to na' do
-      subject.region.should == 'na'
-    end
+    context 'when url is passed' do
+      subject { BnetScraper::Starcraft2::ProfileScraper.new(url: 'http://us.battle.net/sc2/en/profile/2377239/1/Demon/') }
+      it 'should extract the bnet_id from the url' do
+        subject.bnet_id.should == '2377239' 
+      end
 
-    it 'should assign region if passed' do
-      BnetScraper::Starcraft2::ProfileScraper.any_instance.should_receive(:set_bnet_index)
-      scraper = BnetScraper::Starcraft2::ProfileScraper.new('2377239', 'Demon', 'fea')
-      scraper.region.should == 'fea'
+      it 'should extract the account from the url' do
+        subject.account.should == 'Demon'
+      end
+
+      it 'should extract the region from the url' do
+        subject.region.should == 'na'
+      end
+
+      it 'should extract the bnet_index from the url' do
+        subject.bnet_index.should == '1'
+      end
     end
   end
 

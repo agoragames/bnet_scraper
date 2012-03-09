@@ -10,22 +10,37 @@ module BnetScraper
     # One thing of note is the bnet_index. In Battle.net URLs, there is a single-digit index
     # used on accounts (1 or 2).  This index is seemingly arbitrary, but critical to properly
     # accessing the data.
+    #
+    # ProfileScraper requires that either you pass the URL of the profile, or the bnet_id and
+    # account name of the profile.  The URL scheme is as such:
+    #
+    #   http://<REGION_DOMAIN>/sc2/<REGION_LANG>/profile/<BNET_ID>/<BNET_INDEX>/<ACCOUNT>/
+    #
+    # Using this URL we can extract the critical information.  However, sometimes we do not have
+    # the URL and have to make do with a bnet_id and account.  This is the bare minimum needed,
+    # unless the account is in a region other than 'na'.  In such cases, region all needs to be passed.
     class ProfileScraper
       attr_reader :bnet_id, :account, :region, :agent, :bnet_index
 
-      # @param bnet_id - The unique ID for each battle.net account. in the URL scheme, it immediately
-      #   follows the /profile/ directive.
-      # @param account - The account name.  This is a non-unique string that immediately follows the
-      #   bnet_index
-      # @oaram region - The region of the account.  This defaults to 'na' for North America. This
-      #   uses the bnet region codes instead of the full names. The region is used to determine the
-      #   domain to find the profile, as well as teh default language code to use.
+      # @param options - Hash of options to parse.
       # @return profile_data - The hash of profile data scraped, including array of leagues to scrape
-      def initialize bnet_id, account, region = 'na'
-        @bnet_id  = bnet_id
-        @account  = account
-        @region   = region
-        set_bnet_index
+      def initialize options = {}
+        if options[:url]
+          extracted_data = options[:url].match(/http:\/\/(.+)\/sc2\/(.+)\/profile\/(.+)\/(\d{1})\/(.+)\//)
+          @region = REGIONS.key({ domain: extracted_data[1], dir: extracted_data[2] })
+          @bnet_id = extracted_data[3]
+          @bnet_index = extracted_data[4]
+          @account = extracted_data[5]
+        elsif options[:bnet_id] && options[:account]
+          @bnet_id  = options[:bnet_id]
+          @account  = options[:account]
+          @region   = options[:region] || 'na'
+          if options[:bnet_index]
+            @bnet_index = options[:bnet_index]
+          else
+            set_bnet_index
+          end
+        end
       end
 
       # set_bnet_index

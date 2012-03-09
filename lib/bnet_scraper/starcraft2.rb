@@ -28,7 +28,7 @@ module BnetScraper
     # @return profile_data - Hash containing complete profile and league data
     #   scraped from the website
     def self.full_profile_scrape bnet_id, account, region = 'na'
-      profile_scraper = ProfileScraper.new bnet_id, account, region
+      profile_scraper = ProfileScraper.new bnet_id: bnet_id, account: account, region: region
       profile_output  = profile_scraper.scrape
 
       parsed_leagues = []
