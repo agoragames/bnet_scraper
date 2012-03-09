@@ -26,10 +26,10 @@ module BnetScraper
         @season, @size, @random, @division, @name = header_values
         
         @random = !@random.nil?
-        parse_response
+        output
       end
 
-      def parse_response
+      def output
         {
           season: @season,
           size: @size,

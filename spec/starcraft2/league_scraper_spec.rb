@@ -61,13 +61,13 @@ describe BnetScraper::Starcraft2::LeagueScraper do
       subject.random.should be_false 
     end
 
-    it 'should call parse_response' do
-      subject.should_receive(:parse_response)
+    it 'should call output' do
+      subject.should_receive(:output)
       subject.scrape
     end
   end
 
-  describe '#parse_response' do
+  describe '#output' do
     it 'should return a hash of league data' do
       expected = {
         season: '6',
@@ -80,7 +80,7 @@ describe BnetScraper::Starcraft2::LeagueScraper do
       }
 
       subject.scrape
-      subject.parse_response.should == expected
+      subject.output.should == expected
     end
   end
 end
