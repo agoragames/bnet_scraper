@@ -1,8 +1,26 @@
 module BnetScraper
   module Starcraft2
+    # ProfileScraper
+    #
+    # Scrapes SC2 profile data from battle.net and returns it as a hash.  Example:
+    #   profile_data = BnetScraper::Starcraft2::ProfileScraper.new('2377239', 'Demon')
+    #   profile_data # => { bnet_id: '2377239', account: 'Demon', race: 'Protoss', 
+    #                       wins: '684', achievements: '3260', leagues: [], bnet_index: 1 }
+    #
+    # One thing of note is the bnet_index. In Battle.net URLs, there is a single-digit index
+    # used on accounts (1 or 2).  This index is seemingly arbitrary, but critical to properly
+    # accessing the data.
     class ProfileScraper
       attr_reader :bnet_id, :account, :region, :agent, :bnet_index
 
+      # @param bnet_id - The unique ID for each battle.net account. in the URL scheme, it immediately
+      #   follows the /profile/ directive.
+      # @param account - The account name.  This is a non-unique string that immediately follows the
+      #   bnet_index
+      # @oaram region - The region of the account.  This defaults to 'na' for North America. This
+      #   uses the bnet region codes instead of the full names. The region is used to determine the
+      #   domain to find the profile, as well as teh default language code to use.
+      # @return profile_data - The hash of profile data scraped, including array of leagues to scrape
       def initialize bnet_id, account, region = 'na'
         @bnet_id  = bnet_id
         @account  = account
@@ -10,6 +28,10 @@ module BnetScraper
         set_bnet_index
       end
 
+      # set_bnet_index
+      # 
+      # Because profile URLs have to have a specific bnet_index that is seemingly incalculable,
+      # we must ping both variants to determine the correct bnet_index. We then store that value.
       def set_bnet_index
         [1,2].each do |idx|
           res = Net::HTTP.get_response URI profile_url idx 
