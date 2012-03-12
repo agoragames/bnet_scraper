@@ -2,31 +2,16 @@ require 'spec_helper'
 
 describe BnetScraper::Starcraft2::LeagueScraper do
   let(:url) { "http://us.battle.net/sc2/en/profile/2377239/1/Demon/ladder/12345" }
-  subject { BnetScraper::Starcraft2::LeagueScraper.new(url) }
+  subject { BnetScraper::Starcraft2::LeagueScraper.new(url: url) }
+
+  it_behaves_like 'an SC2 Scraper' do
+    let(:scraper_class) { BnetScraper::Starcraft2::LeagueScraper }
+    let(:subject) { scraper_class.new(url: "http://us.battle.net/sc2/en/profile/2377239/1/Demon/ladder/12345") }
+  end
 
   describe '#initialize' do
-    it 'should take a league URL parameter' do
-      subject.url.should == url
-    end
-
-    it 'should dissect the bnet_id from the URL' do
-      subject.bnet_id.should == '2377239' 
-    end
-
-    it 'should dissect the account from the URL' do
-      subject.account.should == 'Demon'
-    end
-
     it 'should dissect the league_id from the URL' do
       subject.league_id.should == '12345'
-    end
-
-    it 'should dissect the bnet_index from the URL' do
-      subject.bnet_index.should == '1'
-    end
-
-    it 'should dissect the lang from the URL' do
-      subject.lang.should == 'en'
     end
   end
 

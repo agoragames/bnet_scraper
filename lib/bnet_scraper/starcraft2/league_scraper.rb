@@ -9,12 +9,17 @@ module BnetScraper
     #
     # @param [String] url - The league URL on battle.net
     # @return [Hash] league_data - Hash of data extracted
-    class LeagueScraper
-      attr_reader :url, :bnet_id, :bnet_index, :account, :league_id, :lang,
-        :season, :size, :random, :name, :division
+    class LeagueScraper < BaseScraper
+      attr_reader :league_id, :season, :size, :random, :name, :division
 
-      def initialize(url)
-        @url, @lang, @bnet_id, @bnet_index, @account, @league_id = url.match(/http:\/\/.+\/sc2\/(.+)\/profile\/(.+)\/(\d{1})\/(.+)\/ladder\/(.+)(#current-rank)?/).to_a
+      def initialize options = {}
+        super(options)
+
+        if options[:url]
+          @league_id = options[:url].match(/http:\/\/.+\/sc2\/.+\/profile\/.+\/\d{1}\/.+\/ladder\/(.+)(#current-rank)?/).to_a[1]
+        else
+          @league_id = options[:league_id]
+        end
       end
 
       def scrape
