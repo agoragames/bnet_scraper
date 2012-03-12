@@ -44,6 +44,10 @@ module BnetScraper
       def region_info
         REGIONS[region] 
       end
+
+      def scrape
+        raise NotImplementedError, "Abstract method #scrape called."
+      end
     end
   end
 end
