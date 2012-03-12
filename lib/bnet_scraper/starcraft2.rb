@@ -1,6 +1,7 @@
 require 'bnet_scraper/starcraft2/profile_scraper'
 require 'bnet_scraper/starcraft2/league_scraper'
 require 'bnet_scraper/starcraft2/achievement_scraper'
+require 'bnet_scraper/starcraft2/match_history_scraper'
 
 module BnetScraper
   # This module contains everything about scraping Starcraft 2 Battle.net accounts.
