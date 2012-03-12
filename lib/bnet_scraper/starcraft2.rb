@@ -1,3 +1,4 @@
+require 'bnet_scraper/starcraft2/base_scraper'
 require 'bnet_scraper/starcraft2/profile_scraper'
 require 'bnet_scraper/starcraft2/league_scraper'
 require 'bnet_scraper/starcraft2/achievement_scraper'
@@ -34,7 +35,7 @@ module BnetScraper
 
       parsed_leagues = []
       profile_output[:leagues].each do |league|
-        league_scraper = LeagueScraper.new league[:href]
+        league_scraper = LeagueScraper.new url: league[:href]
         parsed_leagues << league_scraper.scrape
       end
       profile_output[:leagues] = parsed_leagues
