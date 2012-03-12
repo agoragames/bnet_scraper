@@ -8,6 +8,7 @@ module BnetScraper
         scrape_recent
         scrape_progress
         scrape_showcase
+        output
       end
 
       def get_response
