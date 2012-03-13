@@ -1,24 +1,25 @@
 module BnetScraper
   module Starcraft2
-    # ProfileScraper
+    # This pulls basic profile information for an account, as well as an array of league URLs.  This is a good starting
+    # point for league scraping as it provides the league URLs necessary to do supplemental scraping.
     #
-    # Scrapes SC2 profile data from battle.net and returns it as a hash.  Example:
-    #   profile_data = BnetScraper::Starcraft2::ProfileScraper.new('2377239', 'Demon')
-    #   profile_data # => { bnet_id: '2377239', account: 'Demon', race: 'Protoss', 
-    #                       wins: '684', achievements: '3260', leagues: [], bnet_index: 1 }
-    #
-    # One thing of note is the bnet_index. In Battle.net URLs, there is a single-digit index
-    # used on accounts (1 or 2).  This index is seemingly arbitrary, but critical to properly
-    # accessing the data.
-    #
-    # ProfileScraper requires that either you pass the URL of the profile, or the bnet_id and
-    # account name of the profile.  The URL scheme is as such:
-    #
-    #   http://<REGION_DOMAIN>/sc2/<REGION_LANG>/profile/<BNET_ID>/<BNET_INDEX>/<ACCOUNT>/
-    #
-    # Using this URL we can extract the critical information.  However, sometimes we do not have
-    # the URL and have to make do with a bnet_id and account.  This is the bare minimum needed,
-    # unless the account is in a region other than 'na'.  In such cases, region all needs to be passed.
+    #   scraper = BnetScraper::Starcraft2::ProfileScraper.new(url: 'http://us.battle.net/sc2/en/profile/2377239/1/Demon/')
+    #   scraper.scrape
+    #   # => {
+    #     bnet_id: '2377239',
+    #     account: 'Demon',
+    #     bnet_index: 1,
+    #     race: 'Protoss',
+    #     wins: '684',
+    #     achievement_points: '3630',
+    #     leagues: [
+    #       {
+    #         name: "1v1 Platinum Rank 95",
+    #         id:   "96905",
+    #         href: "http://us.battle.net/sc2/en/profile/2377239/1/Demon/ladder/96905#current-rank"
+    #       }
+    #     ]
+    #   }
     class ProfileScraper < BaseScraper
       attr_reader :achievement_points, :wins, :race, :leagues
       def scrape
@@ -27,6 +28,7 @@ module BnetScraper
         output
       end
 
+      # scrapes the profile page for basic account information
       def get_profile_data
         response = Nokogiri::HTML(open(profile_url))
 
@@ -35,6 +37,7 @@ module BnetScraper
         @achievement_points = response.css("#profile-header h3").inner_html()
       end
 
+      # scrapes the league list from account's league page and sets an array of URLs
       def get_league_list
         response = Nokogiri::HTML(open(profile_url + "ladder/leagues"))
 
