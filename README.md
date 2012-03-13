@@ -1,4 +1,4 @@
-# BnetScraper
+# BnetScraper ![Build Status](https://secure.travis-ci.org/agoragames/bnet_scraper.png)](http://travis-ci.org/agoragames/bnet_scraper)
 
 BnetScraper is a Nokogiri-based scraper of Battle.net profile information.  Currently this only includes Starcraft2.
 
