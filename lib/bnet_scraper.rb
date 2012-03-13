@@ -4,5 +4,4 @@ require 'open-uri'
 require 'nokogiri'
 
 module BnetScraper
-  # Your code goes here...
 end
