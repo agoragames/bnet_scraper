@@ -1,12 +1,25 @@
 module BnetScraper
   module Starcraft2
-    # MatchHistoryScraper
+    ## BnetScraper::Starcraft2::MatchHistoryScraper
+    #
+    # This pulls the 25 most recent matches played for an account. Note that this is only as up-to-date as battle.net is, and
+    # will likely not be as fast as in-game.
     # 
-    # Scrapes the 25 most recent matches played by an account and returns it
-    # as an array of match hashes. 
+    #   scraper = BnetScraper::Starcraft2::MatchHistoryScraper.new(url: 'http://us.battle.net/sc2/en/profile/2377239/1/Demon/')
+    #   scraper.scrape
+    #   # => {
+    #     wins: '15',
+    #     losses: '10',
+    #     matches: [
+    #       { map_name: 'Bx Monobattle - Sand Canyon (Fix)', outcome: :win, type: 'Custom', date: '3/12/2012' },
+    #       { map_name: 'Deadlock Ridge', outcome: :loss, type: '4v4', date: '3/12/2012' },
+    #       { map_name: 'District 10', outcome: :win, type: '4v4', date: '3/12/2012' },
+    #       # ...
+    #     ]
+    #   }
     class MatchHistoryScraper < BaseScraper
       attr_reader :matches, :wins, :losses, :response
-      
+       
       def match_url
         profile_url + "matches"
       end
