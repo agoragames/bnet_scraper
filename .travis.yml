@@ -1,0 +1,4 @@
+notifications:
+  email:
+    recipients:
+      - anordman@majorleaguegaming.com
