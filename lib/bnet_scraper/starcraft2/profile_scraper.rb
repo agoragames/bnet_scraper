@@ -20,6 +20,7 @@ module BnetScraper
     # the URL and have to make do with a bnet_id and account.  This is the bare minimum needed,
     # unless the account is in a region other than 'na'.  In such cases, region all needs to be passed.
     class ProfileScraper < BaseScraper
+      attr_reader :achievement_points, :wins, :race, :leagues
       def scrape
         get_profile_data
         get_league_list
@@ -31,7 +32,7 @@ module BnetScraper
 
         @race = response.css("#season-snapshot .module-footer a").first().inner_html()
         @wins = response.css("#career-stats h2").inner_html()
-        @achievements = response.css("#profile-header h3").inner_html()
+        @achievement_points = response.css("#profile-header h3").inner_html()
       end
 
       def get_league_list
@@ -53,7 +54,7 @@ module BnetScraper
           bnet_index: @bnet_index,
           race: @race,
           wins: @wins,
-          achievements: @achievements,
+          achievement_points: @achievement_points,
           leagues: @leagues
         }  
       end

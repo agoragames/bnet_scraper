@@ -9,7 +9,7 @@ describe BnetScraper::Starcraft2 do
         :bnet_index=>1, 
         :race=>"Protoss", 
         :wins=>"684", 
-        :achievements=>"3630", 
+        :achievement_points=>"3630", 
         :leagues=>[
           {:season=>"6", :size=>"4v4", :name=>"Aleksander Pepper", :division=>"Diamond", :random=>false, :bnet_id=>"2377239", :account=>"Demon"},
           {:season=>"6", :size=>"4v4", :name=>"Aleksander Pepper", :division=>"Diamond", :random=>false, :bnet_id=>"2377239", :account=>"Demon"},

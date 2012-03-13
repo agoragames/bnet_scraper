@@ -11,13 +11,13 @@ describe BnetScraper::Starcraft2::ProfileScraper do
   describe '#get_profile_data' do
     it 'should set the race, wins, and achievements attributes' do
       subject.instance_variable_get(:@race).should be_nil
-      subject.instance_variable_get(:@achievements).should be_nil
+      subject.instance_variable_get(:@achievement_points).should be_nil
       subject.instance_variable_get(:@wins).should be_nil
 
       subject.get_profile_data
       
       subject.instance_variable_get(:@race).should == 'Protoss'
-      subject.instance_variable_get(:@achievements).should == '3630'
+      subject.instance_variable_get(:@achievement_points).should == '3630'
       subject.instance_variable_get(:@wins).should == '684'
     end
   end
@@ -55,7 +55,7 @@ describe BnetScraper::Starcraft2::ProfileScraper do
         bnet_index: 1,
         race: 'Protoss',
         wins: '684',
-        achievements: '3630',
+        achievement_points: '3630',
         leagues: [
           {
             name: "1v1 Platinum Rank 95",
@@ -120,7 +120,7 @@ describe BnetScraper::Starcraft2::ProfileScraper do
         ]
       }
 
-      subject.output.should == { bnet_id: '2377239', account: 'Demon', bnet_index: 1, race: nil, wins: nil, achievements: nil, leagues: nil }
+      subject.output.should == { bnet_id: '2377239', account: 'Demon', bnet_index: 1, race: nil, wins: nil, achievement_points: nil, leagues: nil }
       subject.scrape
       subject.output.should == expected
     end
