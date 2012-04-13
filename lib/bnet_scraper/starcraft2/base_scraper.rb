@@ -20,7 +20,7 @@ module BnetScraper
       def initialize options = {}
         if options[:url]
           extracted_data = options[:url].match(/http:\/\/(.+)\/sc2\/(.+)\/profile\/(.+)\/(\d{1})\/(.[^\/]+)\//)
-          @region     = REGIONS.key({ domain: extracted_data[1], dir: extracted_data[2] })
+          @region = REGIONS.select { |k,v| v[:domain] == extracted_data[1] && v[:dir] == extracted_data[2] }.first.first
           @bnet_id    = extracted_data[3]
           @bnet_index = extracted_data[4]
           @account    = extracted_data[5]
