@@ -3,6 +3,7 @@ require 'bnet_scraper/starcraft2/profile_scraper'
 require 'bnet_scraper/starcraft2/league_scraper'
 require 'bnet_scraper/starcraft2/achievement_scraper'
 require 'bnet_scraper/starcraft2/match_history_scraper'
+require 'bnet_scraper/starcraft2/status_scraper'
 
 module BnetScraper
   # This module contains everything about scraping Starcraft 2 Battle.net accounts.
@@ -10,11 +11,11 @@ module BnetScraper
   # for more details
   module Starcraft2
     REGIONS = {
-      'na'  => { domain: 'us.battle.net', dir: 'en' },
-      'eu'  => { domain: 'eu.battle.net', dir: 'eu' },
-      'cn'  => { domain: 'www.battlenet.com.cn', dir: 'zh' },
-      'sea' => { domain: 'sea.battle.net', dir: 'en' },
-      'fea' => { domain: 'tw.battle.net', dir: 'zh' } 
+      'na'  => { domain: 'us.battle.net', dir: 'en', label: 'North America' },
+      'eu'  => { domain: 'eu.battle.net', dir: 'eu', label: 'Europe' },
+      'cn'  => { domain: 'www.battlenet.com.cn', dir: 'zh', label: 'China' },
+      'sea' => { domain: 'sea.battle.net', dir: 'en', label: 'South-East Asia' },
+      'fea' => { domain: 'tw.battle.net', dir: 'zh', label: 'Korea' } 
     }
 
     # This is a convenience method that chains calls to ProfileScraper,

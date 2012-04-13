@@ -49,7 +49,7 @@ shared_examples 'an SC2 Scraper' do
 
   describe '#region_info' do
     it 'should return information based on the set region' do
-      subject.region_info.should == { domain: 'us.battle.net', dir: 'en' }
+      subject.region_info.should == { domain: 'us.battle.net', dir: 'en', label: 'North America' }
     end
   end
 
