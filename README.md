@@ -125,6 +125,22 @@ scraper.scrape
 }
 ```
 
+## BnetScraper::Starcraft2::Status
+
+Scraping is only possible if the site is up.  Use this if you want to verify the failed scrape is because the site is down:
+
+``` ruby
+BnetScraper::Starcraft2::Status.na # => 'Online'
+BnetScraper::Starcraft2::Status.fea # => 'Offline'
+BnetScraper::Starcraft2::Status.cn #  => nil (China is unsupported)
+BnetScraper::Starcraft2::Status.fetch # => [
+  {:region=>"North America", :status=>"Online"},
+  {:region=>"Europe", :status=>"Online"},
+  {:region=>"Korea", :status=>"Online"},
+  {:region=>"South-East Asia", :status=>"Online"}
+]
+```
+
 # Contribute!
 
 I would love to see contributions!  Please send a pull request with a feature branch containing specs 
