@@ -45,6 +45,11 @@ describe BnetScraper::Starcraft2::ProfileScraper do
       subject.should_receive(:output)
       subject.scrape
     end
+
+    it 'should return InvalidProfileError if response is 404' do
+      scraper = BnetScraper::Starcraft2::ProfileScraper.new url: 'http://us.battle.net/sc2/en/profile/2377239/1/SomeDude/'
+      expect { scraper.scrape }.to raise_error(BnetScraper::InvalidProfileError)
+    end
   end
 
   describe '#output' do

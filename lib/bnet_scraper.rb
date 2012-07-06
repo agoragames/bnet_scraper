@@ -3,4 +3,5 @@ require 'faraday'
 require 'nokogiri'
 
 module BnetScraper
+  class InvalidProfileError < Exception ; end
 end

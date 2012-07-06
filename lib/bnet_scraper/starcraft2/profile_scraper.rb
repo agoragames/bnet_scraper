@@ -38,6 +38,8 @@ module BnetScraper
           @race = html.css("#season-snapshot .module-footer a").first().inner_html()
           @wins = html.css("#career-stats h2").inner_html()
           @achievement_points = html.css("#profile-header h3").inner_html()
+        else
+          raise BnetScraper::InvalidProfileError
         end
       end
 
@@ -54,6 +56,8 @@ module BnetScraper
               href: "#{profile_url}ladder/#{league.attr('href')}"
             }
           end
+        else
+          raise BnetScraper::InvalidProfileError
         end
       end
 
