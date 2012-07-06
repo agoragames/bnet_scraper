@@ -30,15 +30,18 @@ module BnetScraper
       end
 
       def scrape
-        @response = Nokogiri::HTML(open(@url))
-        value = @response.css(".data-title .data-label h3").inner_text().strip 
-        header_regex = /Season (\d{1}) - \s+(\dv\d)( Random)? (\w+)\s+Division (.+)/
-        header_values = value.match(header_regex).to_a
-        header_values.shift()
-        @season, @size, @random, @division, @name = header_values
-        
-        @random = !@random.nil?
-        output
+        @response = Faraday.get @url
+        if @response.success?
+          @response = Nokogiri::HTML(@response.body)
+          value = @response.css(".data-title .data-label h3").inner_text().strip 
+          header_regex = /Season (\d{1}) - \s+(\dv\d)( Random)? (\w+)\s+Division (.+)/
+          header_values = value.match(header_regex).to_a
+          header_values.shift()
+          @season, @size, @random, @division, @name = header_values
+          
+          @random = !@random.nil?
+          output
+        end
       end
 
       def output

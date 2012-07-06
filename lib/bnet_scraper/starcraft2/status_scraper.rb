@@ -17,7 +17,8 @@ module BnetScraper
       class << self
 
         def fetch
-          Nokogiri::HTML(open(SOURCE))
+          response = Faraday.get SOURCE
+          Nokogiri::HTML(response.body)
             .css('.forumPost').first.css('span').to_a
             .each_slice(2).map { |i| { :region => i.first.text, :status => i.last.text } }
         end

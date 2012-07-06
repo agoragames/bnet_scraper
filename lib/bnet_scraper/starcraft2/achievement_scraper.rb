@@ -43,7 +43,8 @@ module BnetScraper
 
       # retrieves the account's achievements overview page HTML for scraping
       def get_response
-        @response = Nokogiri::HTML(open(profile_url+"achievements/")) 
+        response = Faraday.get "#{profile_url}achievements/"
+        @response = Nokogiri::HTML(response.body) 
       end
 
       # scrapes the recent achievements from the account's achievements overview page

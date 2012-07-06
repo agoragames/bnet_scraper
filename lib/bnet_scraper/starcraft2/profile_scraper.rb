@@ -30,23 +30,30 @@ module BnetScraper
 
       # scrapes the profile page for basic account information
       def get_profile_data
-        response = Nokogiri::HTML(open(profile_url))
+        response = Faraday.get profile_url
 
-        @race = response.css("#season-snapshot .module-footer a").first().inner_html()
-        @wins = response.css("#career-stats h2").inner_html()
-        @achievement_points = response.css("#profile-header h3").inner_html()
+        if response.success?
+          html = Nokogiri::HTML(response.body)
+
+          @race = html.css("#season-snapshot .module-footer a").first().inner_html()
+          @wins = html.css("#career-stats h2").inner_html()
+          @achievement_points = html.css("#profile-header h3").inner_html()
+        end
       end
 
       # scrapes the league list from account's league page and sets an array of URLs
       def get_league_list
-        response = Nokogiri::HTML(open(profile_url + "ladder/leagues"))
+        response = Faraday.get profile_url + "ladder/leagues"
+        if response.success?
+          html = Nokogiri::HTML(response.body)
 
-        @leagues = response.css("a[href*='#current-rank']").map do |league|
-          {
-            name: league.inner_html().strip,
-            id: league.attr('href').sub('#current-rank',''),
-            href: "#{profile_url}ladder/#{league.attr('href')}"
-          }
+          @leagues = html.css("a[href*='#current-rank']").map do |league|
+            {
+              name: league.inner_html().strip,
+              id: league.attr('href').sub('#current-rank',''),
+              href: "#{profile_url}ladder/#{league.attr('href')}"
+            }
+          end
         end
       end
 

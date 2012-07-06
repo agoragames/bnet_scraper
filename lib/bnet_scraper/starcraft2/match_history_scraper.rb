@@ -25,7 +25,11 @@ module BnetScraper
 
       # retrieves the match history HTML for scraping
       def get_response
-        @response = Nokogiri::HTML(open(match_url))
+        @response = Faraday.get match_url
+        
+        if @response.success?
+          @response = Nokogiri::HTML(@response.body)
+        end
       end
 
       def scrape
