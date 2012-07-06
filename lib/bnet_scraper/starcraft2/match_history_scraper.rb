@@ -29,6 +29,8 @@ module BnetScraper
         
         if @response.success?
           @response = Nokogiri::HTML(@response.body)
+        else
+          raise BnetScraper::InvalidProfileError
         end
       end
 

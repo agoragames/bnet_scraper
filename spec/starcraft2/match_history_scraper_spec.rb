@@ -34,6 +34,12 @@ describe BnetScraper::Starcraft2::MatchHistoryScraper do
     it 'should set the match date of each match' do
       subject.matches[0][:date].should == '3/12/2012'
     end
+
+    it 'should raised InvalidProfileError when response is 404' do
+      url = 'http://us.battle.net/sc2/en/profile/2377239/1/SomeDude/matches'
+      scraper = BnetScraper::Starcraft2::MatchHistoryScraper.new(url: url)
+      expect { scraper.scrape }.to raise_error(BnetScraper::InvalidProfileError)
+    end
   end
 
   describe '#output' do
