@@ -41,6 +41,8 @@ module BnetScraper
           
           @random = !@random.nil?
           output
+        else
+          raise BnetScraper::InvalidProfileError
         end
       end
 

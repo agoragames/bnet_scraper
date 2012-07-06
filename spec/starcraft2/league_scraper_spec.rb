@@ -50,6 +50,12 @@ describe BnetScraper::Starcraft2::LeagueScraper do
       subject.should_receive(:output)
       subject.scrape
     end
+
+    it 'should raise InvalidProfileError when response is 404' do
+      url = 'http://us.battle.net/sc2/en/profile/2377239/1/SomeDude/leagues/12345' 
+      scraper = BnetScraper::Starcraft2::LeagueScraper.new(url: url)
+      expect { scraper.scrape }.to raise_error(BnetScraper::InvalidProfileError)
+    end
   end
 
   describe '#output' do
