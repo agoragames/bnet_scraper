@@ -25,6 +25,12 @@ describe BnetScraper::Starcraft2::AchievementScraper do
       subject.should_receive(:scrape_showcase)
       subject.scrape
     end
+
+    it 'should return InvalidProfileError if response is 404' do
+      url = 'http://us.battle.net/sc2/en/profile/2377239/1/SomeDude/achievements/'
+      scraper = BnetScraper::Starcraft2::AchievementScraper.new(url: url)
+      expect { scraper.scrape }.to raise_error(BnetScraper::InvalidProfileError)
+    end
   end
 
   describe '#scrape_showcase' do
