@@ -1,11 +1,16 @@
 # Changelog!
 
+## 0.1.1 (Jul 20 2012)
+
+* Adds BnetScraper::Starcraft2.valid\_profile?
+* Adds BnetScraper::Starcraft2::BaseScraper#valid?
+
 ## 0.1.0 (Jul 06 2012)
 
 * Replaces open-uri with Faraday
 * Adds BnetScraper::InvalidProfileError when unsuccessfully scraping
 
-## 0.2.0 (Apr 20 2012)
+## 0.0.2 (Apr 20 2012)
 
 * Adds Battle.net Status API
 * Adds Match History scraping
