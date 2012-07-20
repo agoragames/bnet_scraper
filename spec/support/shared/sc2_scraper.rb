@@ -69,4 +69,18 @@ shared_examples 'an SC2 Scraper' do
       subject.profile_url(2).should == 'http://us.battle.net/sc2/en/profile/2377239/2/Demon/'
     end
   end
+
+  describe '#valid?' do
+    it 'should return true when profile is valid' do
+      result = subject.valid?
+      result.should be_true
+    end
+
+    it 'should return false when profile is invalid' do
+      scraper = scraper_class.new(url: 'http://us.battle.net/sc2/en/profile/2377239/1/SomeDude/')
+
+      result = scraper.valid?
+      result.should be_false
+    end
+  end
 end

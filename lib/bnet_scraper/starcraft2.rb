@@ -43,5 +43,15 @@ module BnetScraper
       profile_output[:leagues] = parsed_leagues
       return profile_output
     end
+
+    # Determine if Supplied profile is valid.  Useful for validating now before an 
+    # async scraping later
+    #
+    # @param [Hash] options - account information hash
+    # @return [TrueClass, FalseClass] valid - whether account is valid
+    def self.valid_profile? options
+      scraper = BaseScraper.new(options)
+      scraper.valid?
+    end
   end
 end

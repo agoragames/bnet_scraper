@@ -61,6 +61,11 @@ module BnetScraper
         REGIONS[region] 
       end
 
+      def valid?
+        result = Faraday.get profile_url
+        result.success?
+      end
+
       def scrape
         raise NotImplementedError, "Abstract method #scrape called."
       end
