@@ -36,10 +36,13 @@ describe BnetScraper::Starcraft2::ProfileScraper do
       subject.should_receive(:get_profile_data)
       subject.scrape
     end
+
     it 'should call get_league_list' do
       subject.should_receive(:get_league_list)
       subject.scrape
     end
+
+
 
     it 'should call output' do
       subject.should_receive(:output)
@@ -49,6 +52,21 @@ describe BnetScraper::Starcraft2::ProfileScraper do
     it 'should return InvalidProfileError if response is 404' do
       scraper = BnetScraper::Starcraft2::ProfileScraper.new url: 'http://us.battle.net/sc2/en/profile/2377239/1/SomeDude/'
       expect { scraper.scrape }.to raise_error(BnetScraper::InvalidProfileError)
+    end
+
+    context 'account that has not laddered' do
+      let(:scraper) {BnetScraper::Starcraft2::ProfileScraper.new(url: 'http://us.battle.net/sc2/en/profile/3354437/1/ClarkeKent/') }
+      before do
+        scraper.scrape
+      end
+
+      it 'should set nil race' do
+        scraper.race.should be_nil
+      end
+      
+      it 'should have an empty array of leagues' do
+        scraper.leagues.should == []
+      end
     end
   end
 

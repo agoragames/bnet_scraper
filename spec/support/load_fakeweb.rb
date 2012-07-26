@@ -7,6 +7,8 @@ achievements_html = File.read File.dirname(__FILE__) + '/achievements.html'
 matches_html      = File.read File.dirname(__FILE__) + '/matches.html'
 status_html       = File.read File.dirname(__FILE__) + '/status.html'
 failure_html      = File.read File.dirname(__FILE__) + '/failure.html'
+no_ladder_html    = File.read File.dirname(__FILE__) + '/no_ladder.html'
+no_leagues_html   = File.read File.dirname(__FILE__) + '/no_ladder_leagues.html'
 
 FakeWeb.allow_net_connect = false
 FakeWeb.register_uri :get, 'http://us.battle.net/sc2/en/profile/2377239/1/SomeDude/', body: failure_html, status: 404, content_type: 'text/html'
@@ -31,3 +33,5 @@ FakeWeb.register_uri :get, 'http://us.battle.net/sc2/en/profile/2377239/1/Demon/
 FakeWeb.register_uri :get, 'http://us.battle.net/sc2/en/profile/2377239/1/Demon/achievements/',  body: achievements_html, status: 200, content_type: 'text/html'
 FakeWeb.register_uri :get, 'http://us.battle.net/sc2/en/profile/2377239/1/Demon/matches',        body: matches_html, status: 200, content_type: 'text/html'
 FakeWeb.register_uri :get, 'http://www.teamliquid.net/forum/viewmessage.php?topic_id=138846',    body: status_html, status: 200, content_type: 'text/html'
+FakeWeb.register_uri :get, 'http://us.battle.net/sc2/en/profile/3354437/1/ClarkeKent/',          body: no_ladder_html, status: 200, content_type: 'text/html'
+FakeWeb.register_uri :get, 'http://us.battle.net/sc2/en/profile/3354437/1/ClarkeKent/ladder/leagues', body: no_leagues_html, status: 200, content_type: 'text/html'
