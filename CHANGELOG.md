@@ -1,8 +1,12 @@
 # Changelog!
 
-## 0.1.2 (Jul 26 2012)
+## 0.1.3 (Jul 26 2012)
 
 * Adds checks to prevent parse issues with accounts that don't ladder
+
+## 0.1.2 (Jul 20 2012)
+
+* We don't talk about 0.1.2...
 
 ## 0.1.1 (Jul 20 2012)
 
