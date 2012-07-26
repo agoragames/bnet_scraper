@@ -1,5 +1,9 @@
 # Changelog!
 
+## 0.1.2 (Jul 26 2012)
+
+* Adds checks to prevent parse issues with accounts that don't ladder
+
 ## 0.1.1 (Jul 20 2012)
 
 * Adds BnetScraper::Starcraft2.valid\_profile?
