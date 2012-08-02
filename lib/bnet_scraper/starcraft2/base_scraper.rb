@@ -20,7 +20,7 @@ module BnetScraper
       def initialize options = {}
         if options[:url]
           extracted_data = options[:url].match(/http:\/\/(.+)\/sc2\/(.+)\/profile\/(.+)\/(\d{1})\/(.[^\/]+)\//)
-          @region = REGIONS.select { |k,v| v[:domain] == extracted_data[1] && v[:dir] == extracted_data[2] }.first.first
+          @region     = REGION_DOMAINS[extracted_data[1]]
           @bnet_id    = extracted_data[3]
           @bnet_index = extracted_data[4]
           @account    = extracted_data[5]
@@ -58,7 +58,7 @@ module BnetScraper
       # converts region short-code to region-based URL information
       #   'na' => { domain: 'us.battle.net', :dir: 'en' }
       def region_info
-        REGIONS[region] 
+        REGIONS[region]
       end
 
       def valid?

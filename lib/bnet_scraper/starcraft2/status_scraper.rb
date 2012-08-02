@@ -30,9 +30,11 @@ module BnetScraper
         private
         def status? region
           @status ||= fetch
-          @status.select do |r|
-            r[:region] == REGIONS.select { |k,v| k == region.to_s }.first.last[:label]
-          end.first[:status]
+          region_status = @status.find do |r|
+            r[:region] == REGIONS[region.to_s][:label]
+          end
+
+          region_status[:status]
         end
       end
     end

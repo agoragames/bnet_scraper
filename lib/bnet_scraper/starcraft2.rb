@@ -15,7 +15,16 @@ module BnetScraper
       'eu'  => { domain: 'eu.battle.net', dir: 'eu', label: 'Europe' },
       'cn'  => { domain: 'www.battlenet.com.cn', dir: 'zh', label: 'China' },
       'sea' => { domain: 'sea.battle.net', dir: 'en', label: 'South-East Asia' },
-      'fea' => { domain: 'tw.battle.net', dir: 'zh', label: 'Korea' } 
+      'fea' => { domain: 'tw.battle.net', dir: 'zh', label: 'Korea' }
+    }
+
+    REGION_DOMAINS = {
+      'us.battle.net' => 'na',
+      'eu.battle.net' => 'eu',
+      'www.battlenet.com.cn' => 'cn',
+      'sea.battle.net' => 'sea',
+      'kr.battle.net' => 'fea',
+      'tw.battle.net' => 'fea'
     }
 
     # This is a convenience method that chains calls to ProfileScraper,
