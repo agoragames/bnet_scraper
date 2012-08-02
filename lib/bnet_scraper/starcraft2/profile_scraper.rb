@@ -21,7 +21,8 @@ module BnetScraper
     #     ]
     #   }
     class ProfileScraper < BaseScraper
-      attr_reader :achievement_points, :wins, :race, :leagues
+      attr_reader :achievement_points, :career_games, :race, :leagues, :most_played,
+        :games_this_season
       def scrape
         get_profile_data
         get_league_list
@@ -35,12 +36,12 @@ module BnetScraper
         if response.success?
           html = Nokogiri::HTML(response.body)
 
-          if race_div = html.css("#season-snapshot .module-footer a").first()
-            @race = race_div.inner_html()
-          end
 
-          @wins = html.css("#career-stats h2").inner_html()
+          @race = html.css(".stat-block:nth-child(4) h2").inner_html()
           @achievement_points = html.css("#profile-header h3").inner_html()
+          @career_games = html.css(".stat-block:nth-child(3) h2").inner_html()
+          @most_played = html.css(".stat-block:nth-child(2) h2").inner_html()
+          @games_this_season = html.css(".stat-block:nth-child(1) h2").inner_html()
         else
           raise BnetScraper::InvalidProfileError
         end
@@ -70,7 +71,9 @@ module BnetScraper
           account: @account,
           bnet_index: @bnet_index,
           race: @race,
-          wins: @wins,
+          career_games: @career_games,
+          games_this_season: @games_this_season,
+          most_played: @most_played,
           achievement_points: @achievement_points,
           leagues: @leagues
         }  

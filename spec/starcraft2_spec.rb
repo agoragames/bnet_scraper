@@ -8,8 +8,10 @@ describe BnetScraper::Starcraft2 do
         :account=>"Demon", 
         :bnet_index=>1, 
         :race=>"Protoss", 
-        :wins=>"684", 
-        :achievement_points=>"3630", 
+        :career_games => '1568',
+        :games_this_season => '0',
+        :most_played => '4v4',
+        :achievement_points=>"3660", 
         :leagues=>[
           {:season=>"6", :size=>"4v4", :name=>"Aleksander Pepper", :division=>"Diamond", :random=>false, :bnet_id=>"2377239", :account=>"Demon"},
           {:season=>"6", :size=>"4v4", :name=>"Aleksander Pepper", :division=>"Diamond", :random=>false, :bnet_id=>"2377239", :account=>"Demon"},

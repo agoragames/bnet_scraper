@@ -12,13 +12,11 @@ describe BnetScraper::Starcraft2::ProfileScraper do
     it 'should set the race, wins, and achievements attributes' do
       subject.instance_variable_get(:@race).should be_nil
       subject.instance_variable_get(:@achievement_points).should be_nil
-      subject.instance_variable_get(:@wins).should be_nil
 
       subject.get_profile_data
       
       subject.instance_variable_get(:@race).should == 'Protoss'
-      subject.instance_variable_get(:@achievement_points).should == '3630'
-      subject.instance_variable_get(:@wins).should == '684'
+      subject.instance_variable_get(:@achievement_points).should == '3660'
     end
   end
 
@@ -61,7 +59,7 @@ describe BnetScraper::Starcraft2::ProfileScraper do
       end
 
       it 'should set nil race' do
-        scraper.race.should be_nil
+        scraper.race.should == ''
       end
       
       it 'should have an empty array of leagues' do
@@ -77,8 +75,10 @@ describe BnetScraper::Starcraft2::ProfileScraper do
         account: 'Demon',
         bnet_index: 1,
         race: 'Protoss',
-        wins: '684',
-        achievement_points: '3630',
+        career_games: '1568',
+        games_this_season: '0',
+        most_played: '4v4',
+        achievement_points: '3660',
         leagues: [
           {
             name: "1v1 Platinum Rank 95",
@@ -143,7 +143,7 @@ describe BnetScraper::Starcraft2::ProfileScraper do
         ]
       }
 
-      subject.output.should == { bnet_id: '2377239', account: 'Demon', bnet_index: 1, race: nil, wins: nil, achievement_points: nil, leagues: nil }
+      subject.output.should == { bnet_id: '2377239', account: 'Demon', bnet_index: 1, race: nil, career_games: nil, games_this_season: nil, most_played: nil, achievement_points: nil, leagues: nil }
       subject.scrape
       subject.output.should == expected
     end
