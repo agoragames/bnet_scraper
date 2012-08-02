@@ -12,7 +12,7 @@ module BnetScraper
   module Starcraft2
     REGIONS = {
       'na'  => { domain: 'us.battle.net', dir: 'en', label: 'North America' },
-      'eu'  => { domain: 'eu.battle.net', dir: 'eu', label: 'Europe' },
+      'eu'  => { domain: 'eu.battle.net', dir: 'en', label: 'Europe' },
       'cn'  => { domain: 'www.battlenet.com.cn', dir: 'zh', label: 'China' },
       'sea' => { domain: 'sea.battle.net', dir: 'en', label: 'South-East Asia' },
       'fea' => { domain: 'tw.battle.net', dir: 'zh', label: 'Korea' }
