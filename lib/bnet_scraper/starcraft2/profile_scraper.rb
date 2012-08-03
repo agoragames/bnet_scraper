@@ -12,6 +12,13 @@ module BnetScraper
     #     race: 'Protoss',
     #     wins: '684',
     #     achievement_points: '3630',
+    #     current_solo_league: 'Not Yet Ranked',
+    #     highest_solo_league: 'Platinum',
+    #     current_team_league: 'Not Yet Ranked',
+    #     highest_team_league: 'Diamond',
+    #     career_games: '1568',
+    #     games_this_season: '0',
+    #     most_played: '4v4',
     #     leagues: [
     #       {
     #         name: "1v1 Platinum Rank 95",

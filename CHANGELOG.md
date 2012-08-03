@@ -1,5 +1,12 @@
 # Changelog!
 
+## 0.2.0 (Aug 03 2012)
+
+* Adds domain remapping to regions
+* Fixes bug with EU profile scraping due to language selection
+* Parses new player stats (Career Wins, Most Played Type, Games This Season)
+* Parses new league stats (Current/Highest Solo/Team Leagues)
+
 ## 0.1.3 (Jul 26 2012)
 
 * Adds checks to prevent parse issues with accounts that don't ladder
