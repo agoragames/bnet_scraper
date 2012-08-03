@@ -125,6 +125,7 @@ _gaq.push(['_trackPageLoadTime']);
 <a href="/sc2/en/" rel="np">
 StarCraft II
 </a>
+<span class="breadcrumb-arrow"></span>
 </li>
 <li class="last">
 <a href="/sc2/en/profile/3354437/1/ClarkeKent/" rel="np">
@@ -230,54 +231,96 @@ ClarkeKent
         <div id="profile-right">
 
         <div class="profile-module">
+
 			<div class="module-top">
 				<div class="module-bot">
 					<div class="module-left" id="season-snapshot">
 						<div class="module-title">
-							<h3 class="title-globe">
-								Season 8 <span>-</span>
-								Snapshot
-							</h3>
+							<h3 class="title-globe">Player Stats</h3>
 						</div>
 
+							<div class="module-body snapshot-terran">
 
-							<div class="module-body snapshot-empty">
-								<h3>No games have been played.</h3>
+								<div class="stat-block">
+									<h3>Games Played This Season</h3>
+									<h2>0</h2>
+								</div>
+
+								<div class="stat-block">
+									<h3>Most Played Mode</h3>
+									<h2>1v1</h2>
+								</div>
+
+								<div class="stat-block">
+									<h3>Total Career Games</h3>
+									<h2>2</h2>
+								</div>
+
+								<div class="stat-block">
+									<h3>Most Played Race</h3>
+									<h2 class="race">Terran</h2>
+								</div>
+
 							</div>
 					</div>
 
 					<div class="module-right" id="career-stats">
-						<div class="module-title">
-							<h3 class="title-graph">Career Stats</h3>
-						</div>
+						<div class="module-title"></div>
+
+						 <div class="module-body">
+	
 
 
 
-						<div class="module-body campaign-unearned">
-							<h4>League Wins</h4>
-							<h2>0</h2>
+	<div class="badge-item" data-tooltip="#best-finish-SOLO">
+
+		<div class="badge">
+
+	<span class="badge badge-none badge-medium-1">
+	</span>
+		</div>
+		<div class="mode">1V1</div>
+		<div class="league-name">
+				No Career Finishes
+		</div>
+
+		<div id="best-finish-SOLO"  style="display: none">
+				Not Yet Ranked
+		</div>
+	</div>
+
+	
+
+
+
+	<div class="badge-item" data-tooltip="#best-finish-TEAM">
+
+		<div class="badge">
+
+	<span class="badge badge-none badge-medium-1">
+	</span>
+		</div>
+		<div class="mode">TEAM</div>
+		<div class="league-name">
+				No Career Finishes
+		</div>
+
+		<div id="best-finish-TEAM"  style="display: none">
+				Not Yet Ranked
+		</div>
+	</div>
 
 							<br />
-							<h4>Games Won</h4>
 
-							<ul>
-								<li>
-									<span>0</span>
-									Custom Games
-								</li>
-								<li>
-									<span>0</span>
-									FFA
-								</li>
-								<li>
-									<span>0</span>
-									Co-Op vs AI
-								</li>
-							</ul>
 
-							<br />
 
-							<h4>Campaign Not Complete</h4>
+	<div class="badge-item campaign">
+		<div class="badge unearned"></div>
+		<div class="mode">Wings of Liberty</div>
+		<div class="rank">Campaign Not Complete</div>
+	</div>
+
+	<span class="clear"><!-- --></span>
 						</div>
 					</div>
 
@@ -880,10 +923,18 @@ Login.embeddedUrl = 'https://us.battle.net/login/login.frag';
 </script>
 <script type="text/javascript" src="/sc2/static/local-common/js/menu.js?v42"></script>
 <script type="text/javascript" src="/sc2/static/js/sc2.js?v21"></script>
+<!--[if IE 6]> <script type="text/javascript" src="/sc2/static/local-common/js/third-party/DD_belatedPNG.js?v42"></script>
+<script type="text/javascript">
+//<![CDATA[
+DD_belatedPNG.fix('.icon');
+//]]>
+</script>
+<![endif]-->
 <script type="text/javascript">
 //<![CDATA[
 $(function(){
 Menu.initialize('/data/menu.json?v42');
+Search.initialize('/sc2/en/search/ta');
 Tooltip.options.useTable = true;
 });
 //]]>
@@ -913,3 +964,4 @@ s.parentNode.insertBefore(ga, s.nextSibling);
 </script>
 </body>
 </html>
+

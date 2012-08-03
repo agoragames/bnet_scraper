@@ -10,19 +10,19 @@ describe BnetScraper::Starcraft2::ProfileScraper do
 
   describe '#get_profile_data' do
     it 'should set the race, wins, and achievements attributes' do
-      subject.instance_variable_get(:@race).should be_nil
-      subject.instance_variable_get(:@achievement_points).should be_nil
+      subject.race.should be_nil
+      subject.achievement_points.should be_nil
 
       subject.get_profile_data
       
-      subject.instance_variable_get(:@race).should == 'Protoss'
-      subject.instance_variable_get(:@achievement_points).should == '3660'
+      subject.race.should == 'Protoss'
+      subject.achievement_points.should == '3660'
     end
   end
 
   describe 'get_league_list' do
     it 'should set an array of leagues' do
-      subject.instance_variable_get(:@leagues).should be_nil
+      subject.should have(0).leagues
       subject.get_league_list
 
       subject.instance_variable_get(:@leagues).should have(12).leagues
@@ -57,10 +57,6 @@ describe BnetScraper::Starcraft2::ProfileScraper do
       before do
         scraper.scrape
       end
-
-      it 'should set nil race' do
-        scraper.race.should == ''
-      end
       
       it 'should have an empty array of leagues' do
         scraper.leagues.should == []
@@ -77,73 +73,88 @@ describe BnetScraper::Starcraft2::ProfileScraper do
         race: 'Protoss',
         career_games: '1568',
         games_this_season: '0',
+        highest_solo_league: 'Platinum',
+        current_solo_league: 'Not Yet Ranked',
         most_played: '4v4',
         achievement_points: '3660',
         leagues: [
           {
-            name: "1v1 Platinum Rank 95",
-            id:   "96905",
+            name: "1v1 Platinum Rank 95", 
+            id: "96905",
             href: "http://us.battle.net/sc2/en/profile/2377239/1/Demon/ladder/96905#current-rank"
-          },
+          }, 
           {
-            name: "2v2 Random Platinum ...",
-            id:   "96716",
+            name: "2v2 Random Platinum ...", 
+            id: "96716",
             href: "http://us.battle.net/sc2/en/profile/2377239/1/Demon/ladder/96716#current-rank"
           },
           {
             name: "2v2 Diamond Rank 45",
-            id:   "98162",
+            id: "98162",
             href: "http://us.battle.net/sc2/en/profile/2377239/1/Demon/ladder/98162#current-rank"
-          },
+          }, 
           {
             name: "2v2 Silver Rank 8",
-            id:   "97369",
+            id: "97369", 
             href: "http://us.battle.net/sc2/en/profile/2377239/1/Demon/ladder/97369#current-rank"
           },
           {
             name: "3v3 Random Gold Rank...",
-            id:   "96828",
+            id: "96828",
             href: "http://us.battle.net/sc2/en/profile/2377239/1/Demon/ladder/96828#current-rank"
-          },
+          }, 
           {
             name: "3v3 Diamond Rank 56",
-            id:   "97985",
+            id: "97985",
             href: "http://us.battle.net/sc2/en/profile/2377239/1/Demon/ladder/97985#current-rank"
-          },
+          }, 
           {
             name: "3v3 Silver Rank 5",
-            id:   "98523",
+            id: "98523", 
             href: "http://us.battle.net/sc2/en/profile/2377239/1/Demon/ladder/98523#current-rank"
           },
           {
-            name: "3v3 Platinum Rank 88",
-            id:   "96863",
+            name: "3v3 Platinum Rank 88", 
+            id: "96863",
             href: "http://us.battle.net/sc2/en/profile/2377239/1/Demon/ladder/96863#current-rank"
           },
           {
-            name: "3v3 Gold Rank 75",
-            id:   "97250",
+            name: "3v3 Gold Rank 75", 
+            id: "97250", 
             href: "http://us.battle.net/sc2/en/profile/2377239/1/Demon/ladder/97250#current-rank"
           },
           {
             name: "4v4 Random Platinum ...",
-            id:   "96830",
+            id: "96830",
             href: "http://us.battle.net/sc2/en/profile/2377239/1/Demon/ladder/96830#current-rank"
           },
           {
             name: "4v4 Gold Rank 38",
-            id:   "98336",
+            id: "98336", 
             href: "http://us.battle.net/sc2/en/profile/2377239/1/Demon/ladder/98336#current-rank"
           },
           {
             name: "4v4 Diamond Rank 54",
-            id:   "98936",
+            id: "98936", 
             href: "http://us.battle.net/sc2/en/profile/2377239/1/Demon/ladder/98936#current-rank"
-          }
+          } 
         ]
       }
 
-      subject.output.should == { bnet_id: '2377239', account: 'Demon', bnet_index: 1, race: nil, career_games: nil, games_this_season: nil, most_played: nil, achievement_points: nil, leagues: nil }
+      subject.output.should == { 
+        bnet_id: '2377239', 
+        account: 'Demon',
+        bnet_index: 1,
+        race: nil,
+        career_games: nil,
+        games_this_season: nil,
+        most_played: nil,
+        highest_solo_league: nil, 
+        current_solo_league: nil, 
+        achievement_points: nil, 
+        leagues: [] 
+      }
+
       subject.scrape
       subject.output.should == expected
     end

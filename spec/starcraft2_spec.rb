@@ -11,6 +11,8 @@ describe BnetScraper::Starcraft2 do
         :career_games => '1568',
         :games_this_season => '0',
         :most_played => '4v4',
+        :current_solo_league => 'Not Yet Ranked',
+        :highest_solo_league => 'Platinum',
         :achievement_points=>"3660", 
         :leagues=>[
           {:season=>"6", :size=>"4v4", :name=>"Aleksander Pepper", :division=>"Diamond", :random=>false, :bnet_id=>"2377239", :account=>"Demon"},

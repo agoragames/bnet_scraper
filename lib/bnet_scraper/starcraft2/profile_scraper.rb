@@ -22,7 +22,13 @@ module BnetScraper
     #   }
     class ProfileScraper < BaseScraper
       attr_reader :achievement_points, :career_games, :race, :leagues, :most_played,
-        :games_this_season
+        :games_this_season, :highest_solo_league, :current_solo_league
+
+      def initialize options = {}
+        super
+        @leagues = []
+      end
+
       def scrape
         get_profile_data
         get_league_list
@@ -42,6 +48,15 @@ module BnetScraper
           @career_games = html.css(".stat-block:nth-child(3) h2").inner_html()
           @most_played = html.css(".stat-block:nth-child(2) h2").inner_html()
           @games_this_season = html.css(".stat-block:nth-child(1) h2").inner_html()
+
+          if solo_league_finishes = html.css("#best-finish-SOLO div")[0]
+            @highest_solo_league = html.css("#best-finish-SOLO div")[0].children[2].inner_text.strip
+            @current_solo_league = html.css("#best-finish-SOLO div")[0].children[8].inner_text.strip
+          else
+            @highest_solo_league = "Unranked"
+            @current_solo_league = "Unranked"
+          end
+
         else
           raise BnetScraper::InvalidProfileError
         end
@@ -71,6 +86,8 @@ module BnetScraper
           account: @account,
           bnet_index: @bnet_index,
           race: @race,
+          current_solo_league: @current_solo_league,
+          highest_solo_league: @highest_solo_league,
           career_games: @career_games,
           games_this_season: @games_this_season,
           most_played: @most_played,
