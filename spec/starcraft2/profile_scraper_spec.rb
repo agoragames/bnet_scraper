@@ -9,15 +9,19 @@ describe BnetScraper::Starcraft2::ProfileScraper do
   subject { BnetScraper::Starcraft2::ProfileScraper.new(bnet_id: '2377239', account: 'Demon') }
 
   describe '#get_profile_data' do
-    it 'should set the race, wins, and achievements attributes' do
-      subject.race.should be_nil
-      subject.achievement_points.should be_nil
-
+    before do
       subject.get_profile_data
-      
-      subject.race.should == 'Protoss'
-      subject.achievement_points.should == '3660'
     end
+
+    its(:race) { should == 'Protoss' }
+    its(:achievement_points) { should == '3660' }
+    its(:current_solo_league) { should == 'Not Yet Ranked' }
+    its(:highest_solo_league) { should == 'Platinum' }
+    its(:current_team_league) { should == 'Not Yet Ranked' }
+    its(:highest_team_league) { should == 'Diamond' }
+    its(:career_games) { should == '1568' }
+    its(:games_this_season) { should == '0' }
+    its(:most_played) { should == '4v4' }
   end
 
   describe 'get_league_list' do
@@ -25,7 +29,7 @@ describe BnetScraper::Starcraft2::ProfileScraper do
       subject.should have(0).leagues
       subject.get_league_list
 
-      subject.instance_variable_get(:@leagues).should have(12).leagues
+      subject.should have(12).leagues
     end
   end
 
@@ -75,6 +79,8 @@ describe BnetScraper::Starcraft2::ProfileScraper do
         games_this_season: '0',
         highest_solo_league: 'Platinum',
         current_solo_league: 'Not Yet Ranked',
+        highest_team_league: 'Diamond',
+        current_team_league: 'Not Yet Ranked',
         most_played: '4v4',
         achievement_points: '3660',
         leagues: [
@@ -151,6 +157,8 @@ describe BnetScraper::Starcraft2::ProfileScraper do
         most_played: nil,
         highest_solo_league: nil, 
         current_solo_league: nil, 
+        highest_team_league: nil,
+        current_team_league: nil,
         achievement_points: nil, 
         leagues: [] 
       }

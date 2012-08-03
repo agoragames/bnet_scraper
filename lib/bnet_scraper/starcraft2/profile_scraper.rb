@@ -22,7 +22,8 @@ module BnetScraper
     #   }
     class ProfileScraper < BaseScraper
       attr_reader :achievement_points, :career_games, :race, :leagues, :most_played,
-        :games_this_season, :highest_solo_league, :current_solo_league
+        :games_this_season, :highest_solo_league, :current_solo_league, :highest_team_league,
+        :current_team_league
 
       def initialize options = {}
         super
@@ -49,12 +50,20 @@ module BnetScraper
           @most_played = html.css(".stat-block:nth-child(2) h2").inner_html()
           @games_this_season = html.css(".stat-block:nth-child(1) h2").inner_html()
 
-          if solo_league_finishes = html.css("#best-finish-SOLO div")[0]
+          if html.css("#best-finish-SOLO div")[0]
             @highest_solo_league = html.css("#best-finish-SOLO div")[0].children[2].inner_text.strip
             @current_solo_league = html.css("#best-finish-SOLO div")[0].children[8].inner_text.strip
           else
-            @highest_solo_league = "Unranked"
-            @current_solo_league = "Unranked"
+            @highest_solo_league = "Not Yet Ranked"
+            @current_solo_league = "Not Yet Ranked"
+          end
+
+          if html.css("#best-finish-TEAM div")[0] 
+            @highest_team_league = html.css("#best-finish-TEAM div")[0].children[2].inner_text.strip
+            @current_team_league = html.css("#best-finish-TEAM div")[0].children[8].inner_text.strip
+          else
+            @highest_team_league = "Not Yet Ranked"
+            @current_team_league = "Not Yet Ranked"
           end
 
         else
@@ -88,6 +97,8 @@ module BnetScraper
           race: @race,
           current_solo_league: @current_solo_league,
           highest_solo_league: @highest_solo_league,
+          current_team_league: @current_team_league,
+          highest_team_league: @highest_team_league,
           career_games: @career_games,
           games_this_season: @games_this_season,
           most_played: @most_played,
