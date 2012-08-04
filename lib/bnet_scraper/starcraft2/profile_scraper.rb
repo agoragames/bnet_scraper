@@ -59,7 +59,11 @@ module BnetScraper
 
           if html.css("#best-finish-SOLO div")[0]
             @highest_solo_league = html.css("#best-finish-SOLO div")[0].children[2].inner_text.strip
-            @current_solo_league = html.css("#best-finish-SOLO div")[0].children[8].inner_text.strip
+            if html.css("#best-finish-SOLO div")[0].children[8]
+              @current_solo_league = html.css("#best-finish-SOLO div")[0].children[8].inner_text.strip
+            else
+              @current_solo_league = html.css("#best-finish-SOLO div")[0].children[5].inner_text.strip
+            end
           else
             @highest_solo_league = "Not Yet Ranked"
             @current_solo_league = "Not Yet Ranked"
@@ -67,7 +71,11 @@ module BnetScraper
 
           if html.css("#best-finish-TEAM div")[0] 
             @highest_team_league = html.css("#best-finish-TEAM div")[0].children[2].inner_text.strip
-            @current_team_league = html.css("#best-finish-TEAM div")[0].children[8].inner_text.strip
+            if html.css("#best-finish-TEAM div")[0].children[8]
+              @current_team_league = html.css("#best-finish-TEAM div")[0].children[8].inner_text.strip
+            else
+              @current_team_league = html.css("#best-finish-TEAM div")[0].children[5].inner_text.strip
+            end
           else
             @highest_team_league = "Not Yet Ranked"
             @current_team_league = "Not Yet Ranked"

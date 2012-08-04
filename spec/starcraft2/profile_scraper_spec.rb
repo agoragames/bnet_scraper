@@ -22,6 +22,19 @@ describe BnetScraper::Starcraft2::ProfileScraper do
     its(:career_games) { should == '1568' }
     its(:games_this_season) { should == '0' }
     its(:most_played) { should == '4v4' }
+
+    context 'first league ever' do
+      subject { BnetScraper::Starcraft2::ProfileScraper.new url: 'http://us.battle.net/sc2/en/profile/3513522/1/Heritic/' }
+
+      before do
+        subject.scrape
+      end
+
+      its(:current_solo_league) { should == 'Bronze' }
+      its(:highest_solo_league) { should == 'Bronze' }
+      its(:current_team_league) { should == 'Silver' }
+      its(:highest_team_league) { should == 'Silver' }
+    end
   end
 
   describe 'get_league_list' do
