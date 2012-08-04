@@ -1,5 +1,9 @@
 # Changelog!
 
+## 0.2.1 (Aug 04 2012)
+
+* Adds race condition for profile scraping accounts playing in their first season
+
 ## 0.2.0 (Aug 03 2012)
 
 * Adds domain remapping to regions

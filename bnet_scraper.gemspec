@@ -3,7 +3,7 @@ $:.push File.expand_path("../lib", __FILE__)
 
 Gem::Specification.new do |s|
   s.name        = "bnet_scraper"
-  s.version     = "0.2.0"
+  s.version     = "0.2.1"
   s.authors     = ["Andrew Nordman"]
   s.email       = ["anordman@majorleaguegaming.com"]
   s.homepage    = "https://github.com/agoragames/bnet_scraper/"
