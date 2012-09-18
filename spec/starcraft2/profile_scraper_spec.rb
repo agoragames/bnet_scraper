@@ -15,6 +15,7 @@ describe BnetScraper::Starcraft2::ProfileScraper do
 
     its(:race) { should == 'Protoss' }
     its(:achievement_points) { should == '3660' }
+    its(:portrait) { should == '/sc2/static/local-common/images/sc2/portraits/3-90.jpg?v42' }
     its(:current_solo_league) { should == 'Not Yet Ranked' }
     its(:highest_solo_league) { should == 'Platinum' }
     its(:current_team_league) { should == 'Not Yet Ranked' }
@@ -96,6 +97,7 @@ describe BnetScraper::Starcraft2::ProfileScraper do
         current_team_league: 'Not Yet Ranked',
         most_played: '4v4',
         achievement_points: '3660',
+        portrait: '/sc2/static/local-common/images/sc2/portraits/3-90.jpg?v42',
         leagues: [
           {
             name: "1v1 Platinum Rank 95", 
@@ -173,7 +175,8 @@ describe BnetScraper::Starcraft2::ProfileScraper do
         highest_team_league: nil,
         current_team_league: nil,
         achievement_points: nil, 
-        leagues: [] 
+        leagues: [],
+        portrait: nil
       }
 
       subject.scrape
