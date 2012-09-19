@@ -96,6 +96,7 @@ describe BnetScraper::Starcraft2::ProfileScraper do
         current_team_league: 'Not Yet Ranked',
         most_played: '4v4',
         achievement_points: '3660',
+        portrait: 'Mohandar',
         leagues: [
           {
             name: "1v1 Platinum Rank 95", 
@@ -173,7 +174,8 @@ describe BnetScraper::Starcraft2::ProfileScraper do
         highest_team_league: nil,
         current_team_league: nil,
         achievement_points: nil, 
-        leagues: [] 
+        leagues: [],
+        portrait: nil
       }
 
       subject.scrape
