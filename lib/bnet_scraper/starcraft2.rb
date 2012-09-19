@@ -27,6 +27,58 @@ module BnetScraper
       'tw.battle.net' => 'fea'
     }
 
+    # The armory uses spritemaps that are sequentially named and have a fixed
+    # 6x6 grid. We'll simply use the portrait names, left to right, top to
+    # bottom.
+    #
+    # Note: I couldn't identify the exact names of some of these and instead of
+    # guessing, I didn't name them. Some appear in multiple files too, which 
+    # is odd.
+    #
+    # I decided th pad the arrays even if there are no images to make various
+    # helping functionality (e.g. retrieving position for a name) easier.
+    # I've also kept them in 6x6 here for better overview.
+    PORTRAITS = [
+      # http://eu.battle.net/sc2/static/local-common/images/sc2/portraits/0-75.jpg?v42
+      ['Kachinsky', 'Cade', 'Thatcher', 'Hall', 'Tiger Marine', 'Panda Marine', 
+      'General Warfield', 'Jim Raynor', 'Arcturus Mengsk', 'Sarah Kerrigan', 'Kate Lockwell', 'Rory Swann', 
+      'Egon Stetmann', 'Hill', 'Adjutant', 'Dr. Ariel Hanson', 'Gabriel Tosh', 'Matt Horner', 
+      # Could not identify in order: Raynor in a Suit? Bullmarine? Nova? 
+      # Fiery Marine?
+      'Tychus Findlay', 'Zeratul', 'Valerian Mengsk', 'Spectre', '?', '?',
+      '?', '?', 'SCV', 'Firebat', 'Vulture', 'Hellion', 
+      'Medic', 'Spartan Company', 'Wraith', 'Diamondback', 'Probe', 'Scout'],
+
+      # http://eu.battle.net/sc2/static/local-common/images/sc2/portraits/1-75.jpg?v42
+      # Special Rewards - couldn't identify most of these.
+      ['?', '?', '?', '?', '?', 'PanTerran Marine', 
+      '?', '?', '?', '?', '', '',
+      '', '', '', '', '', '',
+      '', '', '', '', '', '',
+      '', '', '', '', '', '',
+      '', '', '', '', '', ''],
+
+      # http://eu.battle.net/sc2/static/local-common/images/sc2/portraits/2-75.jpg?v42
+      ['Ghost', 'Thor', 'Battlecruiser', 'Nova', 'Zealot', 'Stalker', 
+      'Phoenix', 'Immortal', 'Void Ray', 'Colossus', 'Carrier', 'Tassadar',
+      'Reaper', 'Sentry', 'Overseer', 'Viking', 'High Templar', 'Mutalisk',
+      # Unidentified: Bird? Dog? Robot?
+      'Banshee', 'Hybrid Destroyer', 'Dark Voice', '?', '?', '?',
+      # Unidentified: Worgen? Goblin? Chef?
+      'Orian', 'Wolf Marine', 'Murloc Marine', '?', '?', 'Zealot Chef', 
+      # Unidentified: KISS Marine? Dragon Marine? Dragon? Another Raynor?
+      'Stank', 'Ornatus', '?', '?', '?', '?'],
+
+      # http://eu.battle.net/sc2/static/local-common/images/sc2/portraits/3-75.jpg?v42
+      ['Urun', 'Nyon', 'Executor', 'Mohandar', 'Selendis', 'Artanis', 
+      'Drone', 'Infested Colonist', 'Infested Marine', 'Corruptor', 'Aberration', 'Broodlord', 
+      'Overmind', 'Leviathan', 'Overlord', 'Hydralisk Marine', "Zer'atai Dark Templar", 'Goliath', 
+      # Unidentified: Satan Marine?
+      'Lenassa Dark Templar', 'Mira Han', 'Archon', 'Hybrid Reaver', 'Predator', '?',
+      'Zergling', 'Roach', 'Baneling', 'Hydralisk', 'Queen', 'Infestor', 
+      'Ultralisk', 'Queen of Blades', 'Marine', 'Marauder', 'Medivac', 'Siege Tank']
+    ]
+
     # This is a convenience method that chains calls to ProfileScraper,
     # followed by a scrape of each league returned in the `leagues` array
     # in the profile_data.  The end result is a fully scraped profile with
