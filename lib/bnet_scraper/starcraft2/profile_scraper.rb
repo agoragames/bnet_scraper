@@ -30,7 +30,7 @@ module BnetScraper
     class ProfileScraper < BaseScraper
       attr_reader :achievement_points, :career_games, :race, :leagues, :most_played,
         :games_this_season, :highest_solo_league, :current_solo_league, :highest_team_league,
-        :current_team_league
+        :current_team_league, :portrait
 
       def initialize options = {}
         super
@@ -50,6 +50,16 @@ module BnetScraper
         if response.success?
           html = Nokogiri::HTML(response.body)
 
+          # Portraits use spritemaps, so we extract positions and map to 
+          # PORTRAITS.
+          @portrait = begin
+            portrait = html.css("#profile-header #portrait span").attr('style').to_s.scan(/url\('(.*?)'\) ([\-\d]+)px ([\-\d]+)px/).flatten
+            portrait_map, portrait_size = portrait[0].scan(/(\d)\-(\d+)\.jpg/)[0]
+            portrait_position = (((0-portrait[2].to_i) / portrait_size.to_i) * 6) + ((0-portrait[1].to_i) / portrait_size.to_i + 1)
+            PORTRAITS[portrait_map.to_i][portrait_position-1]
+          rescue 
+            nil
+          end
 
           @race = html.css(".stat-block:nth-child(4) h2").inner_html()
           @achievement_points = html.css("#profile-header h3").inner_html()
@@ -118,7 +128,8 @@ module BnetScraper
           games_this_season: @games_this_season,
           most_played: @most_played,
           achievement_points: @achievement_points,
-          leagues: @leagues
+          leagues: @leagues,
+          portrait: @portrait
         }  
       end
     end
