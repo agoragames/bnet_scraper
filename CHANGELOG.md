@@ -1,5 +1,9 @@
 # Changelog!
 
+## 0.3.0 (Sep 22 2012)
+
+* Adds portrait name scraping to ProfileScraper
+
 ## 0.2.1 (Aug 04 2012)
 
 * Adds race condition for profile scraping accounts playing in their first season
