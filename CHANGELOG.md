@@ -1,5 +1,10 @@
 # Changelog!
 
+## 0.3.1 (Sep 24 2012)
+
+* Throws BnetScraper::InvalidProfileError when instantiating a scraper with poorly
+formatted profile URL
+
 ## 0.3.0 (Sep 22 2012)
 
 * Adds portrait name scraping to ProfileScraper
