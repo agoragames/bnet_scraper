@@ -20,11 +20,15 @@ module BnetScraper
       def initialize options = {}
         if options[:url]
           extracted_data = options[:url].match(/http:\/\/(.+)\/sc2\/(.+)\/profile\/(.+)\/(\d{1})\/(.[^\/]+)\//)
-          @region     = REGION_DOMAINS[extracted_data[1]]
-          @bnet_id    = extracted_data[3]
-          @bnet_index = extracted_data[4]
-          @account    = extracted_data[5]
-          @url        = options[:url]
+          if extracted_data
+            @region     = REGION_DOMAINS[extracted_data[1]]
+            @bnet_id    = extracted_data[3]
+            @bnet_index = extracted_data[4]
+            @account    = extracted_data[5]
+            @url        = options[:url]
+          else
+            raise BnetScraper::InvalidProfileError, "URL provided does not match Battle.net format"
+          end
         elsif options[:bnet_id] && options[:account]
           @bnet_id  = options[:bnet_id]
           @account  = options[:account]
