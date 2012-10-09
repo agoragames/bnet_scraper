@@ -37,7 +37,7 @@ scraper.scrape
 # => {
   bnet_id: '2377239',
   account: 'Demon',
-  bnet_index: 1,
+  subregion: 1,
   race: 'Protoss',
   wins: '684',
   achievement_points: '3630',
@@ -138,7 +138,7 @@ Scraping is only possible if the site is up.  Use this if you want to verify the
 
 ``` ruby
 BnetScraper::Starcraft2::Status.na # => 'Online'
-BnetScraper::Starcraft2::Status.fea # => 'Offline'
+BnetScraper::Starcraft2::Status.kr # => 'Offline'
 BnetScraper::Starcraft2::Status.cn #  => nil (China is unsupported)
 BnetScraper::Starcraft2::Status.fetch # => [
   {:region=>"North America", :status=>"Online"},
