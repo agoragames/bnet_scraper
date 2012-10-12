@@ -86,7 +86,7 @@ describe BnetScraper::Starcraft2::ProfileScraper do
       expected = {
         bnet_id: '2377239',
         account: 'Demon',
-        bnet_index: 1,
+        subregion: 1,
         race: 'Protoss',
         career_games: '1568',
         games_this_season: '0',
@@ -164,7 +164,7 @@ describe BnetScraper::Starcraft2::ProfileScraper do
       subject.output.should == { 
         bnet_id: '2377239', 
         account: 'Demon',
-        bnet_index: 1,
+        subregion: 1,
         race: nil,
         career_games: nil,
         games_this_season: nil,

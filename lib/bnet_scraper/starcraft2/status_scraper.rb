@@ -5,7 +5,7 @@ module BnetScraper
     #
     # Examples:
     #   BnetScraper::Starcraft2::Status.na  => 'Online'
-    #   BnetScraper::Starcraft2::Status.fea => 'Offline'
+    #   BnetScraper::Starcraft2::Status.kr  => 'Offline'
     #   BnetScraper::Starcraft2::Status.cn  => nil (China is unsupported)
     #   BnetScraper::Starcraft2::Status.fetch => [
     #     {:region=>"North America", :status=>"Online"},{:region=>"Europe", :status=>"Online"},

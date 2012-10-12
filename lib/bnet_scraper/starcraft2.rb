@@ -11,21 +11,20 @@ module BnetScraper
   # for more details
   module Starcraft2
     REGIONS = {
-      'na'  => { domain: 'us.battle.net', dir: 'en', label: 'North America' },
-      'eu'  => { domain: 'eu.battle.net', dir: 'en', label: 'Europe' },
-      'cn'  => { domain: 'www.battlenet.com.cn', dir: 'zh', label: 'China' },
-      'sea' => { domain: 'sea.battle.net', dir: 'en', label: 'South-East Asia' },
-      'fea' => { domain: 'tw.battle.net', dir: 'zh', label: 'Korea' }
+      'na'  => { domain: 'us.battle.net', subregion: 1, lang: 'en', label: 'North America' },
+      'la'  => { domain: 'us.battle.net', subregion: 2, lang: 'en', label: 'Latin America' },
+      'eu'  => { domain: 'eu.battle.net', subregion: 1, lang: 'en', label: 'Europe' },
+      'ru'  => { domain: 'eu.battle.net', subregion: 2, lang: 'en', label: 'Russia' },
+      'cn'  => { domain: 'www.battlenet.com.cn', subregion: 1, lang: 'zh', label: 'China' },
+      'sea' => { domain: 'sea.battle.net', subregion: 1, lang: 'en', label: 'South-East Asia' },
+      # Note: KR/TW are technically the same, it appears.
+      'kr' => { domain: 'kr.battle.net', subregion: 1, lang: 'ko', label: 'Korea' },
+      'tw' => { domain: 'tw.battle.net', subregion: 1, lang: 'zh', label: 'Taiwan' }
     }
 
-    REGION_DOMAINS = {
-      'us.battle.net' => 'na',
-      'eu.battle.net' => 'eu',
-      'www.battlenet.com.cn' => 'cn',
-      'sea.battle.net' => 'sea',
-      'kr.battle.net' => 'fea',
-      'tw.battle.net' => 'fea'
-    }
+    REGION_DOMAINS = Hash[*REGIONS.collect{|region, data|
+      [[data[:domain], data[:subregion]], region]
+    }.flatten(1)]
 
     # The armory uses spritemaps that are sequentially named and have a fixed
     # 6x6 grid. We'll simply use the portrait names, left to right, top to

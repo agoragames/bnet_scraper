@@ -6,7 +6,7 @@ describe BnetScraper::Starcraft2 do
       expected = {
         :bnet_id=>"2377239", 
         :account=>"Demon", 
-        :bnet_index=>1, 
+        :subregion=>1, 
         :race=>"Protoss", 
         :career_games => '1568',
         :games_this_season => '0',
