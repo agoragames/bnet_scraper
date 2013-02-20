@@ -9,97 +9,81 @@ describe BnetScraper::Starcraft2::AchievementScraper do
     let(:subject) { scraper_class.new(url: url) }
   end
 
-  describe '#get_response' do
-    it 'should get the HTML response to be scraped' do
-      subject.response.should be_nil
-      subject.get_response
-      subject.response.should_not be_nil
-    end
-  end
-
-  describe '#scrape' do
-    it 'should call get_response and trigger scraper methods' do
-      subject.should_receive(:get_response)
-      subject.should_receive(:scrape_progress)
-      subject.should_receive(:scrape_recent)
-      subject.should_receive(:scrape_showcase)
-      subject.scrape
-    end
-
+  describe 'scrape' do
     it 'should return InvalidProfileError if response is 404' do
-      url = 'http://us.battle.net/sc2/en/profile/2377239/1/SomeDude/achievements/'
-      scraper = BnetScraper::Starcraft2::AchievementScraper.new(url: url)
-      expect { scraper.scrape }.to raise_error(BnetScraper::InvalidProfileError)
-    end
-  end
-
-  describe '#scrape_showcase' do
-    before :each do
-      subject.get_response
-      subject.scrape_showcase
+      VCR.use_cassette('invalid_achievement') do
+        url = 'http://us.battle.net/sc2/en/profile/2377239/1/SomeDude/achievements/'
+        scraper = BnetScraper::Starcraft2::AchievementScraper.new(url: url)
+        expect { scraper.scrape }.to raise_error(BnetScraper::InvalidProfileError)
+      end
     end
 
-    it 'should set the showcase' do
-      subject.showcase.should have(5).achievements
-    end
-  end
+    context 'valid' do
+      before do
+        VCR.use_cassette('demon_achievements') do
+          subject.get_response
+        end
+      end
 
-  describe '#scrape_recent' do
-    before :each do
-      subject.get_response
-      subject.scrape_recent
-    end
+      describe 'showcase' do
+        before { subject.scrape_showcase }
+        its(:showcase) { should have(5).achievements }
+      end
 
-    it 'should have the title of the achievement' do
-      subject.recent[0][:title].should == 'Blink of an Eye'  
-    end
+      describe 'recent' do
+        before { subject.scrape_recent }
 
-    it 'should have the description of the achievement' do
-      # this is a cop-out because the string contains UTF-8. Please fix this. - Cad
-      subject.recent[0][:description].should be_a String 
-    end
+        it 'should have the title of the achievement' do
+          subject.recent[0][:title].should == 'Three-way Dominant'  
+        end
 
-    it 'should have the date the achievement was earned' do
-      subject.recent[0][:earned].should == '3/5/2012' 
-    end
-  end
+        it 'should have the description of the achievement' do
+          # this is a cop-out because the string contains UTF-8. Please fix this. - Cad
+          subject.recent[0][:description].should be_a String 
+        end
 
-  describe '#scrape_progress' do
-    before :each do
-      subject.get_response
-      subject.scrape_progress
-    end 
+        it 'should have the date the achievement was earned' do
+          subject.recent[0][:earned].should == '2/7/2013' 
+        end
+      end
 
-    it 'should set the liberty campaign progress' do
-      subject.progress[:liberty_campaign].should == '1580'
-    end
+      describe 'progress' do
+        before { subject.scrape_progress }
 
-    it 'should set the exploration progress' do
-      subject.progress[:exploration].should == '480'
-    end
+        it 'should set the liberty campaign progress' do
+          subject.progress[:liberty_campaign].should == '1580'
+        end
 
-    it 'should set the custom game progress' do
-      subject.progress[:custom_game].should == '330'
-    end
+        it 'should set the exploration progress' do
+          subject.progress[:exploration].should == '0'
+        end
 
-    it 'should set the cooperative progress' do
-      subject.progress[:cooperative].should == '660'
-    end
+        it 'should set the custom game progress' do
+          subject.progress[:custom_game].should == '1280'
+        end
 
-    it 'should set the quick match progress' do
-      subject.progress[:quick_match].should == '170'
+        it 'should set the cooperative progress' do
+          subject.progress[:cooperative].should == '120'
+        end
+
+        it 'should set the quick match progress' do
+          subject.progress[:quick_match].should == '220'
+        end
+      end
     end
   end
 
   describe '#output' do
     it 'should return the scraped data when scrape has been called' do
-      subject.scrape
-      expected = {
-        recent: subject.recent,
-        showcase: subject.showcase,
-        progress: subject.progress
-      }
-      subject.output.should == expected
+      VCR.use_cassette('demon_achievements') do
+        subject.scrape
+        expected = {
+          recent: subject.recent,
+          showcase: subject.showcase,
+          progress: subject.progress
+        }
+        subject.output.should == expected
+      end
     end
   end
 end

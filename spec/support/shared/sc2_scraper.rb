@@ -19,7 +19,12 @@ shared_examples 'an SC2 Scraper' do
     end
 
     context 'when bnet_id and account parameters are passed' do
-      subject { scraper_class.new(bnet_id: '2377239', account: 'Demon') }
+      subject do
+        VCR.use_cassette('demon_profile') do
+          scraper_class.new(bnet_id: '2377239', account: 'Demon') 
+        end
+      end
+      
       it 'should set the bnet_id and account parameters' do
         subject.bnet_id.should == '2377239'
         subject.account.should == 'Demon'
@@ -30,9 +35,11 @@ shared_examples 'an SC2 Scraper' do
       end
 
       it 'should assign region if passed' do
-        scraper_class.any_instance.should_receive(:set_bnet_index)
-        scraper = scraper_class.new(bnet_id: '2377239', account: 'Demon', region: 'fea')
-        scraper.region.should == 'fea'
+        VCR.use_cassette('demon_profile') do
+          scraper_class.any_instance.should_receive(:set_bnet_index)
+          scraper = scraper_class.new(bnet_id: '2377239', account: 'Demon', region: 'fea')
+          scraper.region.should == 'fea'
+        end
       end
 
       it 'should not call set_bnet_index if bnet_index is passed' do
@@ -41,8 +48,10 @@ shared_examples 'an SC2 Scraper' do
       end
 
       it 'should call set_bnet_index_if bnet_index is not passed' do
-        scraper_class.any_instance.should_receive(:set_bnet_index)
-        scraper = scraper_class.new(bnet_id: '2377239', account: 'Demon', region: 'fea')
+        VCR.use_cassette('demon_profile') do
+          scraper_class.any_instance.should_receive(:set_bnet_index)
+          scraper = scraper_class.new(bnet_id: '2377239', account: 'Demon', region: 'fea')
+        end
       end
     end
   end
@@ -55,8 +64,10 @@ shared_examples 'an SC2 Scraper' do
 
   describe '#set_bnet_index' do
     it 'should return the valid integer needed for a proper URL parse from bnet' do
-      subject.set_bnet_index 
-      subject.bnet_index.should == 1
+      VCR.use_cassette('demon_profile') do
+        subject.set_bnet_index 
+        subject.bnet_index.should == 1
+      end
     end
   end
 
@@ -72,15 +83,19 @@ shared_examples 'an SC2 Scraper' do
 
   describe '#valid?' do
     it 'should return true when profile is valid' do
-      result = subject.valid?
-      result.should be_true
+      VCR.use_cassette('demon_profile') do
+        result = subject.valid?
+        result.should be_true
+      end
     end
 
     it 'should return false when profile is invalid' do
-      scraper = scraper_class.new(url: 'http://us.battle.net/sc2/en/profile/2377239/1/SomeDude/')
+      VCR.use_cassette('invalid_profile') do
+        scraper = scraper_class.new(url: 'http://us.battle.net/sc2/en/profile/2377239/1/SomeDude/')
 
-      result = scraper.valid?
-      result.should be_false
+        result = scraper.valid?
+        result.should be_false
+      end
     end
   end
 end

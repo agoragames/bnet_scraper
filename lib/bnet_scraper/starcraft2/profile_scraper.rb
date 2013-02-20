@@ -61,18 +61,17 @@ module BnetScraper
             nil
           end
 
-          @race = html.css(".stat-block:nth-child(4) h2").inner_html()
           @achievement_points = html.css("#profile-header h3").inner_html()
-          @career_games = html.css(".stat-block:nth-child(3) h2").inner_html()
+          @career_games = html.css(".career-stat-block:nth-child(4) .stat-value").inner_html()
           @most_played = html.css(".stat-block:nth-child(2) h2").inner_html()
-          @games_this_season = html.css(".stat-block:nth-child(1) h2").inner_html()
+          @games_this_season = html.css(".career-stat-block:nth-child(5) .stat-value").inner_html()
 
           if html.css("#best-finish-SOLO div")[0]
             @highest_solo_league = html.css("#best-finish-SOLO div")[0].children[2].inner_text.strip
             if html.css("#best-finish-SOLO div")[0].children[8]
               @current_solo_league = html.css("#best-finish-SOLO div")[0].children[8].inner_text.strip
             else
-              @current_solo_league = html.css("#best-finish-SOLO div")[0].children[5].inner_text.strip
+              @current_solo_league = "Not Yet Ranked"
             end
           else
             @highest_solo_league = "Not Yet Ranked"
@@ -84,7 +83,7 @@ module BnetScraper
             if html.css("#best-finish-TEAM div")[0].children[8]
               @current_team_league = html.css("#best-finish-TEAM div")[0].children[8].inner_text.strip
             else
-              @current_team_league = html.css("#best-finish-TEAM div")[0].children[5].inner_text.strip
+              @current_team_league = "Not Yet Ranked"
             end
           else
             @highest_team_league = "Not Yet Ranked"
