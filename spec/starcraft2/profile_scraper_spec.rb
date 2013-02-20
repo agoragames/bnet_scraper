@@ -41,10 +41,12 @@ describe BnetScraper::Starcraft2::ProfileScraper do
 
   describe 'get_league_list' do
     it 'should set an array of leagues' do
-      subject.should have(0).leagues
-      subject.get_league_list
+      VCR.use_cassette('demon_profile_leagues') do
+        subject.should have(0).leagues
+        subject.get_league_list
 
-      subject.should have(12).leagues
+        subject.should have(8).leagues
+      end
     end
   end
 
