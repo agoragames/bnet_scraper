@@ -61,9 +61,8 @@ module BnetScraper
             nil
           end
 
-          @race = html.css(".stat-block:nth-child(4) h2").inner_html()
           @achievement_points = html.css("#profile-header h3").inner_html()
-          @career_games = html.css(".stat-block:nth-child(3) h2").inner_html()
+          @career_games = html.css(".career-stat-block:nth-child(4) .stat-value").inner_html()
           @most_played = html.css(".stat-block:nth-child(2) h2").inner_html()
           @games_this_season = html.css(".stat-block:nth-child(1) h2").inner_html()
 
