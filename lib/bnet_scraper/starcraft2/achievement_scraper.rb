@@ -72,11 +72,11 @@ module BnetScraper
       def scrape_progress
         progress_ach = response.css("#progress-module .achievements-progress:nth(2) span")
         @progress = {
-          liberty_campaign: progress_ach[0].inner_text,
-          exploration:      progress_ach[1].inner_text,
-          custom_game:      progress_ach[2].inner_text,
-          cooperative:      progress_ach[3].inner_text,
-          quick_match:      progress_ach[4].inner_text,
+          liberty_campaign: response.css(".progress-tile:nth-child(1) .profile-progress span").inner_text,
+          exploration:      response.css(".progress-tile:nth-child(2) .profile-progress span").inner_text,
+          custom_game:      response.css(".progress-tile:nth-child(3) .profile-progress span").inner_text,
+          cooperative:      response.css(".progress-tile:nth-child(4) .profile-progress span").inner_text,
+          quick_match:      response.css(".progress-tile:nth-child(5) .profile-progress span").inner_text,
         }
       end
 
