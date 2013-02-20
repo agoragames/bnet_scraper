@@ -34,7 +34,7 @@ module BnetScraper
         if @response.success?
           @response = Nokogiri::HTML(@response.body)
           value = @response.css(".data-title .data-label h3").inner_text().strip 
-          header_regex = /Season (\d{1}) - \s+(\dv\d)( Random)? (\w+)\s+Division (.+)/
+          header_regex = /(.+) -\s+(\dv\d)( Random)? (\w+)\s+Division (.+)/
           header_values = value.match(header_regex).to_a
           header_values.shift()
           @season, @size, @random, @division, @name = header_values
