@@ -30,7 +30,8 @@ module BnetScraper
     class ProfileScraper < BaseScraper
       attr_reader :achievement_points, :career_games, :leagues, :games_this_season, 
         :highest_solo_league, :current_solo_league, :highest_team_league,
-        :current_team_league, :portrait
+        :current_team_league, :portrait, :terran_swarm_level, :protoss_swarm_level,
+        :zerg_swarm_level
 
       def initialize options = {}
         super
@@ -57,6 +58,7 @@ module BnetScraper
           get_portrait html
           get_solo_league_info html
           get_team_league_info html
+          get_swarm_levels html
         else
           raise BnetScraper::InvalidProfileError
         end
@@ -101,6 +103,17 @@ module BnetScraper
           @highest_team_league = "Not Yet Ranked"
           @current_team_league = "Not Yet Ranked"
         end
+      end
+
+      def get_swarm_levels html
+        @protoss_swarm_level = get_swarm_level :protoss, html
+        @terran_swarm_level = get_swarm_level :terran, html
+        @zerg_swarm_level = get_swarm_level :zerg, html
+      end
+
+      def get_swarm_level race, html
+        level = html.css(".race-level-block.#{race} .level-value").inner_html
+        level.match(/Level (\d+)/)[1].to_i
       end
 
       # scrapes the league list from account's league page and sets an array of URLs
