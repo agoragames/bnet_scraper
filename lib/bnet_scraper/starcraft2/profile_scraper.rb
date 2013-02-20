@@ -28,8 +28,8 @@ module BnetScraper
     #     ]
     #   }
     class ProfileScraper < BaseScraper
-      attr_reader :achievement_points, :career_games, :race, :leagues, :most_played,
-        :games_this_season, :highest_solo_league, :current_solo_league, :highest_team_league,
+      attr_reader :achievement_points, :career_games, :leagues, :games_this_season, 
+        :highest_solo_league, :current_solo_league, :highest_team_league,
         :current_team_league, :portrait
 
       def initialize options = {}

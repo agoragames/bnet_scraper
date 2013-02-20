@@ -22,6 +22,7 @@ describe BnetScraper::Starcraft2::ProfileScraper do
     its(:highest_team_league) { should == 'Master' }
     its(:career_games) { should == '1719' }
     its(:games_this_season) { should == '114' }
+    its(:portrait) { should == 'Mohandar' }
 
     context 'first league ever' do
       subject { BnetScraper::Starcraft2::ProfileScraper.new url: 'http://us.battle.net/sc2/en/profile/3513522/1/Heritic/' }
