@@ -64,7 +64,7 @@ module BnetScraper
           @achievement_points = html.css("#profile-header h3").inner_html()
           @career_games = html.css(".career-stat-block:nth-child(4) .stat-value").inner_html()
           @most_played = html.css(".stat-block:nth-child(2) h2").inner_html()
-          @games_this_season = html.css(".stat-block:nth-child(1) h2").inner_html()
+          @games_this_season = html.css(".career-stat-block:nth-child(5) .stat-value").inner_html()
 
           if html.css("#best-finish-SOLO div")[0]
             @highest_solo_league = html.css("#best-finish-SOLO div")[0].children[2].inner_text.strip

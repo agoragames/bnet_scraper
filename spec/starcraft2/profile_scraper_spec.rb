@@ -17,10 +17,11 @@ describe BnetScraper::Starcraft2::ProfileScraper do
 
     its(:achievement_points) { should == '3680' }
     its(:current_solo_league) { should == 'Platinum' }
-    its(:current_team_league) { should == 'Master' }
+    its(:highest_solo_league) { should == 'Platinum' }
+    its(:current_team_league) { should == 'Diamond' }
+    its(:highest_team_league) { should == 'Master' }
     its(:career_games) { should == '1719' }
-    its(:games_this_season) { should == '0' }
-    its(:most_played) { should == '4v4' }
+    its(:games_this_season) { should == '114' }
 
     context 'first league ever' do
       subject { BnetScraper::Starcraft2::ProfileScraper.new url: 'http://us.battle.net/sc2/en/profile/3513522/1/Heritic/' }
@@ -33,7 +34,7 @@ describe BnetScraper::Starcraft2::ProfileScraper do
 
       its(:current_solo_league) { should == 'Bronze' }
       its(:highest_solo_league) { should == 'Bronze' }
-      its(:current_team_league) { should == 'Silver' }
+      its(:current_team_league) { should == 'Bronze' }
       its(:highest_team_league) { should == 'Silver' }
     end
   end
