@@ -2,14 +2,14 @@ require 'spec_helper'
 
 describe BnetScraper::Starcraft2 do
   describe '#full_profile_scrape' do
-    it 'should return the fully scraped profile with league data' do
+    subject do
       VCR.use_cassette('full_demon_scrape') do
-        actual = BnetScraper::Starcraft2.full_profile_scrape('2377239', 'Demon')
-
-        actual.should be_instance_of Hash
-        actual[:leagues].should have(8).leagues
+        BnetScraper::Starcraft2.full_profile_scrape('2377239', 'Demon')
       end
     end
+
+    it { should be_instance_of BnetScraper::Starcraft2::Profile }
+    its(:leagues) { should have(8).leagues }
   end
 
   describe '#valid_profile?' do

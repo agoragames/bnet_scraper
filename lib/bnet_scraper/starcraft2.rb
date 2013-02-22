@@ -94,15 +94,10 @@ module BnetScraper
     #   scraped from the website
     def self.full_profile_scrape bnet_id, account, region = 'na'
       profile_scraper = ProfileScraper.new bnet_id: bnet_id, account: account, region: region
-      profile_output  = profile_scraper.scrape
-
-      parsed_leagues = []
-      profile_output[:leagues].each do |league|
-        league_scraper = LeagueScraper.new url: league[:href]
-        parsed_leagues << league_scraper.scrape
-      end
-      profile_output[:leagues] = parsed_leagues
-      return profile_output
+      profile = profile_scraper.scrape
+      profile.leagues
+      
+      return profile
     end
 
     # Determine if Supplied profile is valid.  Useful for validating now before an 
