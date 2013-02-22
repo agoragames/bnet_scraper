@@ -46,14 +46,14 @@ describe BnetScraper::Starcraft2::ProfileScraper do
   end
 
   describe 'get_league_list' do
-    it 'should set an array of leagues' do
+    before do
       VCR.use_cassette('demon_profile_leagues') do
-        scraper.should have(0).leagues
         scraper.get_league_list
-
-        scraper.profile.leagues.should have(8).leagues
       end
     end
+
+    subject { scraper.profile.leagues }
+    it { should have(8).leagues }
   end
 
   describe '#scrape' do
