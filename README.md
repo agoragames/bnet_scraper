@@ -21,14 +21,6 @@ profile.achievement_points # => 3760
 profile.account # => 'Demon'
 ```
 
-All of the scrapers take an options hash, and can be created by either passing a URL string for the profile URL or
-passing the account information in the options hash.  Thus, either of these two approaches work:
-
-``` ruby
-BnetScraper::Starcraft2::ProfileScraper.new(url: 'http://us.battle.net/sc2/en/profile/12345/1/TestAccount/')
-BnetScraper::Starcraft2::ProfileScraper.new(bnet_id: '12345', account: 'TestAccount', region: 'na')
-```
-
 Once you have a `BnetScraper::Starcraft2::Profile` object, you can easily access other information
 for scraping thanks to syntactic sugar.  This includes leagues, achievements, and match history.
 
@@ -37,10 +29,15 @@ scraper = BnetScraper::Starcraft2::ProfileScraper.new(url: 'http://us.battle.net
 profile = scraper.scrape
 profile.recent_achievements # Scrapes achievement information, returns array of achievements
 profile.match_history # Scrapes recent match history, returns array of matches
+profile.match_history[0].class.name # => BnetScraper::Starcraft2::Match
+
+profile.leagues[0].class.name # => BnetScraper::Starcraft2::League
 profile.leagues[0].division # Scrapes the 1st league's information page for rank, points, etc
 ```
 
 Alternatively, these scrapers can be accessed in isolation.
+
+## Available Scrapers
 
 There are several scrapers that pull various information.  They are:
 
@@ -48,6 +45,14 @@ There are several scrapers that pull various information.  They are:
 * BnetScraper::Starcraft2::LeagueScraper - collects data on a particular league for a particular Battle.net account
 * BnetScraper::Starcraft2::AchievementScraper - collects achievement data for the account.
 * BnetScraper::Starcraft2::MatchHistoryScraper - collects the 25 most recent matches played on the account
+
+All of the scrapers take an options hash, and can be created by either passing a URL string for the profile URL or
+passing the account information in the options hash.  Thus, either of these two approaches work:
+
+``` ruby
+BnetScraper::Starcraft2::ProfileScraper.new(url: 'http://us.battle.net/sc2/en/profile/12345/1/TestAccount/')
+BnetScraper::Starcraft2::ProfileScraper.new(bnet_id: '12345', account: 'TestAccount', region: 'na')
+```
 
 All scrapers have a `#scrape` method that triggers the scraping and storage.  By default they will return the result,
 but an additional `#output` method exists to retrieve the results subsequent times without re-scraping.
