@@ -6,14 +6,16 @@ describe BnetScraper::Starcraft2::ProfileScraper do
     let(:subject) { scraper_class.new(url: 'http://us.battle.net/sc2/en/profile/2377239/1/Demon/') }
   end
 
-  subject { BnetScraper::Starcraft2::ProfileScraper.new(bnet_id: '2377239', account: 'Demon') }
+  let(:scraper) { BnetScraper::Starcraft2::ProfileScraper.new(bnet_id: '2377239', account: 'Demon') }
 
   describe '#get_profile_data' do
     before do
       VCR.use_cassette('demon_profile', record: :new_episodes) do
-        subject.get_profile_data
+        scraper.get_profile_data
       end
     end
+
+    subject { scraper.profile }
 
     its(:achievement_points) { should == '3680' }
     its(:current_solo_league) { should == 'Platinum' }
@@ -28,11 +30,11 @@ describe BnetScraper::Starcraft2::ProfileScraper do
     its(:zerg_swarm_level) { should == 0 }
 
     context 'first league ever' do
-      subject { BnetScraper::Starcraft2::ProfileScraper.new url: 'http://us.battle.net/sc2/en/profile/3513522/1/Heritic/' }
+      let(:scraper) { BnetScraper::Starcraft2::ProfileScraper.new url: 'http://us.battle.net/sc2/en/profile/3513522/1/Heritic/' }
 
-      before do
+      subject do
         VCR.use_cassette('new_league', record: :new_episodes) do
-          subject.scrape
+          scraper.scrape
         end
       end
 
@@ -44,14 +46,14 @@ describe BnetScraper::Starcraft2::ProfileScraper do
   end
 
   describe 'get_league_list' do
-    it 'should set an array of leagues' do
+    before do
       VCR.use_cassette('demon_profile_leagues') do
-        subject.should have(0).leagues
-        subject.get_league_list
-
-        subject.should have(8).leagues
+        scraper.get_league_list
       end
     end
+
+    subject { scraper.profile.leagues }
+    it { should have(8).leagues }
   end
 
   describe '#scrape' do
