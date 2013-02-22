@@ -38,12 +38,14 @@ module BnetScraper
       def initialize options = {}
         super
         @leagues = []
+        @profile ||= Profile.new url: url
       end
 
       def scrape
         get_profile_data
         get_league_list
-        output
+
+        @profile
       end
 
       # scrapes the profile page for basic account information
@@ -52,7 +54,6 @@ module BnetScraper
 
         if response.success?
           html = Nokogiri::HTML(response.body)
-          @profile = Profile.new url: profile_url
 
           @profile.achievement_points = html.css("#profile-header h3").inner_html()
           @profile.career_games = html.css(".career-stat-block:nth-child(4) .stat-value").inner_html()
@@ -62,8 +63,6 @@ module BnetScraper
           get_solo_league_info html
           get_team_league_info html
           get_swarm_levels html
-
-          @profile
         else
           raise BnetScraper::InvalidProfileError
         end
