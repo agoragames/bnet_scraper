@@ -128,7 +128,7 @@ module BnetScraper
 
           @profile.leagues = html.css("a[href*='#current-rank']").map do |league|
             League.new({
-              name: league.inner_html().strip,
+              name: league.inner_text().strip,
               id: league.attr('href').sub('#current-rank',''),
               href: "#{profile_url}ladder/#{league.attr('href')}"
             })
