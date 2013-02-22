@@ -8,6 +8,19 @@ Run `gem install bnet_scraper` or add `gem 'bnet_scraper'` to your `Gemfile`.
 
 # Usage
 
+Say you have the URL of a Battle.net account you would like to scrape.  To begin, create an instance
+of `BnetScraper::Starcraft2::ProfileScraper`, passing it the URL.  Calling the `#scrape` method 
+returns a new `BnetScraper::Starcraft2::Profile` object with the basic information.
+
+``` ruby
+scraper = BnetScraper::Starcraft2::ProfileScraper.new(url: 'http://us.battle.net/sc2/en/profile/2377239/1/Demon/')
+profile = scraper.scrape
+
+profile.class.name # => BnetScraper::Starcraft2::Profile
+profile.achievement_points # => 3760
+profile.account # => 'Demon'
+```
+
 All of the scrapers take an options hash, and can be created by either passing a URL string for the profile URL or
 passing the account information in the options hash.  Thus, either of these two approaches work:
 
@@ -15,6 +28,19 @@ passing the account information in the options hash.  Thus, either of these two 
 BnetScraper::Starcraft2::ProfileScraper.new(url: 'http://us.battle.net/sc2/en/profile/12345/1/TestAccount/')
 BnetScraper::Starcraft2::ProfileScraper.new(bnet_id: '12345', account: 'TestAccount', region: 'na')
 ```
+
+Once you have a `BnetScraper::Starcraft2::Profile` object, you can easily access other information
+for scraping thanks to syntactic sugar.  This includes leagues, achievements, and match history.
+
+``` ruby
+scraper = BnetScraper::Starcraft2::ProfileScraper.new(url: 'http://us.battle.net/sc2/en/profile/2377239/1/Demon/')
+profile = scraper.scrape
+profile.recent_achievements # Scrapes achievement information, returns array of achievements
+profile.match_history # Scrapes recent match history, returns array of matches
+profile.leagues[0].division # Scrapes the 1st league's information page for rank, points, etc
+```
+
+Alternatively, these scrapers can be accessed in isolation.
 
 There are several scrapers that pull various information.  They are:
 
@@ -33,29 +59,8 @@ point for league scraping as it provides the league URLs necessary to do supplem
 
 ``` ruby
 scraper = BnetScraper::Starcraft2::ProfileScraper.new(url: 'http://us.battle.net/sc2/en/profile/2377239/1/Demon/')
-scraper.scrape
-# => {
-  bnet_id: '2377239',
-  account: 'Demon',
-  bnet_index: 1,
-  race: 'Protoss',
-  wins: '684',
-  achievement_points: '3630',
-  current_solo_league: 'Not Yet Ranked',
-  highest_solo_league: 'Platinum',
-  current_team_league: 'Not Yet Ranked',
-  highest_team_league: 'Diamond',
-  career_games: '1568',
-  games_this_season: '0',
-  most_played: '4v4',
-  leagues: [
-    {
-      name: "1v1 Platinum Rank 95",
-      id:   "96905",
-      href: "http://us.battle.net/sc2/en/profile/2377239/1/Demon/ladder/96905#current-rank"
-    }
-  ]
-}
+profile = scraper.scrape
+profile.class.name # => BnetScraper::Starcraft2::Profile
 ```
 
 ## BnetScraper::Starcraft2::LeagueScraper
