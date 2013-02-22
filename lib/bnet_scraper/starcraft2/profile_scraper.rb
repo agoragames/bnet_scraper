@@ -1,3 +1,5 @@
+require 'bnet_scraper/starcraft2/profile'
+
 module BnetScraper
   module Starcraft2
     # This pulls basic profile information for an account, as well as an array of league URLs.  This is a good starting
@@ -31,17 +33,19 @@ module BnetScraper
       attr_reader :achievement_points, :career_games, :leagues, :games_this_season, 
         :highest_solo_league, :current_solo_league, :highest_team_league,
         :current_team_league, :portrait, :terran_swarm_level, :protoss_swarm_level,
-        :zerg_swarm_level
+        :zerg_swarm_level, :profile
 
       def initialize options = {}
         super
         @leagues = []
+        @profile ||= Profile.new url: profile_url
       end
 
       def scrape
         get_profile_data
         get_league_list
-        output
+
+        @profile
       end
 
       # scrapes the profile page for basic account information
@@ -51,9 +55,9 @@ module BnetScraper
         if response.success?
           html = Nokogiri::HTML(response.body)
 
-          @achievement_points = html.css("#profile-header h3").inner_html()
-          @career_games = html.css(".career-stat-block:nth-child(4) .stat-value").inner_html()
-          @games_this_season = html.css(".career-stat-block:nth-child(5) .stat-value").inner_html()
+          @profile.achievement_points = html.css("#profile-header h3").inner_html()
+          @profile.career_games = html.css(".career-stat-block:nth-child(4) .stat-value").inner_html()
+          @profile.games_this_season = html.css(".career-stat-block:nth-child(5) .stat-value").inner_html()
 
           get_portrait html
           get_solo_league_info html
@@ -67,7 +71,7 @@ module BnetScraper
       def get_portrait html
         # Portraits use spritemaps, so we extract positions and map to 
         # PORTRAITS.
-        @portrait = begin
+        @profile.portrait = begin
           portrait = html.css("#profile-header #portrait span").attr('style').to_s.scan(/url\('(.*?)'\) ([\-\d]+)px ([\-\d]+)px/).flatten
           portrait_map, portrait_size = portrait[0].scan(/(\d)\-(\d+)\.jpg/)[0]
           portrait_position = (((0-portrait[2].to_i) / portrait_size.to_i) * 6) + ((0-portrait[1].to_i) / portrait_size.to_i + 1)
@@ -79,36 +83,36 @@ module BnetScraper
 
       def get_solo_league_info html
         if html.css("#best-finish-SOLO div")[0]
-          @highest_solo_league = html.css("#best-finish-SOLO div")[0].children[2].inner_text.strip
+          @profile.highest_solo_league = html.css("#best-finish-SOLO div")[0].children[2].inner_text.strip
           if html.css("#best-finish-SOLO div")[0].children[8]
-            @current_solo_league = html.css("#best-finish-SOLO div")[0].children[8].inner_text.strip
+            @profile.current_solo_league = html.css("#best-finish-SOLO div")[0].children[8].inner_text.strip
           else
-            @current_solo_league = "Not Yet Ranked"
+            @profile.current_solo_league = "Not Yet Ranked"
           end
         else
-          @highest_solo_league = "Not Yet Ranked"
-          @current_solo_league = "Not Yet Ranked"
+          @profile.highest_solo_league = "Not Yet Ranked"
+          @profile.current_solo_league = "Not Yet Ranked"
         end
       end
 
       def get_team_league_info html
         if html.css("#best-finish-TEAM div")[0] 
-          @highest_team_league = html.css("#best-finish-TEAM div")[0].children[2].inner_text.strip
+          @profile.highest_team_league = html.css("#best-finish-TEAM div")[0].children[2].inner_text.strip
           if html.css("#best-finish-TEAM div")[0].children[8]
-            @current_team_league = html.css("#best-finish-TEAM div")[0].children[8].inner_text.strip
+            @profile.current_team_league = html.css("#best-finish-TEAM div")[0].children[8].inner_text.strip
           else
-            @current_team_league = "Not Yet Ranked"
+            @profile.current_team_league = "Not Yet Ranked"
           end
         else
-          @highest_team_league = "Not Yet Ranked"
-          @current_team_league = "Not Yet Ranked"
+          @profile.highest_team_league = "Not Yet Ranked"
+          @profile.current_team_league = "Not Yet Ranked"
         end
       end
 
       def get_swarm_levels html
-        @protoss_swarm_level = get_swarm_level :protoss, html
-        @terran_swarm_level = get_swarm_level :terran, html
-        @zerg_swarm_level = get_swarm_level :zerg, html
+        @profile.protoss_swarm_level = get_swarm_level :protoss, html
+        @profile.terran_swarm_level = get_swarm_level :terran, html
+        @profile.zerg_swarm_level = get_swarm_level :zerg, html
       end
 
       def get_swarm_level race, html
@@ -122,12 +126,12 @@ module BnetScraper
         if response.success?
           html = Nokogiri::HTML(response.body)
 
-          @leagues = html.css("a[href*='#current-rank']").map do |league|
-            {
+          @profile.leagues = html.css("a[href*='#current-rank']").map do |league|
+            League.new({
               name: league.inner_html().strip,
               id: league.attr('href').sub('#current-rank',''),
               href: "#{profile_url}ladder/#{league.attr('href')}"
-            }
+            })
           end
         else
           raise BnetScraper::InvalidProfileError
