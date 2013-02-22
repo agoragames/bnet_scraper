@@ -34,6 +34,16 @@ profile.match_history[0].class.name # => BnetScraper::Starcraft2::Match
 profile.leagues[0].class.name # => BnetScraper::Starcraft2::League
 profile.leagues[0].division # Scrapes the 1st league's information page for rank, points, etc
 ```
+## Full Scrape
+
+Interested in grabbing everything about a profile eagerly? You're in luck, because there's a method
+just for you.  Call `BnetScraper::Starcraft2#full_profile_scrape` with the usual options hash that
+ProfileScraper would take, and it will eager-load the achievements, matches, and leagues.
+
+``` ruby
+scraper = BnetScraper::Starcraft2.full_profile_scrape(url: 'http://us.battle.net/sc2/en/profile/2377239/1/Demon/')
+profile = scraper.scrape
+```
 
 Alternatively, these scrapers can be accessed in isolation.
 
@@ -57,7 +67,7 @@ BnetScraper::Starcraft2::ProfileScraper.new(bnet_id: '12345', account: 'TestAcco
 All scrapers have a `#scrape` method that triggers the scraping and storage.  By default they will return the result,
 but an additional `#output` method exists to retrieve the results subsequent times without re-scraping.
 
-## BnetScraper::Starcraft2::ProfileScraper
+### BnetScraper::Starcraft2::ProfileScraper
 
 This pulls basic profile information for an account, as well as an array of league URLs.  This is a good starting
 point for league scraping as it provides the league URLs necessary to do supplemental scraping.
@@ -68,7 +78,7 @@ profile = scraper.scrape
 profile.class.name # => BnetScraper::Starcraft2::Profile
 ```
 
-## BnetScraper::Starcraft2::LeagueScraper
+### BnetScraper::Starcraft2::LeagueScraper
 
 This pulls information on a specific league for a specific account.  It is best used either in conjunction with a
 profile scrape that profiles a URL, or if you happen to know the specific league\_id and can pass it as an option.
@@ -87,7 +97,7 @@ scraper.scrape
 }
 ```
 
-## BnetScraper::Starcraft2::AchievementScraper
+### BnetScraper::Starcraft2::AchievementScraper
 
 This pulls achievement information for an account.  Note that currently only returns the overall achievements,
 not the in-depth, by-category achievement information.
@@ -122,7 +132,7 @@ scraper.scrape
 }
 ```
 
-## BnetScraper::Starcraft2::MatchHistoryScraper
+### BnetScraper::Starcraft2::MatchHistoryScraper
 
 This pulls the 25 most recent matches played for an account. Note that this is only as up-to-date as battle.net is, and
 will likely not be as fast as in-game.

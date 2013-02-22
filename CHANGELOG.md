@@ -1,5 +1,14 @@
 # Changelog!
 
+## 0.4.0 (Feb 22 2013)
+
+* Revamped ProfileScraper API
+* Uses VCR for test fixtures
+* Switched from Hash output to Profile object on ProfileScraper
+* MatchHistoryScraper now returns array of Matches instead of Hashes
+* Adds Swarm Level to Profile
+* Full-scrape pulls achievements, match history, and league information
+
 ## 0.3.1 (Sep 24 2012)
 
 * Throws BnetScraper::InvalidProfileError when instantiating a scraper with poorly
