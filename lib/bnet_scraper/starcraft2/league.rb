@@ -36,7 +36,7 @@ module BnetScraper
 
       def scrape_or_return attribute
         if self.instance_variable_get(attribute)
-          return attribute
+          return self.instance_variable_get(attribute)
         else
           scrape_league
           self.instance_variable_get(attribute)
