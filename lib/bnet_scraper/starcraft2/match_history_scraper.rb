@@ -1,3 +1,5 @@
+require 'bnet_scraper/starcraft2/match'
+
 module BnetScraper
   module Starcraft2
     # This pulls the 25 most recent matches played for an account. Note that this is only as up-to-date as battle.net is, and
@@ -42,12 +44,13 @@ module BnetScraper
 
         response.css('.match-row').each do |m|
           match = {}
+          match = Match.new
 
           cells = m.css('td')
-          match[:map_name] = cells[1].inner_text
-          match[:type] = cells[2].inner_text
-          match[:outcome] = (cells.css('.match-loss') ? :win : :loss)
-          match[:date] = cells[4].inner_text.strip
+          match.map_name = cells[1].inner_text
+          match.type = cells[2].inner_text
+          match.outcome = (cells.css('.match-loss') ? :win : :loss)
+          match.date = cells[4].inner_text.strip
 
           @matches << match 
         end
