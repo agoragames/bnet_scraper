@@ -95,8 +95,11 @@ module BnetScraper
     def self.full_profile_scrape bnet_id, account, region = 'na'
       profile_scraper = ProfileScraper.new bnet_id: bnet_id, account: account, region: region
       profile = profile_scraper.scrape
-      profile.leagues
+      profile.leagues.each do |league|
+        league.scrape_league
+      end
       profile.achievements
+      profile.match_history
       
       return profile
     end

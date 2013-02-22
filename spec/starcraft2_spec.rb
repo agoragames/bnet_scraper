@@ -13,6 +13,7 @@ describe BnetScraper::Starcraft2 do
     its(:achievements) { should have_key :progress }
     its(:achievements) { should have_key :showcase }
     its(:achievements) { should have_key :recent }
+    its(:match_history) { should have(25).matches }
   end
 
   describe '#valid_profile?' do
