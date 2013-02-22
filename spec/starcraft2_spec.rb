@@ -10,6 +10,9 @@ describe BnetScraper::Starcraft2 do
 
     it { should be_instance_of BnetScraper::Starcraft2::Profile }
     its(:leagues) { should have(8).leagues }
+    its(:achievements) { should have_key :progress }
+    its(:achievements) { should have_key :showcase }
+    its(:achievements) { should have_key :recent }
   end
 
   describe '#valid_profile?' do

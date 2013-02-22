@@ -96,6 +96,7 @@ module BnetScraper
       profile_scraper = ProfileScraper.new bnet_id: bnet_id, account: account, region: region
       profile = profile_scraper.scrape
       profile.leagues
+      profile.achievements
       
       return profile
     end

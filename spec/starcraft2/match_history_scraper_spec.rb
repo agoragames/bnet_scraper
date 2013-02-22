@@ -43,21 +43,4 @@ describe BnetScraper::Starcraft2::MatchHistoryScraper do
       end
     end
   end
-
-  describe '#output' do
-    before do
-      VCR.use_cassette('demon_matches') do
-        subject.scrape
-      end
-    end
-
-    it 'should return a hash of the scraped match data' do
-      expected = {
-        matches:  subject.matches,
-        wins:     subject.wins,
-        losses:   subject.losses
-      }
-      subject.output.should == expected
-    end
-  end
 end

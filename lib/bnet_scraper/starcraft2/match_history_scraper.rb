@@ -46,25 +46,13 @@ module BnetScraper
           cells = m.css('td')
           match[:map_name] = cells[1].inner_text
           match[:type] = cells[2].inner_text
-          match[:outcome] = (cells[3].inner_text.strip == 'Win' ? :win : :loss)
+          match[:outcome] = (cells.css('.match-loss') ? :win : :loss)
           match[:date] = cells[4].inner_text.strip
+
           @matches << match 
-          if match[:outcome] == :win
-            @wins += 1
-          else
-            @losses += 1
-          end
-          output
         end
 
-      end
-
-      def output
-        {
-          matches:  @matches,
-          wins:     @wins,
-          losses:   @losses 
-        }
+        @matches
       end
     end
   end

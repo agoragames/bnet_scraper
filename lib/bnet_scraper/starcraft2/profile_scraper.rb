@@ -38,7 +38,7 @@ module BnetScraper
       def initialize options = {}
         super
         @leagues = []
-        @profile ||= Profile.new url: url
+        @profile ||= Profile.new url: profile_url
       end
 
       def scrape
@@ -127,11 +127,11 @@ module BnetScraper
           html = Nokogiri::HTML(response.body)
 
           @profile.leagues = html.css("a[href*='#current-rank']").map do |league|
-            {
+            League.new({
               name: league.inner_html().strip,
               id: league.attr('href').sub('#current-rank',''),
               href: "#{profile_url}ladder/#{league.attr('href')}"
-            }
+            })
           end
         else
           raise BnetScraper::InvalidProfileError

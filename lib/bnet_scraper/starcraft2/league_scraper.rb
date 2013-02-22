@@ -1,3 +1,5 @@
+require 'bnet_scraper/starcraft2/league'
+
 module BnetScraper
   module Starcraft2
     # This pulls information on a specific league for a specific account.  It is best used either in conjunction with a
