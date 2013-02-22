@@ -17,6 +17,18 @@ module BnetScraper
         @achievements ||= AchievementScraper.new(url: url).scrape
       end
 
+      def recent_achievements
+        achievements[:recent]
+      end
+
+      def progress_achievements
+        achievements[:progress]
+      end
+
+      def showcase_achievements
+        achievements[:showcase]
+      end
+
       def match_history
         @match_history ||= MatchHistoryScraper.new(url: url).scrape
       end

@@ -18,6 +18,24 @@ describe BnetScraper::Starcraft2::Profile do
     end
   end
 
+  it 'sends recent_achievements to achievements hash' do
+    VCR.use_cassette('demon_achievements') do
+      profile.recent_achievements.should == profile.achievements[:recent]
+    end
+  end
+
+  it 'sends progress_achievements to achievements hash' do
+    VCR.use_cassette('demon_achievements') do
+      profile.progress_achievements.should == profile.achievements[:progress]
+    end
+  end
+
+  it 'sends showcase_achievements to achievements hash' do
+    VCR.use_cassette('demon_achievements') do
+      profile.showcase_achievements.should == profile.achievements[:showcase]
+    end
+  end
+
   it 'retrieves match history when first accessed' do
     VCR.use_cassette('demon_match_history') do
       profile.match_history.should have(25).matches
