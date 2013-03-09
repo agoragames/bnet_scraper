@@ -60,8 +60,13 @@ module BnetScraper
           @profile.games_this_season = html.css(".career-stat-block:nth-child(5) .stat-value").inner_html()
 
           get_portrait html
-          get_solo_league_info html
-          get_team_league_info html
+
+          @profile.highest_solo_league = get_highest_league_info :solo, html
+          @profile.current_solo_league = get_current_league_info :solo, html
+
+          @profile.highest_team_league = get_highest_league_info :team, html
+          @profile.current_team_league = get_current_league_info :team, html
+
           get_swarm_levels html
         else
           raise BnetScraper::InvalidProfileError
@@ -83,31 +88,19 @@ module BnetScraper
         end
       end
 
-      def get_solo_league_info html
-        if html.css("#best-finish-SOLO div")[0]
-          @profile.highest_solo_league = html.css("#best-finish-SOLO div")[0].children[2].inner_text.strip
-          if html.css("#best-finish-SOLO div")[0].children[8]
-            @profile.current_solo_league = html.css("#best-finish-SOLO div")[0].children[8].inner_text.strip
-          else
-            @profile.current_solo_league = "Not Yet Ranked"
-          end
+      def get_highest_league_info league_type, html
+        if div = html.css("#best-finish-#{league_type.upcase} div")[0]
+          div.children[2].inner_text.strip
         else
-          @profile.highest_solo_league = "Not Yet Ranked"
-          @profile.current_solo_league = "Not Yet Ranked"
+          "Not Yet Ranked"
         end
       end
 
-      def get_team_league_info html
-        if html.css("#best-finish-TEAM div")[0] 
-          @profile.highest_team_league = html.css("#best-finish-TEAM div")[0].children[2].inner_text.strip
-          if html.css("#best-finish-TEAM div")[0].children[8]
-            @profile.current_team_league = html.css("#best-finish-TEAM div")[0].children[8].inner_text.strip
-          else
-            @profile.current_team_league = "Not Yet Ranked"
-          end
+      def get_current_league_info league_type, html
+        if div = html.css("#best-finish-#{league_type.upcase} div")[0].children[8]
+          div.inner_text.strip
         else
-          @profile.highest_team_league = "Not Yet Ranked"
-          @profile.current_team_league = "Not Yet Ranked"
+          "Not Yet Ranked"
         end
       end
 
