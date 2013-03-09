@@ -74,7 +74,9 @@ module BnetScraper
         @profile.portrait = begin
           portrait = html.css("#profile-header #portrait span").attr('style').to_s.scan(/url\('(.*?)'\) ([\-\d]+)px ([\-\d]+)px/).flatten
           portrait_map, portrait_size = portrait[0].scan(/(\d)\-(\d+)\.jpg/)[0]
-          portrait_position = (((0-portrait[2].to_i) / portrait_size.to_i) * 6) + ((0-portrait[1].to_i) / portrait_size.to_i + 1)
+          scalar = -portrait[2].to_i / portrait_size.to_i * 6
+          incrementor = -portrait[1].to_i / portrait_size.to_i + 1
+          portrait_position =  scalar + incrementor
           PORTRAITS[portrait_map.to_i][portrait_position-1]
         rescue 
           nil
