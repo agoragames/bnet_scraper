@@ -42,35 +42,33 @@ module BnetScraper
       end
 
       def scrape
-        get_profile_data
+        html = retrieve_data
+
+        get_profile_data html
+        get_portrait html
+        get_solo_league_info html
+        get_team_league_info html
+        get_swarm_levels html
         get_league_list
 
         @profile
       end
 
       # scrapes the profile page for basic account information
-      def get_profile_data
+      def retrieve_data
         response = Faraday.get profile_url
 
         if response.success?
-          html = Nokogiri::HTML(response.body)
-
-          @profile.achievement_points = html.css("#profile-header h3").inner_html()
-          @profile.career_games = html.css(".career-stat-block:nth-child(4) .stat-value").inner_html()
-          @profile.games_this_season = html.css(".career-stat-block:nth-child(5) .stat-value").inner_html()
-
-          get_portrait html
-
-          @profile.highest_solo_league = get_highest_league_info :solo, html
-          @profile.current_solo_league = get_current_league_info :solo, html
-
-          @profile.highest_team_league = get_highest_league_info :team, html
-          @profile.current_team_league = get_current_league_info :team, html
-
-          get_swarm_levels html
+          Nokogiri::HTML(response.body)
         else
           raise BnetScraper::InvalidProfileError
         end
+      end
+
+      def get_profile_data html
+        @profile.achievement_points = html.css("#profile-header h3").inner_html()
+        @profile.career_games = html.css(".career-stat-block:nth-child(4) .stat-value").inner_html()
+        @profile.games_this_season = html.css(".career-stat-block:nth-child(5) .stat-value").inner_html()
       end
 
       def get_portrait html
@@ -86,6 +84,16 @@ module BnetScraper
         rescue 
           nil
         end
+      end
+
+      def get_solo_league_info html
+        @profile.highest_solo_league = get_highest_league_info :solo, html
+        @profile.current_solo_league = get_current_league_info :solo, html
+      end
+
+      def get_team_league_info html
+        @profile.highest_team_league = get_highest_league_info :team, html
+        @profile.current_team_league = get_current_league_info :team, html
       end
 
       def get_highest_league_info league_type, html

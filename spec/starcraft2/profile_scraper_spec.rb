@@ -8,14 +8,12 @@ describe BnetScraper::Starcraft2::ProfileScraper do
 
   let(:scraper) { BnetScraper::Starcraft2::ProfileScraper.new(bnet_id: '2377239', account: 'Demon') }
 
-  describe '#get_profile_data' do
-    before do
+  describe '#scrape' do
+    subject do
       VCR.use_cassette('demon_profile', record: :new_episodes) do
-        scraper.get_profile_data
+        scraper.scrape
       end
     end
-
-    subject { scraper.profile }
 
     its(:achievement_points) { should == '3680' }
     its(:current_solo_league) { should == 'Platinum' }
