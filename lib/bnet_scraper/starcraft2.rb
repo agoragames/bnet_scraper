@@ -39,59 +39,48 @@ module BnetScraper
     # helping functionality (e.g. retrieving position for a name) easier.
     # I've also kept them in 6x6 here for better overview.
 
-    # http://eu.battle.net/sc2/static/local-common/images/sc2/portraits/0-75.jpg?v42
-    STOCK_PORTRAITS = [
-      'Kachinsky', 'Cade', 'Thatcher', 'Hall', 'Tiger Marine', 'Panda Marine', 
-      'General Warfield', 'Jim Raynor', 'Arcturus Mengsk', 'Sarah Kerrigan', 'Kate Lockwell', 'Rory Swann',
-      'Egon Stetmann', 'Hill', 'Adjutant', 'Dr. Ariel Hanson', 'Gabriel Tosh', 'Matt Horner', 
-      'Tychus Findlay', 'Zeratul', 'Valerian Mengsk', 'Spectre', 'Raynor Marine', 'Tauren Marine',
-      'Night Elf Banshee', 'Diablo Marine', 'SCV', 'Firebat', 'Vulture', 'Hellion', 
-      'Medic', 'Spartan Company', 'Wraith', 'Diamondback', 'Probe', 'Scout'
+    PORTRAITS = [
+      [
+        'Kachinsky', 'Cade', 'Thatcher', 'Hall', 'Tiger Marine', 'Panda Marine', 
+        'General Warfield', 'Jim Raynor', 'Arcturus Mengsk', 'Sarah Kerrigan', 'Kate Lockwell', 'Rory Swann',
+        'Egon Stetmann', 'Hill', 'Adjutant', 'Dr. Ariel Hanson', 'Gabriel Tosh', 'Matt Horner', 
+        'Tychus Findlay', 'Zeratul', 'Valerian Mengsk', 'Spectre', 'Raynor Marine', 'Tauren Marine',
+        'Night Elf Banshee', 'Diablo Marine', 'SCV', 'Firebat', 'Vulture', 'Hellion', 
+        'Medic', 'Spartan Company', 'Wraith', 'Diamondback', 'Probe', 'Scout'
+      ],
+      [
+        'Tauren Marine', 'Night Elf Banshee', 'Diablo Marine', 'Worgen Marine', 'Goblin Marine', 'PanTerran Marine', 
+        'Wizard Templar', 'Tyrael Marine', 'Witch Doctor Zergling', 'Stank', 'Night Elf Templar', 'Infested Orc',
+        '', '', '', '', '', '',
+        '', '', '', '', '', '',
+        '', '', '', '', '', '',
+        '', '', '', '', '', ''
+      ],
+      [
+        'Ghost', 'Thor', 'Battlecruiser', 'Nova', 'Zealot', 'Stalker', 
+        'Phoenix', 'Immortal', 'Void Ray', 'Colossus', 'Carrier', 'Tassadar',
+        'Reaper', 'Sentry', 'Overseer', 'Viking', 'High Templar', 'Mutalisk',
+        'Banshee', 'Hybrid Destroyer', 'Dark Voice', 'Urubu', 'Lyote', 'Automaton 2000',
+        'Orian', 'Wolf Marine', 'Murloc Marine', 'Worgen Marine', 'Goblin Marine', 'Zealot Chef', 
+        'Stank', 'Ornatus', 'Facebook Corps Members', 'Lion Marines', 'Dragons', 'Raynor Marine'
+      ],
+      [
+        'Urun', 'Nyon', 'Executor', 'Mohandar', 'Selendis', 'Artanis', 
+        'Drone', 'Infested Colonist', 'Infested Marine', 'Corruptor', 'Aberration', 'Broodlord', 
+        'Overmind', 'Leviathan', 'Overlord', 'Hydralisk Marine', "Zer'atai Dark Templar", 'Goliath', 
+        'Lenassa Dark Templar', 'Mira Han', 'Archon', 'Hybrid Reaver', 'Predator', 'Unknown',
+        'Zergling', 'Roach', 'Baneling', 'Hydralisk', 'Queen', 'Infestor', 
+        'Ultralisk', 'Queen of Blades', 'Marine', 'Marauder', 'Medivac', 'Siege Tank'
+      ],
+      [
+        'Level 3 Zealot', 'Level 5 Stalker', 'Level 8 Sentinel', 'Level 11 Immortal', 'Level 14 Oracle', 'Level 17 High Templar',
+        'Level 21 Tempest', 'Level 23 Colossus', 'Level 27 Carrier', 'Level 29 Zeratul', 'Level 3 Marine', 'Level 5 Marauder',
+        'Level 8 Hellbat', 'Level 11 Widow Mine', 'Level 14 Medivac', 'Level 17 Banshee', 'Level 21 Ghost', 'Level 23 Thor',
+        'Level 27 Battlecruiser', 'Level 29 Raynor', 'Level 3 Zergling', 'Level 5 Roach', 'Level 8 Hydralisk', 'Level 11 Locust',
+        'Level 14 Swarm Host', 'Level 17 Infestor', 'Level 21 Viper', 'Level 23 Broodlord', 'Level 27 Ultralisk', 'Level 29 Kerrigan',
+        'Protoss Champion',' Terran Champion', 'Zerg Champion', '', '', ''
+      ]
     ]
-
-    # http://eu.battle.net/sc2/static/local-common/images/sc2/portraits/1-75.jpg?v42
-    # Special Rewards - couldn't identify most of these.
-    SPECIAL_PORTRAITS = [
-      'Tauren Marine', 'Night Elf Banshee', 'Diablo Marine', 'Worgen Marine', 'Goblin Marine', 'PanTerran Marine', 
-      'Wizard Templar', 'Tyrael Marine', 'Witch Doctor Zergling', 'Stank', 'Night Elf Templar', 'Infested Orc',
-      '', '', '', '', '', '',
-      '', '', '', '', '', '',
-      '', '', '', '', '', '',
-      '', '', '', '', '', ''
-    ]
-
-    # http://eu.battle.net/sc2/static/local-common/images/sc2/portraits/2-75.jpg?v42
-    SOLO_AND_SPECIAL_PORTRAITS = [
-      'Ghost', 'Thor', 'Battlecruiser', 'Nova', 'Zealot', 'Stalker', 
-      'Phoenix', 'Immortal', 'Void Ray', 'Colossus', 'Carrier', 'Tassadar',
-      'Reaper', 'Sentry', 'Overseer', 'Viking', 'High Templar', 'Mutalisk',
-      'Banshee', 'Hybrid Destroyer', 'Dark Voice', 'Urubu', 'Lyote', 'Automaton 2000',
-      'Orian', 'Wolf Marine', 'Murloc Marine', 'Worgen Marine', 'Goblin Marine', 'Zealot Chef', 
-      'Stank', 'Ornatus', 'Facebook Corps Members', 'Lion Marines', 'Dragons', 'Raynor Marine'
-    ]
-
-    # http://eu.battle.net/sc2/static/local-common/images/sc2/portraits/3-75.jpg?v42
-    TEAM_AND_SPECIAL_PORTRAITS = [
-      'Urun', 'Nyon', 'Executor', 'Mohandar', 'Selendis', 'Artanis', 
-      'Drone', 'Infested Colonist', 'Infested Marine', 'Corruptor', 'Aberration', 'Broodlord', 
-      'Overmind', 'Leviathan', 'Overlord', 'Hydralisk Marine', "Zer'atai Dark Templar", 'Goliath', 
-      'Lenassa Dark Templar', 'Mira Han', 'Archon', 'Hybrid Reaver', 'Predator', 'Unknown',
-      'Zergling', 'Roach', 'Baneling', 'Hydralisk', 'Queen', 'Infestor', 
-      'Ultralisk', 'Queen of Blades', 'Marine', 'Marauder', 'Medivac', 'Siege Tank'
-    ]
-
-    LEVELING_PORTRAITS = [
-      'Level 3 Zealot', 'Level 5 Stalker', 'Level 8 Sentinel', 'Level 11 Immortal', 'Level 14 Oracle', 'Level 17 High Templar',
-      'Level 21 Tempest', 'Level 23 Colossus', 'Level 27 Carrier', 'Level 29 Zeratul', 'Level 3 Marine', 'Level 5 Marauder',
-      'Level 8 Hellbat', 'Level 11 Widow Mine', 'Level 14 Medivac', 'Level 17 Banshee', 'Level 21 Ghost', 'Level 23 Thor',
-      'Level 27 Battlecruiser', 'Level 29 Raynor', 'Level 3 Zergling', 'Level 5 Roach', 'Level 8 Hydralisk', 'Level 11 Locust',
-      'Level 14 Swarm Host', 'Level 17 Infestor', 'Level 21 Viper', 'Level 23 Broodlord', 'Level 27 Ultralisk', 'Level 29 Kerrigan',
-      'Protoss Champion',' Terran Champion', 'Zerg Champion', '', '', ''
-    ]
-    
-    PORTRAITS = [STOCK_PORTRAITS, SPECIAL_PORTRAITS, SOLO_AND_SPECIAL_PORTRAITS, 
-      TEAM_AND_SPECIAL_PORTRAITS, LEVELING_PORTRAITS]
-
       
     # This is a convenience method that chains calls to ProfileScraper,
     # followed by a scrape of each league returned in the `leagues` array
