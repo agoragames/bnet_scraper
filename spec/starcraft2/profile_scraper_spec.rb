@@ -15,16 +15,16 @@ describe BnetScraper::Starcraft2::ProfileScraper do
       end
     end
 
-    its(:achievement_points) { should == '3680' }
-    its(:current_solo_league) { should == 'Platinum' }
+    its(:achievement_points) { should == '4890' }
+    its(:current_solo_league) { should == 'None' }
     its(:highest_solo_league) { should == 'Platinum' }
-    its(:current_team_league) { should == 'Diamond' }
+    its(:current_team_league) { should == 'Gold' }
     its(:highest_team_league) { should == 'Master' }
-    its(:career_games) { should == '1719' }
-    its(:games_this_season) { should == '114' }
+    its(:career_games) { should == '1804' }
+    its(:games_this_season) { should == '27' }
     its(:portrait) { should == 'Mohandar' }
     its(:terran_swarm_level) { should == 0 }
-    its(:protoss_swarm_level) { should == 0 }
+    its(:protoss_swarm_level) { should == 12 }
     its(:zerg_swarm_level) { should == 0 }
 
     context 'first league ever' do
