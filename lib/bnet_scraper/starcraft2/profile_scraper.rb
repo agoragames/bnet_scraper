@@ -49,6 +49,7 @@ module BnetScraper
         get_solo_league_info html
         get_team_league_info html
         get_swarm_levels html
+        get_campaign_completion html
         get_league_list
 
         @profile
@@ -121,6 +122,11 @@ module BnetScraper
       def get_swarm_level race, html
         level = html.css(".race-level-block.#{race} .level-value").inner_html
         level.match(/Level (\d+)/)[1].to_i
+      end
+
+      def get_campaign_completion html
+        @profile.terran_campaign_completion = html.css('.campaign-wings-of-liberty .badge')[0].attr('class').split[1].to_sym
+        @profile.zerg_campaign_completion = html.css('.campaign-heart-of-the-swarm .badge')[0].attr('class').split[1].to_sym
       end
 
       # scrapes the league list from account's league page and sets an array of URLs

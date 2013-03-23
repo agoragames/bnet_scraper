@@ -41,6 +41,15 @@ describe BnetScraper::Starcraft2::ProfileScraper do
       its(:current_team_league) { should == 'Bronze' }
       its(:highest_team_league) { should == 'Silver' }
     end
+
+    context 'campaign completion' do
+      let(:profile) { subject }
+      it 'returns hash of highest difficulty completed for each campaign' do
+        profile.campaign_completion.should be_instance_of Hash
+        profile.campaign_completion[:terran].should == :brutal
+        profile.campaign_completion[:zerg].should == :normal
+      end
+    end
   end
 
   describe 'get_league_list' do

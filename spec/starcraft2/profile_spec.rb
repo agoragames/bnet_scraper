@@ -43,4 +43,17 @@ describe BnetScraper::Starcraft2::Profile do
     end
   end
 
+  context 'campaign completion' do
+    before do
+      profile.terran_campaign_completion = :brutal
+    end
+
+    it 'accepts a campaign and returns a boolean' do
+      profile.completed_campaign(:terran).should be_true
+    end
+
+    it 'accepts a campaign and a difficulty' do
+      profile.completed_campaign(:terran, :hard).should be_true
+    end
+  end
 end
