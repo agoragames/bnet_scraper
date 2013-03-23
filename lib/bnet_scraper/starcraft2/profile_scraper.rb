@@ -72,19 +72,42 @@ module BnetScraper
         @profile.games_this_season = html.css(".career-stat-block:nth-child(5) .stat-value").inner_html()
       end
 
+      # Extracts background spritesheet and sprite coordinates to map to a multidimensional 
+      # array of portrait names. The first index is the spritesheet page, the second index 
+      # is the position within the spritesheet
+      #
+      # @param [Nokogiri::XML] html node
+      # @return [String] Portrait name
       def get_portrait html
-        # Portraits use spritemaps, so we extract positions and map to 
-        # PORTRAITS.
         @profile.portrait = begin
-          portrait = html.css("#profile-header #portrait span").attr('style').to_s.scan(/url\('(.*?)'\) ([\-\d]+)px ([\-\d]+)px/).flatten
-          portrait_map, portrait_size = portrait[0].scan(/(\d)\-(\d+)\.jpg/)[0]
-          scalar = -portrait[2].to_i / portrait_size.to_i * 6
-          incrementor = -portrait[1].to_i / portrait_size.to_i + 1
-          portrait_position =  scalar + incrementor
-          PORTRAITS[portrait_map.to_i][portrait_position-1]
+          portrait_info = extract_portrait_info html
+          position = get_portrait_position html, portrait_info
+          PORTRAITS[portrait_info[0].to_i][position-1]
         rescue 
           nil
         end
+      end
+
+      # Extracts portrait information (spritesheet page, portsize size, X, Y) from HTML page
+      #
+      # @param [Nokogiri::XML] html node
+      # @return [Fixnum, Fixnum, Fixnum, Fixnum] Array of sprite information
+      def extract_portrait_info html
+        html.css("#portrait .icon-frame").attr('style').to_s.scan(/url\('.+(\d+)-(\d+)\.jpg'\) ([\-\d]+)px ([\-\d]+)px/).flatten
+      end
+
+      # Translates x/y positions of the background spritesheet into an array index. There are
+      # 6 pictures per row, but X/Y is in pixels, so account for portrait size in the incrementor
+      #
+      # @param [Nokogiri::HTML] html node
+      # @param [Fixnum] size of portrait in pixels
+      # @return [Fixnum] index position of portrait spritesheet
+      def get_portrait_position html, portrait_info
+        size = portrait_info[1].to_i
+        x = portrait_info[2].to_i
+        y = portrait_info[3].to_i
+
+        ((-y/size) * 6) + (-x/size + 1)
       end
 
       def get_solo_league_info html
