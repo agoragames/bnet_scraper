@@ -51,9 +51,9 @@ module BnetScraper
       [
         'Tauren Marine', 'Night Elf Banshee', 'Diablo Marine', 'Worgen Marine', 'Goblin Marine', 'PanTerran Marine', 
         'Wizard Templar', 'Tyrael Marine', 'Witch Doctor Zergling', 'Stank', 'Night Elf Templar', 'Infested Orc',
-        '', '', '', '', '', '',
-        '', '', '', '', '', '',
-        '', '', '', '', '', '',
+        '', 'Diablo Marine', '', 'Pandaren Firebat', 'Prince Valerian', 'Zagara',
+        'Lasarra', 'Dehaka', 'Infested Stukov', 'Mira Horner', 'Primal Queen', 'Izsha',
+        'Abathur', 'Ghost Kerrigan', 'Zurvan', 'Narud', '', '',
         '', '', '', '', '', ''
       ],
       [
