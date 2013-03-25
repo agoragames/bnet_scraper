@@ -56,7 +56,7 @@ module BnetScraper
       # scrapes the recent achievements from the account's achievements overview page
       def scrape_recent
         @recent = []
-        6.times do |num|
+        response.css(".recent-tile").size.times do |num|
           achievement = extract_achievement num
           @recent.push(achievement) if achievement
         end
