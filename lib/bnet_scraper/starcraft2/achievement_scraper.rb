@@ -1,3 +1,5 @@
+require 'bnet_scraper/starcraft2/achievement'
+
 module BnetScraper
   module Starcraft2
     # This pulls achievement information for an account.  Note that currently only returns the overall achievements,
@@ -55,18 +57,25 @@ module BnetScraper
       def scrape_recent
         @recent = []
         6.times do |num|
-          achievement = {}
-          div = response.css("#achv-recent-#{num}")
-          if div
-            achievement[:title] = div.css("div > div").inner_text.strip
-            achievement[:description] = div.inner_text.gsub(achievement[:title], '').strip
-            achievement[:earned] = response.css("#recent-achievements span")[(num*3)+1].inner_text
-
-            @recent << achievement
-          end
+          achievement = extract_achievement num
+          @recent.push(achievement) if achievement
         end
+
         @recent
       end
+
+      def extract_achievement num
+        if div = response.css("#achv-recent-#{num}")
+          achievement = Achievement.new
+          achievement.title = div.css("div > div").inner_text.strip
+          achievement.description = div.inner_text.gsub(achievement.title, '').strip
+          achievement.earned = response.css("#recent-achievements span")[(num*3)+1].inner_text
+
+          achievement
+        end
+      end
+
+
 
       # scrapes the progress of each achievement category from the account's achievements overview page
       def scrape_progress

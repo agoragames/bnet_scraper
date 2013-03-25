@@ -2,7 +2,8 @@ require 'spec_helper'
 
 describe BnetScraper::Starcraft2::AchievementScraper do
   let(:url) { 'http://us.battle.net/sc2/en/profile/2377239/1/Demon/achievements/' }
-  subject { BnetScraper::Starcraft2::AchievementScraper.new(url: url) }
+  let(:scraper) { BnetScraper::Starcraft2::AchievementScraper.new(url: url) }
+  subject { scraper }
 
   it_behaves_like 'an SC2 Scraper' do
     let(:scraper_class) { BnetScraper::Starcraft2::AchievementScraper }
@@ -21,7 +22,7 @@ describe BnetScraper::Starcraft2::AchievementScraper do
     context 'valid' do
       before do
         VCR.use_cassette('demon_achievements') do
-          subject.get_response
+          scraper.get_response
         end
       end
 
@@ -31,20 +32,12 @@ describe BnetScraper::Starcraft2::AchievementScraper do
       end
 
       describe 'recent' do
-        before { subject.scrape_recent }
+        subject { scraper.recent[0] }
+        before { scraper.scrape_recent }
 
-        it 'should have the title of the achievement' do
-          subject.recent[0][:title].should == 'Three-way Dominant'  
-        end
-
-        it 'should have the description of the achievement' do
-          # this is a cop-out because the string contains UTF-8. Please fix this. - Cad
-          subject.recent[0][:description].should be_a String 
-        end
-
-        it 'should have the date the achievement was earned' do
-          subject.recent[0][:earned].should == '2/7/2013' 
-        end
+        its(:title) { should == 'Three-way Dominant' }
+        its(:description) { should be_a String }
+        its(:earned) { should == Date.new(2013, 2, 7) }
       end
 
       describe 'progress' do
