@@ -18,7 +18,7 @@ module BnetScraper
     #     ]
     #   }
     class MatchHistoryScraper < BaseScraper
-      attr_reader :matches, :wins, :losses, :response
+      attr_reader :matches, :response
        
       # account's match history URL
       def match_url
@@ -39,23 +39,32 @@ module BnetScraper
       def scrape
         get_response
         @matches = []
-        @wins = 0
-        @losses = 0
 
         response.css('.match-row').each do |m|
-          match = {}
-          match = Match.new
-
-          cells = m.css('td')
-          match.map_name = cells[1].inner_text
-          match.type = cells[2].inner_text
-          match.outcome = (cells.css('.match-loss') ? :win : :loss)
-          match.date = cells[4].inner_text.strip
-
-          @matches << match 
+          @matches.push extract_match_info m
         end
 
         @matches
+      end
+
+      def wins
+        @wins ||= @matches.count { |m| m.outcome == :win }
+      end
+
+      def losses
+        @losses ||= @matches.count { |m| m.outcome == :loss }
+      end
+
+      def extract_match_info m
+        match = Match.new
+
+        cells = m.css('td')
+        match.map_name = cells[1].inner_text
+        match.type = cells[2].inner_text
+        match.outcome = (cells.css('.match-win')[0] ? :win : :loss)
+        match.date = cells[4].inner_text.strip
+
+        match
       end
     end
   end

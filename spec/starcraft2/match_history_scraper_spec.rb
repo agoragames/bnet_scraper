@@ -19,6 +19,8 @@ describe BnetScraper::Starcraft2::MatchHistoryScraper do
     end
     
     its(:matches) { should have(25).matches }
+    its(:wins) { should == 16 }
+    its(:losses) { should == 9 }
 
     describe 'each match' do
       subject { scraper.matches[0] }
