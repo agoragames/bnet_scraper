@@ -92,11 +92,12 @@ module BnetScraper
       # scrapes the showcase achievements from the account's achievements overview page
       def scrape_showcase
         @showcase = response.css("#showcase-module .progress-tile").map do |achievement|
-          hsh = { title: achievement.css('.tooltip-title').inner_text.strip }
-          hsh[:description] = achievement.css('div').inner_text.gsub(hsh[:title], '').strip
-          hsh
+          obj = Achievement.new
+          obj.title = achievement.css('.tooltip-title').inner_text.strip
+          obj.description = achievement.css('div').inner_text.gsub(obj.title, '').strip
+
+          obj
         end
-        @showcase
       end
 
       def output
