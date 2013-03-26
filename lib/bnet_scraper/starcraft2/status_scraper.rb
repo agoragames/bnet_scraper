@@ -18,9 +18,10 @@ module BnetScraper
 
         def fetch
           response = Faraday.get SOURCE
-          Nokogiri::HTML(response.body)
-            .css('.forumPost').first.css('span').to_a
-            .each_slice(2).map { |i| { :region => i.first.text, :status => i.last.text } }
+          servers = Nokogiri::HTML(response.body).css('.forumPost').first.css('span').to_a
+          servers.each_slice(2).map do |server_info| 
+            { region: server_info[0].text, status: server_info[1].text }
+          end
         end
 
         def method_missing sym
