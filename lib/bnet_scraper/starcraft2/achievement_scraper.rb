@@ -57,19 +57,23 @@ module BnetScraper
       def scrape_recent
         @recent = []
         response.css(".recent-tile").size.times do |num|
-          achievement = extract_achievement num
+          achievement = extract_recent_achievement num
           @recent.push(achievement) if achievement
         end
 
         @recent
       end
 
-      def extract_achievement num
+      # Scrapes recent achievement by position in the sidebar
+      #
+      # @param [Fixnum] achievement position number, top-down
+      # @return [Achievement] achievement object containing all achievement information
+      def extract_recent_achievement num
         if div = response.css("#achv-recent-#{num}")
           achievement = Achievement.new
-          achievement.title = div.css("div > div").inner_text.strip
-          achievement.description = div.inner_text.gsub(achievement.title, '').strip
-          achievement.earned = response.css("#recent-achievements span")[(num*3)+1].inner_text
+          achievement.title = div.children[1].inner_text
+          achievement.description = div.children[2].inner_text.strip
+          achievement.earned = response.css(".recent-tile")[num].css('span')[1].inner_text
 
           achievement
         end
