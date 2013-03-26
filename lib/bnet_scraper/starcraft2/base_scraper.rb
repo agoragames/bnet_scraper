@@ -19,25 +19,41 @@ module BnetScraper
 
       def initialize options = {}
         if options[:url]
-          extracted_data = options[:url].match(/http:\/\/(.+)\/sc2\/(.+)\/profile\/(.+)\/(\d{1})\/(.[^\/]+)\//)
-          if extracted_data
-            @region     = REGION_DOMAINS[extracted_data[1]]
-            @bnet_id    = extracted_data[3]
-            @bnet_index = extracted_data[4]
-            @account    = extracted_data[5]
-            @url        = options[:url]
-          else
-            raise BnetScraper::InvalidProfileError, "URL provided does not match Battle.net format"
-          end
+          extract_data_from_url options[:url]
         elsif options[:bnet_id] && options[:account]
-          @bnet_id  = options[:bnet_id]
-          @account  = options[:account]
-          @region   = options[:region] || 'na'
-          if options[:bnet_index]
-            @bnet_index = options[:bnet_index]
-          else
-            set_bnet_index
-          end
+          extract_data_from_options options
+        end
+      end
+
+      # Extracts information about the account from the URL string
+      #
+      # @param [String] url of the Battle.net profile page
+      def extract_data_from_url url
+        extracted_data = url.match(/http:\/\/(.+)\/sc2\/(.+)\/profile\/(.+)\/(\d{1})\/(.[^\/]+)\//)
+        if extracted_data
+          @region     = REGION_DOMAINS[extracted_data[1]]
+          @language   = extracted_data[2]
+          @bnet_id    = extracted_data[3]
+          @bnet_index = extracted_data[4]
+          @account    = extracted_data[5]
+          @url        = url
+        else
+          raise BnetScraper::InvalidProfileError, "URL provided does not match Battle.net format"
+        end
+      end
+
+      # Extracts information about the account from an options hash
+      #
+      # @param [Hash] hash of Battle.net account infomation
+      def extract_data_from_options options
+        @bnet_id  = options[:bnet_id]
+        @account  = options[:account]
+        @region   = options[:region] || 'na'
+
+        if options[:bnet_index]
+          @bnet_index = options[:bnet_index]
+        else
+          set_bnet_index
         end
       end
 
