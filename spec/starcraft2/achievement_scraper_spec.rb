@@ -54,26 +54,30 @@ describe BnetScraper::Starcraft2::AchievementScraper do
       end
 
       describe 'progress' do
-        before { subject.scrape_progress }
+        before { scraper.scrape_progress }
 
         it 'should set the liberty campaign progress' do
-          subject.progress[:liberty_campaign].should == '1580'
+          scraper.progress[:liberty_campaign].should == 1580
         end
 
-        it 'should set the exploration progress' do
-          subject.progress[:exploration].should == '0'
+        it 'should set the swarm campaign progress' do
+          scraper.progress[:swarm_campaign].should == 0
+        end
+
+        it 'should set the matchmaking progress' do
+          subject.progress[:matchmaking].should == 1280
         end
 
         it 'should set the custom game progress' do
-          subject.progress[:custom_game].should == '1280'
+          subject.progress[:custom_game].should == 120
         end
 
-        it 'should set the cooperative progress' do
-          subject.progress[:cooperative].should == '120'
+        it 'should set the arcade progress' do
+          subject.progress[:arcade].should == 220
         end
 
-        it 'should set the quick match progress' do
-          subject.progress[:quick_match].should == '220'
+        it 'should set the exploration progress' do
+          subject.progress[:exploration].should == 480
         end
       end
     end
