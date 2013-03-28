@@ -98,10 +98,11 @@ module BnetScraper
         @showcase = response.css("#showcase-module .progress-tile").map do |achievement|
           obj = Achievement.new
           obj.title = achievement.css('.tooltip-title').inner_text.strip
-          obj.description = achievement.css('div').inner_text.gsub(obj.title, '').strip
+          obj.description = achievement.children[3].children[2].inner_text.strip
 
           obj
         end
+        @showcase
       end
 
       def output

@@ -27,17 +27,30 @@ describe BnetScraper::Starcraft2::AchievementScraper do
       end
 
       describe 'showcase' do
-        before { subject.scrape_showcase }
+        before do
+          scraper.scrape_showcase
+        end
+
         its(:showcase) { should have(5).achievements }
+
+        context 'each achievement' do
+          subject { scraper.showcase[0] }
+          its(:title) { should == 'Hot Shot' }
+        end
       end
 
       describe 'recent' do
-        subject { scraper.recent[0] }
         before { scraper.scrape_recent }
+        its(:recent) { should have(9).achievements }
 
-        its(:title) { should == 'Three-way Dominant' }
-        its(:description) { should be_a String }
-        its(:earned) { should == Date.new(2013, 2, 7) }
+        context 'each achivement' do
+          subject { scraper.recent[0] }
+
+          it { should be_a BnetScraper::Starcraft2::Achievement }
+          its(:title) { should == 'Three-way Dominant' }
+          its(:description) { should be_a String }
+          its(:earned) { should == Date.new(2013, 2, 7) }
+        end
       end
 
       describe 'progress' do
