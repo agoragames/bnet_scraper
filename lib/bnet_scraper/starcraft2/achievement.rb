@@ -5,6 +5,12 @@ module BnetScraper
       attr_accessor :title, :description
       attr_reader :earned
 
+      def initialize options = {}
+        options.each_key do |key|
+          self.send "#{key}=", options[key]
+        end
+      end
+
       def earned= date
         @earned = convert_date date
       end

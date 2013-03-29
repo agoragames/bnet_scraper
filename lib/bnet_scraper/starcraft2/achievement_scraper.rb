@@ -70,12 +70,11 @@ module BnetScraper
       # @return [Achievement] achievement object containing all achievement information
       def extract_recent_achievement num
         if div = response.css("#achv-recent-#{num}")
-          achievement = Achievement.new
-          achievement.title = div.children[1].inner_text
-          achievement.description = div.children[2].inner_text.strip
-          achievement.earned = response.css(".recent-tile")[num].css('span')[1].inner_text
-
-          achievement
+          Achievement.new({
+            title: div.children[1].inner_text,
+            description: div.children[2].inner_text.strip,
+            earned: response.css(".recent-tile")[num].css('span')[1].inner_text
+          })
         end
       end
 
@@ -97,11 +96,10 @@ module BnetScraper
       # scrapes the showcase achievements from the account's achievements overview page
       def scrape_showcase
         @showcase = response.css("#showcase-module .progress-tile").map do |achievement|
-          obj = Achievement.new
-          obj.title = achievement.css('.tooltip-title').inner_text.strip
-          obj.description = achievement.children[3].children[2].inner_text.strip
-
-          obj
+          Achievement.new({
+            title: achievement.css('.tooltip-title').inner_text.strip,
+            description: achievement.children[3].children[2].inner_text.strip
+          })
         end
         @showcase
       end
