@@ -1,5 +1,17 @@
 # Changelog!
 
+## 0.5.0 (Mar 29 2013)
+
+* Adds Heart of the Swarm Portrait Names
+* Updates Achievement Progress Categories for Heart of the Swarm
+* Adds Achievement to replace hash output
+* Replace FakeWeb specs with VCR
+* Typecast numerics to Fixnum instead of strings
+* Typecast dates to Date instead of Strings (`Achievement#earned=`)
+* Fix wins/losses in MatchHistoryScraper
+* Adds Campaign Completion indicators (`Profile#campaign_completion`)
+* Extensive internal refactoring and decoupling
+
 ## 0.4.0 (Feb 22 2013)
 
 * Revamped ProfileScraper API
