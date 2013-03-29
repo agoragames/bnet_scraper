@@ -26,10 +26,11 @@ module BnetScraper
     #    ],
     #    progress: {
     #      liberty_campaign: '1580',
-    #      exploration: '480',
+    #      swarm_campaign: '480',
+    #      matchmaking: '1100',
     #      custom_game: '330',
-    #      cooperative: '660',
-    #      quick_match: '170'
+    #      arcade: '660',
+    #      exploration: '170'
     #    }
     #  }
     class AchievementScraper < BaseScraper
@@ -44,6 +45,8 @@ module BnetScraper
       end
 
       # retrieves the account's achievements overview page HTML for scraping
+      #
+      # @return [Nokogiri::HTML] The parsed HTML document
       def get_response
         response = Faraday.get "#{profile_url}achievements/"
         if response.success?
@@ -54,6 +57,8 @@ module BnetScraper
       end
 
       # scrapes the recent achievements from the account's achievements overview page
+      #
+      # @return [Array<Achievement>] Array of recent achievements
       def scrape_recent
         @recent = []
         response.css(".recent-tile").size.times do |num|
@@ -80,7 +85,10 @@ module BnetScraper
 
 
 
-      # scrapes the progress of each achievement category from the account's achievements overview page
+      # Scrapes the progress of each achievement category from the account's achievements
+      # overview page and returns them as a hash
+      #
+      # @return [Hash] Hash of achievement indicators broken down by category
       def scrape_progress
         keys = [:liberty_campaign, :swarm_campaign, :matchmaking, :custom_game, :arcade, :exploration]
         index = 1
@@ -93,7 +101,9 @@ module BnetScraper
         end
       end
 
-      # scrapes the showcase achievements from the account's achievements overview page
+      # Scrapes the showcase achievements from the account's achievements overview page
+      #
+      # @return [Array<Achievement>] Array containing all the showcased achievements
       def scrape_showcase
         @showcase = response.css("#showcase-module .progress-tile").map do |achievement|
           Achievement.new({
