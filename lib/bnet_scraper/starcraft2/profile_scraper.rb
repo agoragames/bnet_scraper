@@ -55,7 +55,9 @@ module BnetScraper
         @profile
       end
 
-      # scrapes the profile page for basic account information
+      # Retrieves the HTML document and feed into Nokogiri
+      #
+      # @return [Nokogiri::HTML] HTML document of Profile
       def retrieve_data
         response = Faraday.get profile_url
 
@@ -66,6 +68,9 @@ module BnetScraper
         end
       end
 
+      # Scrapes the Achievement Points, Career Games, and Games this Season from Profile
+      #
+      # @param [Nokogiri::HTML] Profile html object to scrape from
       def get_profile_data html
         @profile.achievement_points = html.css("#profile-header h3").inner_html()
         @profile.career_games = html.css(".career-stat-block:nth-child(4) .stat-value").inner_html()
@@ -110,16 +115,27 @@ module BnetScraper
         ((-y/size) * 6) + (-x/size + 1)
       end
 
+      # Extracts the current and highest ever solo league achieved
+      #
+      # @param [Nokogiri::XML] html node
       def get_solo_league_info html
         @profile.highest_solo_league = get_highest_league_info :solo, html
         @profile.current_solo_league = get_current_league_info :solo, html
       end
 
+      # Extracts the current and highest ever team league achieved
+      #
+      # @param [Nokogiri::XML] html node
       def get_team_league_info html
         @profile.highest_team_league = get_highest_league_info :team, html
         @profile.current_team_league = get_current_league_info :team, html
       end
 
+      # Extracts the highest league achieved for a given league type
+      #
+      # @param [Symbol] league to be scraped. Values: :solo or :team
+      # @param [Nokogiri::HTML] html ode to scrape
+      # @return [String] League of Ladder
       def get_highest_league_info league_type, html
         if div = html.css("#best-finish-#{league_type.upcase} div")[0]
           div.children[2].inner_text.strip
@@ -128,6 +144,11 @@ module BnetScraper
         end
       end
 
+      # Extracts the current league achieved for a given league type
+      #
+      # @param [Symbol] league to be scraped. Values: :solo or :team
+      # @param [Nokogiri::HTML] html node to scrape
+      # @return [String] League of Ladder
       def get_current_league_info league_type, html
         if div = html.css("#best-finish-#{league_type.upcase} div")[0].children[8]
           div.inner_text.strip
@@ -136,17 +157,28 @@ module BnetScraper
         end
       end
 
+      # Extracts the HotS Swarm Levels for each race
+      #
+      # @param [Nokogiri::HTML] html node to scrape
       def get_swarm_levels html
         @profile.protoss_swarm_level = get_swarm_level :protoss, html
         @profile.terran_swarm_level = get_swarm_level :terran, html
         @profile.zerg_swarm_level = get_swarm_level :zerg, html
       end
 
+      # Extracts the swarm level for a given race
+      #
+      # @param [Symbol] race to determine the swarm level of
+      # @param [Nokogiri::HTML] html node to scrape from
+      # @return [Fixnum] Swarm Level
       def get_swarm_level race, html
         level = html.css(".race-level-block.#{race} .level-value").inner_html
         level.match(/Level (\d+)/)[1].to_i
       end
 
+      # Extracts completion level of the SC2 Campaigns
+      # 
+      # @param [Nokogiri::HTML] html node to scrape
       def get_campaign_completion html
         @profile.terran_campaign_completion = html.css('.campaign-wings-of-liberty .badge')[0].attr('class').split[1].to_sym
         @profile.zerg_campaign_completion = html.css('.campaign-heart-of-the-swarm .badge')[0].attr('class').split[1].to_sym
