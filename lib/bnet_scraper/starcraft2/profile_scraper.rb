@@ -87,7 +87,7 @@ module BnetScraper
         @profile.portrait = begin
           portrait_info = extract_portrait_info html
           position = get_portrait_position html, portrait_info
-          PORTRAITS[portrait_info[0].to_i][position-1]
+          PORTRAITS[position]
         rescue 
           nil
         end
@@ -102,17 +102,19 @@ module BnetScraper
       end
 
       # Translates x/y positions of the background spritesheet into an array index. There are
-      # 6 pictures per row, but X/Y is in pixels, so account for portrait size in the incrementor
+      # 6 pictures per row, 6 rows per sheet, but X/Y is in pixels, so account for portrait 
+      # size in the incrementor
       #
       # @param [Nokogiri::HTML] html node
       # @param [Fixnum] size of portrait in pixels
       # @return [Fixnum] index position of portrait spritesheet
       def get_portrait_position html, portrait_info
+        sheet_offset = portrait_info[0].to_i * 36
         size = portrait_info[1].to_i
-        x = portrait_info[2].to_i
-        y = portrait_info[3].to_i
+        column_offset = -portrait_info[2].to_i / size + 1
+        row_offset = -portrait_info[3].to_i / size * 6
 
-        ((-y/size) * 6) + (-x/size + 1)
+        sheet_offset + row_offset + column_offset - 1
       end
 
       # Extracts the current and highest ever solo league achieved
