@@ -27,46 +27,7 @@ module BnetScraper
       'tw.battle.net' => 'fea'
     }
 
-    # The armory uses spritemaps that are sequentially named and have a fixed
-    # 6x6 grid. We'll simply use the portrait names, left to right, top to
-    # bottom. The sheets are padded even when no portrait is present to account for the 36-image sheet
-    PORTRAITS = [
-      # SPRITESHEET 1
-      'Kachinsky', 'Cade', 'Thatcher', 'Hall', 'Tiger Marine', 'Panda Marine', 
-      'General Warfield', 'Jim Raynor', 'Arcturus Mengsk', 'Sarah Kerrigan', 'Kate Lockwell', 'Rory Swann',
-      'Egon Stetmann', 'Hill', 'Adjutant', 'Dr. Ariel Hanson', 'Gabriel Tosh', 'Matt Horner', 
-      'Tychus Findlay', 'Zeratul', 'Valerian Mengsk', 'Spectre', 'Raynor Marine', 'Tauren Marine',
-      'Night Elf Banshee', 'Diablo Marine', 'SCV', 'Firebat', 'Vulture', 'Hellion', 
-      'Medic', 'Spartan Company', 'Wraith', 'Diamondback', 'Probe', 'Scout',
-      # SPRITESHEET 2
-      'Tauren Marine', 'Night Elf Banshee', 'Diablo Marine', 'Worgen Marine', 'Goblin Marine', 'PanTerran Marine', 
-      'Wizard Templar', 'Tyrael Marine', 'Witch Doctor Zergling', 'Stank', 'Night Elf Templar', 'Infested Orc',
-      '', 'Diablo Marine', '', 'Pandaren Firebat', 'Prince Valerian', 'Zagara',
-      'Lasarra', 'Dehaka', 'Infested Stukov', 'Mira Horner', 'Primal Queen', 'Izsha',
-      'Abathur', 'Ghost Kerrigan', 'Zurvan', 'Narud', '', '15 Year Terran',
-      '15 Year Protoss', '15 Year Zerg', '', '', '', '',
-      # SPRITESHEET 3
-      'Ghost', 'Thor', 'Battlecruiser', 'Nova', 'Zealot', 'Stalker', 
-      'Phoenix', 'Immortal', 'Void Ray', 'Colossus', 'Carrier', 'Tassadar',
-      'Reaper', 'Sentry', 'Overseer', 'Viking', 'High Templar', 'Mutalisk',
-      'Banshee', 'Hybrid Destroyer', 'Dark Voice', 'Urubu', 'Lyote', 'Automaton 2000',
-      'Orian', 'Wolf Marine', 'Murloc Marine', 'Worgen Marine', 'Goblin Marine', 'Zealot Chef', 
-      'Stank', 'Ornatus', 'Facebook Corps Members', 'Lion Marines', 'Dragons', 'Raynor Marine',
-      # SPRITESHEET 4
-      'Urun', 'Nyon', 'Executor', 'Mohandar', 'Selendis', 'Artanis', 
-      'Drone', 'Infested Colonist', 'Infested Marine', 'Corruptor', 'Aberration', 'Broodlord', 
-      'Overmind', 'Leviathan', 'Overlord', 'Hydralisk Marine', "Zer'atai Dark Templar", 'Goliath', 
-      'Lenassa Dark Templar', 'Mira Han', 'Archon', 'Hybrid Reaver', 'Predator', 'Unknown',
-      'Zergling', 'Roach', 'Baneling', 'Hydralisk', 'Queen', 'Infestor', 
-      'Ultralisk', 'Queen of Blades', 'Marine', 'Marauder', 'Medivac', 'Siege Tank',
-      # SPRITESHEET 5
-      'Level 3 Zealot', 'Level 5 Stalker', 'Level 8 Sentinel', 'Level 11 Immortal', 'Level 14 Oracle', 'Level 17 High Templar',
-      'Level 21 Tempest', 'Level 23 Colossus', 'Level 27 Carrier', 'Level 29 Zeratul', 'Level 3 Marine', 'Level 5 Marauder',
-      'Level 8 Hellbat', 'Level 11 Widow Mine', 'Level 14 Medivac', 'Level 17 Banshee', 'Level 21 Ghost', 'Level 23 Thor',
-      'Level 27 Battlecruiser', 'Level 29 Raynor', 'Level 3 Zergling', 'Level 5 Roach', 'Level 8 Hydralisk', 'Level 11 Locust',
-      'Level 14 Swarm Host', 'Level 17 Infestor', 'Level 21 Viper', 'Level 23 Broodlord', 'Level 27 Ultralisk', 'Level 29 Kerrigan',
-      'Protoss Champion',' Terran Champion', 'Zerg Champion', '', '', ''
-    ]
+    
       
     # This is a convenience method that chains calls to ProfileScraper,
     # followed by a scrape of each league returned in the `leagues` array

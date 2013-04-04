@@ -9,11 +9,13 @@ describe BnetScraper::Starcraft2::ProfileScraper do
   let(:scraper) { BnetScraper::Starcraft2::ProfileScraper.new(bnet_id: '2377239', account: 'Demon') }
 
   describe '#scrape' do
-    subject do
+    let(:output) do
       VCR.use_cassette('demon_profile', record: :new_episodes) do
         scraper.scrape
       end
     end
+
+    subject { output }
 
     its(:achievement_points) { should == '4890' }
     its(:current_solo_league) { should == 'None' }
@@ -22,10 +24,14 @@ describe BnetScraper::Starcraft2::ProfileScraper do
     its(:highest_team_league) { should == 'Master' }
     its(:career_games) { should == '1804' }
     its(:games_this_season) { should == '27' }
-    its(:portrait) { should == 'Mohandar' }
     its(:terran_swarm_level) { should == 0 }
     its(:protoss_swarm_level) { should == 12 }
     its(:zerg_swarm_level) { should == 0 }
+
+    it 'should have a scraped portrait' do
+      output.portrait.name.should == 'Mohandar'
+      output.portrait.url.should == 'http://media.blizzard.com/sc2/portraits/3-3.jpg'
+    end
 
     context 'first league ever' do
       let(:scraper) { BnetScraper::Starcraft2::ProfileScraper.new url: 'http://us.battle.net/sc2/en/profile/3513522/1/Heritic/' }

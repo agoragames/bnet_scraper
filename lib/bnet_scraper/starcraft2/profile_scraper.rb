@@ -1,4 +1,5 @@
 require 'bnet_scraper/starcraft2/profile'
+require 'bnet_scraper/starcraft2/portrait'
 
 module BnetScraper
   module Starcraft2
@@ -82,15 +83,9 @@ module BnetScraper
       # is the position within the spritesheet
       #
       # @param [Nokogiri::XML] html node
-      # @return [String] Portrait name
+      # @return [BnetScraper::Starcraft2::Portrait] Portrait containing spritesheet information
       def get_portrait html
-        @profile.portrait = begin
-          portrait_info = extract_portrait_info html
-          position = get_portrait_position html, portrait_info
-          PORTRAITS[position]
-        rescue 
-          nil
-        end
+        @profile.portrait = Portrait.new extract_portrait_info html
       end
 
       # Extracts portrait information (spritesheet page, portsize size, X, Y) from HTML page
@@ -99,22 +94,6 @@ module BnetScraper
       # @return [Fixnum, Fixnum, Fixnum, Fixnum] Array of sprite information
       def extract_portrait_info html
         html.css("#portrait .icon-frame").attr('style').to_s.scan(/url\('.+(\d+)-(\d+)\.jpg'\) -{0,1}(\d+)px -{0,1}(\d+)px/).flatten
-      end
-
-      # Translates x/y positions of the background spritesheet into an array index. There are
-      # 6 pictures per row, 6 rows per sheet, but X/Y is in pixels, so account for portrait 
-      # size in the incrementor
-      #
-      # @param [Nokogiri::HTML] html node
-      # @param [Fixnum] size of portrait in pixels
-      # @return [Fixnum] index position of portrait spritesheet
-      def get_portrait_position html, portrait_info
-        sheet_offset = portrait_info[0].to_i * 36
-        size = portrait_info[1].to_i
-        column_offset = portrait_info[2].to_i / size + 1
-        row_offset = portrait_info[3].to_i / size * 6
-
-        sheet_offset + row_offset + column_offset - 1
       end
 
       # Extracts the current and highest ever solo league achieved
