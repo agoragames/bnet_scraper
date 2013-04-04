@@ -63,14 +63,19 @@ module BnetScraper
         NAMES[index]
       end
 
+      # @return [String] The URL to the portrait image iteslf
       def url
         "http://media.blizzard.com/sc2/portraits/#{@sheet}-#{image_position}.jpg"
       end
 
+      # @return [String] The URL to the spritesheet the portrait is part of
       def spritesheet_url
         "http://media.blizzard.com/sc2/portraits/#{@sheet}-90.jpg"
       end
 
+      # The image position within a given 6x6 spritesheet
+      #
+      # @return [Fixnum] image position within the spritesheet
       def image_position
         (@row * 6) + @column
       end
