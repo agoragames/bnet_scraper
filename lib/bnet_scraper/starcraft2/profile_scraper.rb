@@ -85,7 +85,7 @@ module BnetScraper
       # @param [Nokogiri::XML] html node
       # @return [BnetScraper::Starcraft2::Portrait] Portrait containing spritesheet information
       def get_portrait html
-        @profile.portrait = Portrait.new extract_portrait_info html
+        @profile.portrait = Portrait.new(*extract_portrait_info(html))
       end
 
       # Extracts portrait information (spritesheet page, portsize size, X, Y) from HTML page
@@ -93,7 +93,7 @@ module BnetScraper
       # @param [Nokogiri::XML] html node
       # @return [Fixnum, Fixnum, Fixnum, Fixnum] Array of sprite information
       def extract_portrait_info html
-        html.css("#portrait .icon-frame").attr('style').to_s.scan(/url\('.+(\d+)-(\d+)\.jpg'\) -{0,1}(\d+)px -{0,1}(\d+)px/).flatten
+        html.css("#portrait .icon-frame").attr('style').to_s.scan(/url\('.+(\d+)-(\d+)\.jpg'\) -{0,1}(\d+)px -{0,1}(\d+)px/).flatten.map(&:to_i)
       end
 
       # Extracts the current and highest ever solo league achieved

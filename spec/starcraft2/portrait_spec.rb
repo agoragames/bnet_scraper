@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe BnetScraper::Starcraft2::Portrait do
-  subject { BnetScraper::Starcraft2::Portrait.new(['3', '90', '360', '0']) }
+  subject { BnetScraper::Starcraft2::Portrait.new(3, 90, 360, 0) }
   its(:name) { should == 'Selendis' }
   its(:sheet) { should == 3 }
   its(:row) { should == 0 }

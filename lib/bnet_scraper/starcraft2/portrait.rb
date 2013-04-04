@@ -49,12 +49,10 @@ module BnetScraper
         'Protoss Champion',' Terran Champion', 'Zerg Champion', '', '', ''
       ]
       attr_reader :name, :sheet, :row, :column
-      def initialize portrait_info
-        size = portrait_info[1].to_i
-
-        @sheet = portrait_info[0].to_i
-        @column = portrait_info[2].to_i / size
-        @row = portrait_info[3].to_i / size
+      def initialize sheet, pixel_size, pixel_column, pixel_row
+        @sheet = sheet
+        @column = pixel_column / pixel_size
+        @row = pixel_row / pixel_size
         @name = name_from_position
       end
 
