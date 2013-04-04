@@ -98,7 +98,7 @@ module BnetScraper
       # @param [Nokogiri::XML] html node
       # @return [Fixnum, Fixnum, Fixnum, Fixnum] Array of sprite information
       def extract_portrait_info html
-        html.css("#portrait .icon-frame").attr('style').to_s.scan(/url\('.+(\d+)-(\d+)\.jpg'\) ([\-\d]+)px ([\-\d]+)px/).flatten
+        html.css("#portrait .icon-frame").attr('style').to_s.scan(/url\('.+(\d+)-(\d+)\.jpg'\) -{0,1}(\d+)px -{0,1}(\d+)px/).flatten
       end
 
       # Translates x/y positions of the background spritesheet into an array index. There are
@@ -111,8 +111,8 @@ module BnetScraper
       def get_portrait_position html, portrait_info
         sheet_offset = portrait_info[0].to_i * 36
         size = portrait_info[1].to_i
-        column_offset = -portrait_info[2].to_i / size + 1
-        row_offset = -portrait_info[3].to_i / size * 6
+        column_offset = portrait_info[2].to_i / size + 1
+        row_offset = portrait_info[3].to_i / size * 6
 
         sheet_offset + row_offset + column_offset - 1
       end
