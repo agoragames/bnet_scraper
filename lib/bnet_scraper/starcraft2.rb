@@ -53,8 +53,8 @@ module BnetScraper
         'Wizard Templar', 'Tyrael Marine', 'Witch Doctor Zergling', 'Stank', 'Night Elf Templar', 'Infested Orc',
         '', 'Diablo Marine', '', 'Pandaren Firebat', 'Prince Valerian', 'Zagara',
         'Lasarra', 'Dehaka', 'Infested Stukov', 'Mira Horner', 'Primal Queen', 'Izsha',
-        'Abathur', 'Ghost Kerrigan', 'Zurvan', 'Narud', '', '',
-        '', '', '', '', '', ''
+        'Abathur', 'Ghost Kerrigan', 'Zurvan', 'Narud', '', '15 Year Terran',
+        '15 Year Protoss', '15 Year Zerg', '', '', '', ''
       ],
       [
         'Ghost', 'Thor', 'Battlecruiser', 'Nova', 'Zealot', 'Stalker', 
