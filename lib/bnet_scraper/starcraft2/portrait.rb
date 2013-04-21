@@ -44,7 +44,7 @@ module BnetScraper
         'Level 3 Zealot', 'Level 5 Stalker', 'Level 8 Sentinel', 'Level 11 Immortal', 'Level 14 Oracle', 'Level 17 High Templar',
         'Level 21 Tempest', 'Level 23 Colossus', 'Level 27 Carrier', 'Level 29 Zeratul', 'Level 3 Marine', 'Level 5 Marauder',
         'Level 8 Hellbat', 'Level 11 Widow Mine', 'Level 14 Medivac', 'Level 17 Banshee', 'Level 21 Ghost', 'Level 23 Thor',
-        'Level 27 Battlecruiser', 'Level 29 Raynor', 'Level 3 Zergling', 'Level 5 Roach', 'Level 8 Hydralisk', 'Level 11 Locust',
+        'Level 27 Battlecruiser', 'Level 29 Raynor', 'Level 11 Locust', 'Level 3 Zergling', 'Level 5 Roach', 'Level 8 Hydralisk', 
         'Level 14 Swarm Host', 'Level 17 Infestor', 'Level 21 Viper', 'Level 23 Broodlord', 'Level 27 Ultralisk', 'Level 29 Kerrigan',
         'Protoss Champion',' Terran Champion', 'Zerg Champion', '', '', ''
       ]
