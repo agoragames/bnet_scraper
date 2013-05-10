@@ -1,5 +1,12 @@
 # Changelog!
 
+## 0.6.0 (May 09 2013)
+
+* Adds GrandmasterScraper to pull all grandmasters by region
+* Updates Portrait names for anniversary
+* Improves portait code
+* Documentation updates
+
 ## 0.5.0 (Mar 29 2013)
 
 * Adds Heart of the Swarm Portrait Names
