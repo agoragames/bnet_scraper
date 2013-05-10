@@ -168,6 +168,17 @@ BnetScraper::Starcraft2::Status.fetch # => [
 ]
 ```
 
+## BnetScraper::Starcraft2::GrandmasterScraper
+
+This pulls the list of 200 Grandmasters for a given region.  Each player is returned as a hash.
+
+``` ruby
+scraper = BnetScraper::Starcraft2::GrandmasterScraper.new(region: :na)
+players = scraper.scraper
+players.size # => 200
+players[0].keys # => [:rank, :name, :race, :points, :wins, :losses]
+```
+
 # Contribute!
 
 I would love to see contributions!  Please send a pull request with a feature branch containing specs 
