@@ -52,6 +52,7 @@ module BnetScraper
         get_swarm_levels html
         get_campaign_completion html
         get_league_list
+        get_clan_info html
 
         @profile
       end
@@ -181,6 +182,12 @@ module BnetScraper
         else
           raise BnetScraper::InvalidProfileError
         end
+      end
+
+      def get_clan_info html
+        @profile.clan_tag = html.css(".clan-tag").inner_html
+        @profile.clan_name = html.css(".clan-tagname").inner_html
+        
       end
 
       def output

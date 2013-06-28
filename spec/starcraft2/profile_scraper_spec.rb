@@ -17,20 +17,22 @@ describe BnetScraper::Starcraft2::ProfileScraper do
 
     subject { output }
 
-    its(:achievement_points) { should == '4890' }
+    its(:achievement_points) { should == '4980' }
     its(:current_solo_league) { should == 'None' }
     its(:highest_solo_league) { should == 'Platinum' }
-    its(:current_team_league) { should == 'Gold' }
+    its(:current_team_league) { should == 'None' }
     its(:highest_team_league) { should == 'Master' }
-    its(:career_games) { should == '1804' }
-    its(:games_this_season) { should == '27' }
-    its(:terran_swarm_level) { should == 0 }
-    its(:protoss_swarm_level) { should == 12 }
-    its(:zerg_swarm_level) { should == 0 }
+    its(:career_games) { should == '1956' }
+    its(:games_this_season) { should == '0' }
+    its(:terran_swarm_level) { should == 11 }
+    its(:protoss_swarm_level) { should == 30 }
+    its(:zerg_swarm_level) { should == 16 }
+    its(:clan_tag) { should == '[GTimes]' }
+    its(:clan_name) { should == '[GTimes] Good Times' }
 
     it 'should have a scraped portrait' do
-      output.portrait.name.should == 'Mohandar'
-      output.portrait.url.should == 'http://media.blizzard.com/sc2/portraits/3-3.jpg'
+      output.portrait.name.should == 'Selendis'
+      output.portrait.url.should == 'http://media.blizzard.com/sc2/portraits/3-4.jpg'
     end
 
     context 'first league ever' do
