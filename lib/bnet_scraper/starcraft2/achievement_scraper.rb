@@ -1,4 +1,5 @@
 require 'bnet_scraper/starcraft2/achievement'
+require 'date'
 
 module BnetScraper
   module Starcraft2
@@ -78,9 +79,21 @@ module BnetScraper
           Achievement.new({
             title: div.children[1].inner_text,
             description: div.children[2].inner_text.strip,
-            earned: response.css(".recent-tile")[num].css('span')[1].inner_text
+            earned: convert_date(response.css(".recent-tile")[num].css('span')[1].inner_text)
           })
         end
+      end
+
+      def convert_date date
+        dates = date.scan(/(\d+)\/(\d+)\/(\d+)/).first.map(&:to_i)
+        
+        if region == 'na'
+          month, day, year = dates
+        else
+          day, month, year = dates
+        end
+          
+        Date.new year, month, day
       end
 
 
@@ -106,10 +119,12 @@ module BnetScraper
       # @return [Array<Achievement>] Array containing all the showcased achievements
       def scrape_showcase
         @showcase = response.css("#showcase-module .progress-tile").map do |achievement|
-          Achievement.new({
-            title: achievement.css('.tooltip-title').inner_text.strip,
-            description: achievement.children[3].children[2].inner_text.strip
-          })
+          if !achievement.values.first.split.include? 'empty'
+            Achievement.new({
+              title: achievement.css('.tooltip-title').inner_text.strip,
+              description: achievement.children[3].children[2].inner_text.strip
+            })
+          end
         end
         @showcase
       end
@@ -121,6 +136,7 @@ module BnetScraper
           showcase: @showcase
         }
       end
+
     end
   end
 end
