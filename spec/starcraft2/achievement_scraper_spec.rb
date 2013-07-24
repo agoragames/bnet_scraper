@@ -43,13 +43,25 @@ describe BnetScraper::Starcraft2::AchievementScraper do
         before { scraper.scrape_recent }
         its(:recent) { should have(9).achievements }
 
-        context 'each achivement' do
+        context 'each achievement' do
           subject { scraper.recent[0] }
 
           it { should be_a BnetScraper::Starcraft2::Achievement }
           its(:title) { should == 'Three-way Dominant' }
           its(:description) { should be_a String }
           its(:earned) { should == Date.new(2013, 2, 7) }
+        end
+
+        context 'region-centric date parsing' do
+          it 'should parse m/d/y dates of achievements for non-American profiles' do
+            scraper = BnetScraper::Starcraft2::AchievementScraper.new(url: 'http://eu.battle.net/sc2/en/profile/1229243/1/Stephano/achievements/')
+            VCR.use_cassette('euro_achievements') do
+              scraper.scrape
+            end
+
+            achievement = scraper.recent[0]
+            achievement.earned.should == Date.new(2013, 2, 20)
+          end
         end
       end
 
