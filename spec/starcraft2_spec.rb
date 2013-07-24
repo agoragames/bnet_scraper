@@ -4,7 +4,7 @@ describe BnetScraper::Starcraft2 do
   describe '#full_profile_scrape' do
     subject do
       VCR.use_cassette('full_demon_scrape') do
-        BnetScraper::Starcraft2.full_profile_scrape('2377239', 'Demon')
+        BnetScraper::Starcraft2.full_profile_scrape(bnet_id: '2377239', account: 'Demon')
       end
     end
 

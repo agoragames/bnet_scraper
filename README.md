@@ -41,8 +41,9 @@ just for you.  Call `BnetScraper::Starcraft2#full_profile_scrape` with the usual
 ProfileScraper would take, and it will eager-load the achievements, matches, and leagues.
 
 ``` ruby
-scraper = BnetScraper::Starcraft2.full_profile_scrape(url: 'http://us.battle.net/sc2/en/profile/2377239/1/Demon/')
-profile = scraper.scrape
+profile = BnetScraper::Starcraft2.full_profile_scrape(url: 'http://us.battle.net/sc2/en/profile/2377239/1/Demon/')
+profile.class.name # => 'BnetScraper::Starcraft2::Profile'
+profile.leagues.first.name # => 'Changeling Bravo'
 ```
 
 Alternatively, these scrapers can be accessed in isolation.
