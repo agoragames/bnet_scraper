@@ -59,7 +59,7 @@ describe BnetScraper::Starcraft2::AchievementScraper do
               scraper.scrape
             end
 
-            achivement = scraper.recent[0]
+            achievement = scraper.recent[0]
             achievement.earned.should == Date.new(2013, 2, 20)
           end
         end
