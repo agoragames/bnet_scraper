@@ -38,12 +38,12 @@ module BnetScraper
         if self.instance_variable_get(attribute)
           return self.instance_variable_get(attribute)
         else
-          scrape_league
+          scrape
           self.instance_variable_get(attribute)
         end
       end
 
-      def scrape_league
+      def scrape
         scraper = LeagueScraper.new(url: href)
         scraper.scrape
         scraped_data = scraper.output

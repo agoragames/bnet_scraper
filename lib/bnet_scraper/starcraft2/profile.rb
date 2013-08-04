@@ -1,4 +1,3 @@
-
 module BnetScraper
   module Starcraft2
     class Profile
@@ -56,6 +55,16 @@ module BnetScraper
           true
         else
           false
+        end
+      end
+
+      def scrape
+        scraper = ProfileScraper.new(url: @url)
+        scraper.scrape
+
+        scraped_data = scraper.output
+        scraped_data.each_key do |key|
+          self.send "#{key}=", scraped_data[key]
         end
       end
     end
