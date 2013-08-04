@@ -28,8 +28,6 @@ module BnetScraper
       'tw.battle.net' => 'fea'
     }
 
-    
-      
     # This is a convenience method that chains calls to ProfileScraper,
     # followed by a scrape of each league returned in the `leagues` array
     # in the profile_data.  The end result is a fully scraped profile with
@@ -38,13 +36,11 @@ module BnetScraper
     # See `BnetScraper::Starcraft2::ProfileScraper` for more information on
     # the parameters being sent to `#full_profile_scrape`.
     #
-    # @param bnet_id - Battle.net Account ID 
-    # @param account - Battle.net Account Name
-    # @param region  - Battle.net Account Region
-    # @return profile_data - Hash containing complete profile and league data
-    #   scraped from the website
-    def self.full_profile_scrape bnet_id, account, region = 'na'
-      profile_scraper = ProfileScraper.new bnet_id: bnet_id, account: account, region: region
+    # @param options - Hash of profile options (url, bnet_id/account/region, etc).  See 
+    #   `BnetScraper::Starcraft::BaseScraper` for more information on hash options.
+    # @return [BnetScraper::Profile] profile_data - Profile object containing complete profile and league data
+    def self.full_profile_scrape options = {}
+      profile_scraper = ProfileScraper.new options
       profile = profile_scraper.scrape
       profile.leagues.each do |league|
         league.scrape_league

@@ -6,34 +6,32 @@ module BnetScraper
     # This pulls achievement information for an account.  Note that currently only returns the overall achievements,
     # not the in-depth, by-category achievement information.
     #
-    #  scraper = BnetScraper::Starcraft2::AchievementScraper.new(url: 'http://us.battle.net/sc2/en/profile/2377239/1/Demon/')
-    #  scraper.scrape
-    #  # => {
-    #    recent: [
-    #      { title: 'Blink of an Eye', description: 'Complete round 24 in "Starcraft Master" without losing any stalkers', earned: '3/5/2012' },
-    #      { title: 'Whack-a-Roach', description: 'Complete round 9 in "Starcraft Master" in under 45 seconds', earned: '3/5/2012' },
-    #      { title: 'Safe Zone', description: 'Complete round 8 in "Starcraft Master" without losing any stalkers', earned: '3/5/2012' },
-    #      { title: 'Starcraft Master', description: 'Complete all 30 rounds in "Starcraft Master"', earned: '3/5/2012' },
-    #      { title: 'Starcraft Expert', description: 'Complete any 25 rounds in "Starcraft Master"', earned: '3/5/2012' },
-    #      { title: 'Starcraft Apprentice', description: 'Complete any 20 rounds in "Starcraft Master"', earned: '3/5/2012' }
-    #    ],
-    #    showcase: [
-    #      { title: 'Hot Shot', description: 'Finish a Qualification Round with an undefeated record.' },
-    #      { title: 'Starcraft Master', description: 'Complete all rounds in "Starcraft Master"' },
-    #      { title: 'Team Protoss 500', description: 'Win 500 team league matches as Protoss' },
-    #      { title: 'Night of the Living III', description: 'Survive 15 Infested Horde Attacks in the "Night 2 Die" mode of the "Left 2 Die" scenario.' },
-    #      { title: 'Team Top 100 Diamond', description: 'Finish a Season in Team Diamond Division' }
-    #                          
-    #    ],
-    #    progress: {
-    #      liberty_campaign: '1580',
-    #      swarm_campaign: '480',
-    #      matchmaking: '1100',
-    #      custom_game: '330',
-    #      arcade: '660',
-    #      exploration: '170'
-    #    }
-    #  }
+    # ``` ruby
+    # scraper = BnetScraper::Starcraft2::AchievementScraper.new(
+    #     url: 'http://us.battle.net/sc2/en/profile/2377239/1/Demon/'
+    # )
+    # achievement_information = scraper.scrape
+    # achievement_information[:recent].size # => 6
+    # achievement_information[:recent].first
+    # # => #<BnetScraper::Starcraft2::Achievement:0x007fef52b0b488
+    # @description="Win 50 Team Unranked or Ranked games as Zerg.",
+    #   @earned=#<Date: 2013-04-04 ((2456387j,0s,0n),+0s,2299161j)>,
+    #   @title="50 Wins: Team Zerg">
+    #
+    # achievement_information[:progress]
+    # # => {:liberty_campaign=>1580,
+    # :swarm_campaign=>1120,
+    #   :matchmaking=>1410,
+    #   :custom_game=>120,
+    #   :arcade=>220,
+    #   :exploration=>530}
+    #
+    # achievement_information[:showcase].size # => 5
+    # achievement_information[:showcase].first
+    # # => #<BnetScraper::Starcraft2::Achievement:0x007fef52abcb08
+    # @description="Finish a Qualification Round with an undefeated record.",
+    #   @title="Hot Shot">
+    # ```
     class AchievementScraper < BaseScraper
       attr_reader :recent, :progress, :showcase, :response
 

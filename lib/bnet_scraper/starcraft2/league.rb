@@ -44,7 +44,9 @@ module BnetScraper
       end
 
       def scrape_league
-        scraped_data = LeagueScraper.new(url: href).scrape
+        scraper = LeagueScraper.new(url: href)
+        scraper.scrape
+        scraped_data = scraper.output
         scraped_data.each_key do |key|
           self.send "#{key}=", scraped_data[key]
         end
