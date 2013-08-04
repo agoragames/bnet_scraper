@@ -3,15 +3,25 @@ require 'bnet_scraper/starcraft2/portrait'
 
 module BnetScraper
   module Starcraft2
-    # This pulls basic profile information for an account, as well as an array of league URLs.  This is a good starting
-    # point for league scraping as it provides the league URLs necessary to do supplemental scraping. The `scrape`
-    # command returns an instance of `BnetScraper::Starcraft2::Profile` containing all relevant profile information
+    #  This pulls basic profile information for an account, as well as an array of league URLs.  This is a good starting
+    #  point for league scraping as it provides the league URLs necessary to do supplemental scraping.
     #
-    #   scraper = BnetScraper::Starcraft2::ProfileScraper.new(url: 'http://us.battle.net/sc2/en/profile/2377239/1/Demon/')
-    #   profile = scraper.scrape
-    #   profile.class.name # => 'BnetScraper::Starcraft2::Profile'
-    #   profile.race # => 'Protoss'
-    #   profile.career_games # => '1568'
+    #    ``` ruby
+    #    scraper = BnetScraper::Starcraft2::ProfileScraper.new(url: 'http://us.battle.net/sc2/en/profile/2377239/1/Demon/')
+    #    profile = scraper.scrape
+    #    profile.class.name # => BnetScraper::Starcraft2::Profile
+    #    ```
+    #
+    #  Additionally, the resulting `BnetScraper::Starcraft2::Profile` object has methods to scrape additional
+    #  information without the need of creating another scraper.  For example, if you need to pull league information up
+    #  on a player, you may call `BnetScraper::Starcraft2::Profile#leagues` and it will scrape and store the information
+    #  for memoized access.
+    #
+    #  ``` ruby
+    #  scraper = BnetScraper::Starcraft2::ProfileScraper.new(url: 'http://us.battle.net/sc2/en/profile/2377239/1/Demon/')
+    #  profile = scraper.scrape
+    #  profile.leagues.map(&:division) #=> ['Bronze']
+    #  ```
     class ProfileScraper < BaseScraper
       attr_reader :achievement_points, :career_games, :leagues, :games_this_season, 
         :highest_solo_league, :current_solo_league, :highest_team_league,

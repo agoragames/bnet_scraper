@@ -5,17 +5,19 @@ module BnetScraper
     # This pulls information on a specific league for a specific account.  It is best used either in conjunction with a
     # profile scrape that profiles a URL, or if you happen to know the specific league\_id and can pass it as an option.
     #
-    #  scraper = BnetScraper::Starcraft2::LeagueScraper.new(league_id: '12345', account: 'Demon', bnet_id: '2377239')
-    #  scraper.scrape
-    #  # => {
-    #    season: '6',
-    #    name: 'Aleksander Pepper',
-    #    division: 'Diamond',
-    #    size: '4v4',
-    #    random: false,
-    #    bnet_id: '2377239',
-    #    account: 'Demon'
-    #  }
+    #   ``` ruby
+    #   scraper = BnetScraper::Starcraft2::LeagueScraper.new(league_id: '12345', account: 'Demon', bnet_id: '2377239')
+    #   scraper.scrape
+    #
+    #   # => #<BnetScraper::Starcraft2::League:0x007f89eab7a680
+    #   @account="Demon",
+    #   @bnet_id="2377239",
+    #   @division="Bronze",
+    #   @name="Changeling Bravo",
+    #   @random=false,
+    #   @season="2013 Season 4",
+    #   @size="3v3">
+    #   ```
     class LeagueScraper < BaseScraper
       attr_reader :league_id, :season, :size, :random, :name, :division
 
