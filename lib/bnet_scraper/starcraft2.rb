@@ -43,7 +43,7 @@ module BnetScraper
       profile_scraper = ProfileScraper.new options
       profile = profile_scraper.scrape
       profile.leagues.each do |league|
-        league.scrape_league
+        league.scrape
       end
       profile.achievements
       profile.match_history
