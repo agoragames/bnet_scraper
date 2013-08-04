@@ -1,5 +1,14 @@
 # Changelog!
 
+## 0.7.0 (Aug 04 2013)
+
+* Adds date formatting support for dd/mm/yyyy
+* Adds Profile#account
+* Adds Profile#scrape / League#scrape for rescraping domain models
+* Fixes League scraping via `league_id` instead of `url`
+* Adds clan name and tag to `Profile`
+* Documentation updates
+
 ## 0.6.0 (May 09 2013)
 
 * Adds GrandmasterScraper to pull all grandmasters by region
