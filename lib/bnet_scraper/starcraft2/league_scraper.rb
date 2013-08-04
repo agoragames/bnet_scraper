@@ -42,7 +42,7 @@ module BnetScraper
           @season, @size, @random, @division, @name = header_values
           
           @random = !@random.nil?
-          output
+          League.new(output)
         else
           raise BnetScraper::InvalidProfileError
         end
