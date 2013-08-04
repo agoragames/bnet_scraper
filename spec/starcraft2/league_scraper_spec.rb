@@ -13,6 +13,13 @@ describe BnetScraper::Starcraft2::LeagueScraper do
     it 'should dissect the league_id from the URL' do
       subject.league_id.should == '134659'
     end
+    it 'should determine the URL if it is not present' do
+      scraper = BnetScraper::Starcraft2::LeagueScraper.new({
+        account: 'Demon', bnet_id: '2377239', league_id: '134659', bnet_index: 1
+      })
+
+      scraper.url.should == "http://us.battle.net/sc2/en/profile/2377239/1/Demon/ladder/134659"
+    end
   end
 
   describe '#scrape' do

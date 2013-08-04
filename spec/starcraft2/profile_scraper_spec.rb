@@ -29,6 +29,7 @@ describe BnetScraper::Starcraft2::ProfileScraper do
     its(:zerg_swarm_level) { should == 16 }
     its(:clan_tag) { should == '[GTimes]' }
     its(:clan_name) { should == '[GTimes] Good Times' }
+    its(:account) { should == 'Demon' }
 
     it 'should have a scraped portrait' do
       output.portrait.name.should == 'Selendis'

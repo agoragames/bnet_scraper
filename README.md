@@ -41,8 +41,9 @@ just for you.  Call `BnetScraper::Starcraft2#full_profile_scrape` with the usual
 ProfileScraper would take, and it will eager-load the achievements, matches, and leagues.
 
 ``` ruby
-scraper = BnetScraper::Starcraft2.full_profile_scrape(url: 'http://us.battle.net/sc2/en/profile/2377239/1/Demon/')
-profile = scraper.scrape
+profile = BnetScraper::Starcraft2.full_profile_scrape(url: 'http://us.battle.net/sc2/en/profile/2377239/1/Demon/')
+profile.class.name # => 'BnetScraper::Starcraft2::Profile'
+profile.leagues.first.name # => 'Changeling Bravo'
 ```
 
 Alternatively, these scrapers can be accessed in isolation.
@@ -60,12 +61,12 @@ All of the scrapers take an options hash, and can be created by either passing a
 passing the account information in the options hash.  Thus, either of these two approaches work:
 
 ``` ruby
-BnetScraper::Starcraft2::ProfileScraper.new(url: 'http://us.battle.net/sc2/en/profile/12345/1/TestAccount/')
-BnetScraper::Starcraft2::ProfileScraper.new(bnet_id: '12345', account: 'TestAccount', region: 'na')
+scraper1 = BnetScraper::Starcraft2::ProfileScraper.new(url: 'http://us.battle.net/sc2/en/profile/2377239/1/Demon/')
+scraper2 = BnetScraper::Starcraft2::ProfileScraper.new(bnet_id: '2377239', account: 'Demon', region: 'na')
 ```
 
-All scrapers have a `#scrape` method that triggers the scraping and storage.  By default they will return the result,
-but an additional `#output` method exists to retrieve the results subsequent times without re-scraping.
+All scrapers have a `#scrape` method that triggers the scraping and storage.  The `#scrape` method will return an
+object containing the scraped data result.
 
 ### BnetScraper::Starcraft2::ProfileScraper
 
@@ -78,6 +79,17 @@ profile = scraper.scrape
 profile.class.name # => BnetScraper::Starcraft2::Profile
 ```
 
+Additionally, the resulting `BnetScraper::Starcraft2::Profile` object has methods to scrape additional
+information without the need of creating another scraper.  For example, if you need to pull league information up
+on a player, you may call `BnetScraper::Starcraft2::Profile#leagues` and it will scrape and store the information
+for memoized access.
+
+``` ruby
+scraper = BnetScraper::Starcraft2::ProfileScraper.new(url: 'http://us.battle.net/sc2/en/profile/2377239/1/Demon/')
+profile = scraper.scrape
+profile.leagues.map(&:division) #=> ['Bronze']
+```
+
 ### BnetScraper::Starcraft2::LeagueScraper
 
 This pulls information on a specific league for a specific account.  It is best used either in conjunction with a
@@ -86,15 +98,15 @@ profile scrape that profiles a URL, or if you happen to know the specific league
 ``` ruby
 scraper = BnetScraper::Starcraft2::LeagueScraper.new(league_id: '12345', account: 'Demon', bnet_id: '2377239')
 scraper.scrape
-# => {
-  season: '6',
-  name: 'Aleksander Pepper',
-  division: 'Diamond',
-  size: '4v4',
-  random: false,
-  bnet_id: '2377239',
-  account: 'Demon'
-}
+
+# => #<BnetScraper::Starcraft2::League:0x007f89eab7a680
+@account="Demon",
+@bnet_id="2377239",
+@division="Bronze",
+@name="Changeling Bravo",
+@random=false,
+@season="2013 Season 4",
+@size="3v3">
 ```
 
 ### BnetScraper::Starcraft2::AchievementScraper
@@ -103,33 +115,30 @@ This pulls achievement information for an account.  Note that currently only ret
 not the in-depth, by-category achievement information.
 
 ``` ruby
-scraper = BnetScraper::Starcraft2::AchievementScraper.new(url: 'http://us.battle.net/sc2/en/profile/2377239/1/Demon/')
-scraper.scrape
-# => {
-  recent: [
-    { title: 'Blink of an Eye', description: 'Complete round 24 in "Starcraft Master" without losing any stalkers', earned: '3/5/2012' },
-    { title: 'Whack-a-Roach', description: 'Complete round 9 in "Starcraft Master" in under 45 seconds', earned: '3/5/2012' },
-    { title: 'Safe Zone', description: 'Complete round 8 in "Starcraft Master" without losing any stalkers', earned: '3/5/2012' },
-    { title: 'Starcraft Master', description: 'Complete all 30 rounds in "Starcraft Master"', earned: '3/5/2012' },
-    { title: 'Starcraft Expert', description: 'Complete any 25 rounds in "Starcraft Master"', earned: '3/5/2012' },
-    { title: 'Starcraft Apprentice', description: 'Complete any 20 rounds in "Starcraft Master"', earned: '3/5/2012' }
-  ],
-  showcase: [
-    { title: 'Hot Shot', description: 'Finish a Qualification Round with an undefeated record.' },
-    { title: 'Starcraft Master', description: 'Complete all rounds in "Starcraft Master"' },
-    { title: 'Team Protoss 500', description: 'Win 500 team league matches as Protoss' },
-    { title: 'Night of the Living III', description: 'Survive 15 Infested Horde Attacks in the "Night 2 Die" mode of the "Left 2 Die" scenario.' },
-    { title: 'Team Top 100 Diamond', description: 'Finish a Season in Team Diamond Division' }
-												
-  ],
-  progress: {
-    liberty_campaign: '1580',
-    exploration: '480',
-    custom_game: '330',
-    cooperative: '660',
-    quick_match: '170'
-  }
-}
+scraper = BnetScraper::Starcraft2::AchievementScraper.new(
+  url: 'http://us.battle.net/sc2/en/profile/2377239/1/Demon/'
+)
+achievement_information = scraper.scrape
+achievement_information[:recent].size # => 6
+achievement_information[:recent].first
+# => #<BnetScraper::Starcraft2::Achievement:0x007fef52b0b488
+@description="Win 50 Team Unranked or Ranked games as Zerg.",
+@earned=#<Date: 2013-04-04 ((2456387j,0s,0n),+0s,2299161j)>,
+@title="50 Wins: Team Zerg">
+
+achievement_information[:progress]
+# => {:liberty_campaign=>1580,
+:swarm_campaign=>1120,
+:matchmaking=>1410,
+:custom_game=>120,
+:arcade=>220,
+:exploration=>530}
+
+achievement_information[:showcase].size # => 5
+achievement_information[:showcase].first
+# => #<BnetScraper::Starcraft2::Achievement:0x007fef52abcb08
+@description="Finish a Qualification Round with an undefeated record.",
+@title="Hot Shot">
 ```
 
 ### BnetScraper::Starcraft2::MatchHistoryScraper
@@ -138,18 +147,20 @@ This pulls the 25 most recent matches played for an account. Note that this is o
 will likely not be as fast as in-game.
 
 ``` ruby
-scraper = BnetScraper::Starcraft2::MatchHistoryScraper.new(url: 'http://us.battle.net/sc2/en/profile/2377239/1/Demon/')
-scraper.scrape
-# => {
-  wins: '15',
-  losses: '10',
-  matches: [
-    { map_name: 'Bx Monobattle - Sand Canyon (Fix)', outcome: :win, type: 'Custom', date: '3/12/2012' },
-    { map_name: 'Deadlock Ridge', outcome: :loss, type: '4v4', date: '3/12/2012' },
-    { map_name: 'District 10', outcome: :win, type: '4v4', date: '3/12/2012' },
-    # ...
-  ]
-}
+scraper = BnetScraper::Starcraft2::MatchHistoryScraper.new(
+  url: 'http://us.battle.net/sc2/en/profile/2377239/1/Demon/'
+)
+matches = scraper.scrape
+matches.size # => 25
+wins = matches.count { |m| m.outcome == :win } # => 15
+losses = matches.count { |m| m.outcome == :loss } # => 10
+
+matches.first
+# =>  #<BnetScraper::Starcraft2::Match:0x007fef55113428
+@date="5/24/2013",
+@map_name="Queen's Nest",
+@outcome=:win,
+@type="3v3">
 ```
 
 ## BnetScraper::Starcraft2::Status
