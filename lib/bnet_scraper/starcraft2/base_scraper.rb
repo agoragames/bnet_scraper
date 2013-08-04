@@ -1,3 +1,5 @@
+require 'net/http'
+
 module BnetScraper
   module Starcraft2
     # BaseScraper handles the account information extraction. Each scraper can either be passed a profile URL or

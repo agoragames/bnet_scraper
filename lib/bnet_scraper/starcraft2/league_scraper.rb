@@ -28,6 +28,7 @@ module BnetScraper
           @league_id = options[:url].match(/http:\/\/.+\/sc2\/.+\/profile\/.+\/\d{1}\/.+\/ladder\/(.+)(#current-rank)?/).to_a[1]
         else
           @league_id = options[:league_id]
+          @url = "#{profile_url}ladder/#{@league_id}"
         end
       end
 
