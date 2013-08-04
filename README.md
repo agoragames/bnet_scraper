@@ -147,18 +147,20 @@ This pulls the 25 most recent matches played for an account. Note that this is o
 will likely not be as fast as in-game.
 
 ``` ruby
-scraper = BnetScraper::Starcraft2::MatchHistoryScraper.new(url: 'http://us.battle.net/sc2/en/profile/2377239/1/Demon/')
-scraper.scrape
-# => {
-  wins: '15',
-  losses: '10',
-  matches: [
-    { map_name: 'Bx Monobattle - Sand Canyon (Fix)', outcome: :win, type: 'Custom', date: '3/12/2012' },
-    { map_name: 'Deadlock Ridge', outcome: :loss, type: '4v4', date: '3/12/2012' },
-    { map_name: 'District 10', outcome: :win, type: '4v4', date: '3/12/2012' },
-    # ...
-  ]
-}
+scraper = BnetScraper::Starcraft2::MatchHistoryScraper.new(
+  url: 'http://us.battle.net/sc2/en/profile/2377239/1/Demon/'
+)
+matches = scraper.scrape
+matches.size # => 25
+wins = matches.count { |m| m.outcome == :win } # => 15
+losses = matches.count { |m| m.outcome == :loss } # => 10
+
+matches.first
+# =>  #<BnetScraper::Starcraft2::Match:0x007fef55113428
+@date="5/24/2013",
+@map_name="Queen's Nest",
+@outcome=:win,
+@type="3v3">
 ```
 
 ## BnetScraper::Starcraft2::Status
