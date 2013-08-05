@@ -47,9 +47,9 @@ describe BnetScraper::Starcraft2::AchievementScraper do
           subject { scraper.recent[0] }
 
           it { should be_a BnetScraper::Starcraft2::Achievement }
-          its(:title) { should == 'Three-way Dominant' }
+          its(:title) { should == '50 Wins: Team Zerg' }
           its(:description) { should be_a String }
-          its(:earned) { should == Date.new(2013, 2, 7) }
+          its(:earned) { should == Date.new(2013, 4, 4) }
         end
 
         context 'region-centric date parsing' do
@@ -73,11 +73,11 @@ describe BnetScraper::Starcraft2::AchievementScraper do
         end
 
         it 'should set the swarm campaign progress' do
-          scraper.progress[:swarm_campaign].should == 0
+          scraper.progress[:swarm_campaign].should == 1120
         end
 
         it 'should set the matchmaking progress' do
-          subject.progress[:matchmaking].should == 1280
+          subject.progress[:matchmaking].should == 1410
         end
 
         it 'should set the custom game progress' do
@@ -89,7 +89,7 @@ describe BnetScraper::Starcraft2::AchievementScraper do
         end
 
         it 'should set the exploration progress' do
-          subject.progress[:exploration].should == 480
+          subject.progress[:exploration].should == 530
         end
       end
     end

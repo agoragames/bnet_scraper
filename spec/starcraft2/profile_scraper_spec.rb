@@ -20,10 +20,10 @@ describe BnetScraper::Starcraft2::ProfileScraper do
     its(:achievement_points) { should == '4980' }
     its(:current_solo_league) { should == 'None' }
     its(:highest_solo_league) { should == 'Platinum' }
-    its(:current_team_league) { should == 'None' }
+    its(:current_team_league) { should == 'Silver' }
     its(:highest_team_league) { should == 'Master' }
-    its(:career_games) { should == '1956' }
-    its(:games_this_season) { should == '0' }
+    its(:career_games) { should == '1960' }
+    its(:games_this_season) { should == '4' }
     its(:terran_swarm_level) { should == 11 }
     its(:protoss_swarm_level) { should == 30 }
     its(:zerg_swarm_level) { should == 16 }
@@ -69,7 +69,7 @@ describe BnetScraper::Starcraft2::ProfileScraper do
     end
 
     subject { scraper.profile.leagues }
-    it { should have(8).leagues }
+    it { should have(2).leagues }
   end
 
   describe '#scrape' do

@@ -1,24 +1,24 @@
 require 'spec_helper'
 
 describe BnetScraper::Starcraft2::LeagueScraper do
-  let(:url) { "http://us.battle.net/sc2/en/profile/2377239/1/Demon/ladder/134659" }
+  let(:url) { "http://us.battle.net/sc2/en/profile/2377239/1/Demon/ladder/155488" }
   subject { BnetScraper::Starcraft2::LeagueScraper.new(url: url) }
 
   it_behaves_like 'an SC2 Scraper' do
     let(:scraper_class) { BnetScraper::Starcraft2::LeagueScraper }
-    let(:subject) { scraper_class.new(url: "http://us.battle.net/sc2/en/profile/2377239/1/Demon/ladder/134659") }
+    let(:subject) { scraper_class.new(url: "http://us.battle.net/sc2/en/profile/2377239/1/Demon/ladder/155488") }
   end
 
   describe '#initialize' do
     it 'should dissect the league_id from the URL' do
-      subject.league_id.should == '134659'
+      subject.league_id.should == '155488'
     end
     it 'should determine the URL if it is not present' do
       scraper = BnetScraper::Starcraft2::LeagueScraper.new({
-        account: 'Demon', bnet_id: '2377239', league_id: '134659', bnet_index: 1
+        account: 'Demon', bnet_id: '2377239', league_id: '155488', bnet_index: 1
       })
 
-      scraper.url.should == "http://us.battle.net/sc2/en/profile/2377239/1/Demon/ladder/134659"
+      scraper.url.should == "http://us.battle.net/sc2/en/profile/2377239/1/Demon/ladder/155488"
     end
   end
 
@@ -30,11 +30,13 @@ describe BnetScraper::Starcraft2::LeagueScraper do
         end
       end
 
-      its(:season) { should == '2013 Season 1' }
-      its(:name) { should == 'Kalathi Echo' }
-      its(:division) { should == 'Platinum' }
-      its(:size) { should == '1v1' }
-      its(:random) { should be_false }
+      its(:season) {
+        should == '2013 Season 4'
+      }
+      its(:name) { should == 'Dropship Victor' }
+      its(:division) { should == 'Silver' }
+      its(:size) { should == '2v2' }
+      its(:random) { should be_true }
     end
 
     context 'invalid profile' do
