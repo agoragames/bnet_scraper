@@ -7,7 +7,7 @@ module BnetScraper
       def initialize options = {}
         @players = []
         if REGIONS.include? options[:region]
-          @url = "https://#{options[:region]}.battle.net/sc2/en/ladder/grandmaster/heart-of-the-swarm"
+          @url = "http://#{options[:region]}.battle.net/sc2/en/ladder/grandmaster/heart-of-the-swarm"
         else
           raise "Invalid Region #{options[:region]}"
         end

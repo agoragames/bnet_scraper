@@ -5,7 +5,7 @@ describe BnetScraper::Starcraft2::Status do
     it 'shows its status' do
       VCR.use_cassette('realm_status') do
         BnetScraper::Starcraft2::Status.na.should == 'Online'
-        BnetScraper::Starcraft2::Status.eu.should == 'Offline'
+        BnetScraper::Starcraft2::Status.eu.should == 'Online'
         BnetScraper::Starcraft2::Status.sea.should == 'Online'
         BnetScraper::Starcraft2::Status.fea.should == 'Online'
       end

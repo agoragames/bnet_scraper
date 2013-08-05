@@ -17,17 +17,17 @@ describe BnetScraper::Starcraft2::MatchHistoryScraper do
         scraper.scrape
       end
     end
-    
+
     its(:matches) { should have(25).matches }
-    its(:wins) { should == 16 }
-    its(:losses) { should == 9 }
+    its(:wins) { should == 15 }
+    its(:losses) { should == 10 }
 
     describe 'each match' do
       subject { scraper.matches[0] }
-      its(:map_name) { should == 'Cloud Kingdom LE' }
-      its(:type) { should == '1v1' }
+      its(:map_name) { should == 'The Bone Trench' }
+      its(:type) { should == '2v2' }
       its(:outcome) { should == :win }
-      its(:date) { should == '2/20/2013' }
+      its(:date) { should == '8/2/2013' }
     end
 
     it 'should raised InvalidProfileError when response is 404' do
