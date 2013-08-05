@@ -4,7 +4,7 @@ module BnetScraper
   module Starcraft2
     # This pulls the 25 most recent matches played for an account. Note that this is only as up-to-date as battle.net is, and
     # will likely not be as fast as in-game.
-    # 
+    #
     #   scraper = BnetScraper::Starcraft2::MatchHistoryScraper.new(url: 'http://us.battle.net/sc2/en/profile/2377239/1/Demon/')
     #   scraper.scrape
     #   # => {
@@ -19,7 +19,7 @@ module BnetScraper
     #   }
     class MatchHistoryScraper < BaseScraper
       attr_reader :matches, :response
-       
+
       # account's match history URL
       def match_url
         profile_url + "matches"
@@ -28,7 +28,7 @@ module BnetScraper
       # retrieves the match history HTML for scraping
       def get_response
         @response = Faraday.get match_url
-        
+
         if @response.success?
           @response = Nokogiri::HTML(@response.body)
         else
