@@ -8,7 +8,7 @@ Gem::Specification.new do |s|
   s.email       = ["cadwallion@gmail.com"]
   s.homepage    = "https://github.com/agoragames/bnet_scraper/"
   s.summary     = %q{Battle.net Profile Scraper}
-  s.description = %q{BnetScraper is a Nokogiri-based scraper of Battle.net profile information. Currently this only includes Starcraft2.}
+  s.description = %q{BnetScraper is a Nokogiri-based scraper of Starcraft 2 Battle.net profile information.}
   s.license     = 'MIT'
 
   s.files         = `git ls-files`.split("\n")
