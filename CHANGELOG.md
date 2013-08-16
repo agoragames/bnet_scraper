@@ -1,5 +1,9 @@
 # Changelog!
 
+## 1.0.0 (Aug 16 2013)
+
+* Ruby 2.0 Compatibility
+
 ## 0.7.0 (Aug 04 2013)
 
 * Adds date formatting support for dd/mm/yyyy
