@@ -2,7 +2,7 @@ module BnetScraper
   module Starcraft2
     class League
       attr_accessor :id, :name, :href, :season, :name, :division, :size, :random, :bnet_id,
-        :account
+        :account, :rank
 
       def initialize options = {}
         options.each_key do |key|
@@ -24,6 +24,10 @@ module BnetScraper
 
       def size
         scrape_or_return :@size
+      end
+
+      def rank
+        scrape_or_return :@rank
       end
 
       def bnet_id

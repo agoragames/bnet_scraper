@@ -29,6 +29,12 @@ describe BnetScraper::Starcraft2::League do
     end
   end
 
+  it 'scrapes if rank is not set' do
+    VCR.use_cassette('demon_leagues') do
+      league.rank.should == 62
+    end
+  end
+
   it 'scrapes if bnet_id is not set' do
     VCR.use_cassette('demon_leagues') do
       league.bnet_id.should == '2377239'
