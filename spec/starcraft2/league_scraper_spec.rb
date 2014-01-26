@@ -36,13 +36,14 @@ describe BnetScraper::Starcraft2::LeagueScraper do
       its(:name) { should == 'Dropship Victor' }
       its(:division) { should == 'Silver' }
       its(:size) { should == '2v2' }
+      its(:rank) { should == 62 }
       its(:random) { should be_true }
     end
 
     context 'invalid profile' do
       it 'should raise InvalidProfileError' do
         VCR.use_cassette('invalid_leagues') do
-          url = 'http://us.battle.net/sc2/en/profile/2377239/1/SomeDude/leagues/12345' 
+          url = 'http://us.battle.net/sc2/en/profile/2377239/1/SomeDude/leagues/12345'
           scraper = BnetScraper::Starcraft2::LeagueScraper.new(url: url)
           expect { scraper.scrape }.to raise_error(BnetScraper::InvalidProfileError)
         end

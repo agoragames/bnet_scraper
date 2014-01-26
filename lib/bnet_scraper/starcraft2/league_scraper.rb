@@ -19,7 +19,7 @@ module BnetScraper
     #   @size="3v3">
     #   ```
     class LeagueScraper < BaseScraper
-      attr_reader :league_id, :season, :size, :random, :name, :division
+      attr_reader :league_id, :season, :size, :random, :name, :division, :rank
 
       # @param [String] url - The league URL on battle.net
       # @return [Hash] league_data - Hash of data extracted
@@ -38,12 +38,12 @@ module BnetScraper
         @response = Faraday.get @url
         if @response.success?
           @response = Nokogiri::HTML(@response.body)
-          value = @response.css(".data-title .data-label h3").inner_text().strip 
+          value = @response.css(".data-title .data-label h3").inner_text.strip
           header_regex = /(.+) -\s+(\dv\d)( Random)? (\w+)\s+Division (.+)/
           header_values = value.match(header_regex).to_a
-          header_values.shift()
+          header_values.shift
           @season, @size, @random, @division, @name = header_values
-          
+          @rank = @response.css('.data-table #current-rank td:nth-child(2)').inner_text.gsub(/\D/,'').to_i
           @random = !@random.nil?
           League.new(output)
         else
@@ -57,6 +57,7 @@ module BnetScraper
           size: @size,
           name: @name,
           division: @division,
+          rank: @rank,
           random: @random,
           bnet_id: @bnet_id,
           account: @account
